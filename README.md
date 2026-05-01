@@ -80,32 +80,75 @@ cp .env.example .env
 
 ## Dashboard pages
 
-The Streamlit app exposes seven pages:
+The Streamlit app exposes eight pages:
 
 | Page | What it shows |
 |---|---|
-| **Overview** | Portfolio KPIs across all 86 suppliers · score histogram with grade-band shading · risk-event donut · per-category boxplot · country/grade sunburst · compliance heatmap · top-5 worst/best · sortable register |
+| **Overview** | Portfolio KPIs across all 87 suppliers · score histogram with grade-band shading · risk-event donut · per-category boxplot · country/grade sunburst · compliance heatmap · top-5 worst/best · sortable register |
 | **Find suppliers** | Multi-criteria filter (8 dimensions) · score-band slider · risk-event match · real-vs-illustrative toggle · text search · CSV shortlist export |
-| **Supplier detail** | Hero banner tinted by grade · belief decomposition donut · risk topology radar · news timeline · evidence-source credibility · compliance & signals tables · contribution waterfall |
+| **Supplier detail** | Hero banner tinted by grade · belief decomposition donut · risk topology radar · news timeline · evidence-source credibility · compliance & signals tables · contribution waterfall · **40+ verification parameters** organised by section (Registrations, Financial, Operations, Quality, Regulatory, Reputation) |
+| **Parameters used** | Full taxonomy of 35 scoring inputs · group filter · per-parameter coverage and value distribution · per-supplier contribution bar chart with green/red net-push coloring · CSV export of taxonomy |
 | **Compare** | 2–5 suppliers side-by-side · radar overlay · parallel coordinates across 7 dimensions · metric matrix |
 | **Onboard new supplier** | Form to add a new supplier · paste news bodies · runs the full pipeline live · session-only persistence |
 | **Adversarial lab** | Score-vs-budget curve · attack lift heatmap · portfolio-wide F1 deltas · per-supplier flip table |
 | **Methodology** | Threat model · credibility pyramid · DS + Yager equations · defense maths · honest limitations · data disclosure |
 
+## What the analyser looks at
+
+The scoring layer fuses three streams of evidence using Dempster–Shafer:
+
+**Compliance.** OFAC SDN, World Bank Debarred Firms, and BIS CRS
+registration check, each weighted by source credibility.
+
+**News intelligence.** LLM-extracted risk signals from a per-supplier
+news corpus, with fields for event type (recall, sanction, fraud,
+labor, cyber, ESG, financial distress, leadership change, litigation,
+positive), severity, sentiment, source credibility, and corroboration
+across distinct outlets.
+
+**40+ verification parameters** ([taxonomy](src/scs/metrics_taxonomy.py),
+[scoring rules](src/scs/scoring/parameters.py)) — the SME-scale
+verification layer:
+
+| Group | Parameters |
+|---|---|
+| **Identity & scale** | Years in operation, employee count, annual revenue, plant area, monthly capacity |
+| **Financial health** | Current ratio, debt-to-equity, days payable outstanding, GST compliance score, net worth, annual turnover, Udyam category |
+| **Operational** | On-time delivery %, defect rate (ppm), capacity utilisation %, lead time variability |
+| **Quality certifications** | ISO 9001, ISO 14001, IATF 16949, AS9100, ISO 13485, IPC-A-610, BIS CRS active |
+| **Regulatory** | MCA active, KSPCB pollution NOC, fire NOC, Factories Act licence, EPF dues clear, ITR filed, EPFO/ESIC registered, Shop & Estab. licence |
+| **Reputation** | Domain age, online review score, customer references, labour disputes (3 yr), media coverage breadth |
+
+Each known value generates a basic-probability assignment that folds
+into the fusion. Unknown values contribute mass to Θ (uncertainty),
+which is exactly the behaviour you want for cold-start verification of
+small suppliers with limited public footprint.
+
 ## Supplier directory composition
 
-The seeded directory holds **86 suppliers** in two tiers:
+The seeded directory holds **87 suppliers** focused on
+**India / Bangalore**:
 
-- **61 real-listed entities** with public-record analogues — Indian PLI
-  awardees, PSUs, and listed firms; global semiconductor and component
-  leaders; authorised distributors; global EMS; and three deliberately
-  risky entries present on real OFAC SDN / World Bank debarred lists.
-- **25 illustrative SME-scale entities**, marked with `is_illustrative=True`
-  and a descriptive `note`. These are fictitious composites of typical
-  small Indian electronics SMEs, included to demonstrate score variation
-  across realistic risk profiles without misrepresenting any real firm.
-  They appear with a ⓘ marker throughout the dashboard and can be
-  filtered out via the **Find suppliers** page.
+- **41 real listed Indian firms** — PLI awardees (Dixon, Lava, Optiemus,
+  Foxconn India, Wistron India, Pegatron India, Bhagwati, Amber, Syrma
+  SGS, Kaynes, Cyient DLM, Avalon, Epack, VVDN, Centum, Bharat FIH,
+  MosChip, Tata Electronics, Vedanta-Foxconn JV); PSUs (BEL, ITI, Tejas,
+  HFCL, Sterlite); listed EMS / semi design / automotive (Tata Elxsi,
+  Bosch India, Honeywell India, Continental India, Salcomp, Jabil
+  India, Flex India).
+- **7 real Bangalore-specific firms** — Saankhya Labs, Signalchip,
+  Wipro 3D, Zetwerk, Tessolve, Tata Elxsi Whitefield, Capgemini
+  Engineering.
+- **35 illustrative SME-scale entities** marked with `is_illustrative=True`
+  and a descriptive `note`. Composites of typical small Bangalore
+  electronics suppliers (Peenya, Whitefield, Electronic City,
+  Bommanahalli, Yelahanka, Rajajinagar industrial zones) — included to
+  demonstrate score variation at SME scale without misrepresenting any
+  real firm. They appear with a ⓘ marker throughout the dashboard and
+  can be filtered out on the **Find suppliers** page.
+- **4 deliberately-risky foreign entities** (Apex Global Sourcing BVI,
+  Dnipro Microelectronics, Shenzhen Shadow, Guangdong Relabel) — kept
+  exclusively to demo the OFAC / World Bank compliance-list catches.
 
 ## Repository layout
 
