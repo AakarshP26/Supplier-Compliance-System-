@@ -1,0 +1,18 @@
+[
+  {
+    "firm_name": "Apex Global Sourcing (BVI) Ltd",
+    "country": "VG",
+    "from_date": "2023-08-15",
+    "to_date": "2027-08-15",
+    "grounds": "Fraudulent practice in connection with electronics procurement under IBRD financing.",
+    "evidence_url": "https://projects.worldbank.org/en/projects-operations/procurement/debarred-firms"
+  },
+  {
+    "firm_name": "Shenzhen Shadow Components",
+    "country": "CN",
+    "from_date": "2024-02-01",
+    "to_date": "2026-02-01",
+    "grounds": "Substitution of counterfeit electronic components in World Bank-funded healthcare project.",
+    "evidence_url": "https://projects.worldbank.org/en/projects-operations/procurement/debarred-firms"
+  }
+]

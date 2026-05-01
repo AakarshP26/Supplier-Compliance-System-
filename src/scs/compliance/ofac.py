@@ -15,7 +15,7 @@ from functools import lru_cache
 from rapidfuzz import fuzz
 
 from scs.config import CONFIG
-from scs.models import ComplianceCheck, Supplier
+from scs.models import ComplianceCheck, Provenance, Supplier
 
 SOURCE_NAME = "OFAC SDN"
 MATCH_THRESHOLD = 88  # WRatio score above this -> hit
@@ -47,6 +47,7 @@ def check(supplier: Supplier) -> ComplianceCheck:
             source=SOURCE_NAME,
             status="unknown",
             detail="OFAC reference list not loaded.",
+            provenance=Provenance(source_name=SOURCE_NAME, source_url=EVIDENCE_BASE),
         )
 
     names = _names_to_match(supplier)
@@ -67,6 +68,7 @@ def check(supplier: Supplier) -> ComplianceCheck:
 
     if best_entry and best_score >= MATCH_THRESHOLD:
         programs = ", ".join(best_entry.get("programs", []))
+        url = best_entry.get("evidence_url", EVIDENCE_BASE)
         return ComplianceCheck(
             source=SOURCE_NAME,
             status="fail",
@@ -74,12 +76,12 @@ def check(supplier: Supplier) -> ComplianceCheck:
                 f"Match against '{best_entry['name']}' (score={best_score}). "
                 f"Programs: {programs or 'unspecified'}."
             ),
-            evidence_url=best_entry.get("evidence_url", EVIDENCE_BASE),
+            provenance=Provenance(source_name=SOURCE_NAME, source_url=url),
         )
 
     return ComplianceCheck(
         source=SOURCE_NAME,
         status="pass",
         detail=f"No SDN match (closest score={best_score}).",
-        evidence_url=EVIDENCE_BASE,
+        provenance=Provenance(source_name=SOURCE_NAME, source_url=EVIDENCE_BASE),
     )
