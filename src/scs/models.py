@@ -50,6 +50,19 @@ class Supplier(BaseModel):
     incorporated: date | None = None
     aliases: tuple[str, ...] = Field(default_factory=tuple)
 
+    # True for synthetic SMEs added to make the demo data set richer.
+    # The dashboard surfaces this so reviewers know which entries are real
+    # public companies and which are illustrative composites.
+    is_illustrative: bool = Field(
+        default=False,
+        description="Synthetic supplier for demo purposes only",
+    )
+
+    # Optional human-readable note shown in the UI. Useful for marking the
+    # source of a real entry (e.g. 'PLI awardee, FY24') or the construction
+    # rationale of an illustrative one.
+    note: str | None = None
+
     @field_validator("country")
     @classmethod
     def _country_upper(cls, v: str) -> str:
