@@ -78,6 +78,35 @@ cp .env.example .env
 # set ANTHROPIC_API_KEY and USE_MOCK_LLM=0
 ```
 
+## Dashboard pages
+
+The Streamlit app exposes seven pages:
+
+| Page | What it shows |
+|---|---|
+| **Overview** | Portfolio KPIs across all 86 suppliers · score histogram with grade-band shading · risk-event donut · per-category boxplot · country/grade sunburst · compliance heatmap · top-5 worst/best · sortable register |
+| **Find suppliers** | Multi-criteria filter (8 dimensions) · score-band slider · risk-event match · real-vs-illustrative toggle · text search · CSV shortlist export |
+| **Supplier detail** | Hero banner tinted by grade · belief decomposition donut · risk topology radar · news timeline · evidence-source credibility · compliance & signals tables · contribution waterfall |
+| **Compare** | 2–5 suppliers side-by-side · radar overlay · parallel coordinates across 7 dimensions · metric matrix |
+| **Onboard new supplier** | Form to add a new supplier · paste news bodies · runs the full pipeline live · session-only persistence |
+| **Adversarial lab** | Score-vs-budget curve · attack lift heatmap · portfolio-wide F1 deltas · per-supplier flip table |
+| **Methodology** | Threat model · credibility pyramid · DS + Yager equations · defense maths · honest limitations · data disclosure |
+
+## Supplier directory composition
+
+The seeded directory holds **86 suppliers** in two tiers:
+
+- **61 real-listed entities** with public-record analogues — Indian PLI
+  awardees, PSUs, and listed firms; global semiconductor and component
+  leaders; authorised distributors; global EMS; and three deliberately
+  risky entries present on real OFAC SDN / World Bank debarred lists.
+- **25 illustrative SME-scale entities**, marked with `is_illustrative=True`
+  and a descriptive `note`. These are fictitious composites of typical
+  small Indian electronics SMEs, included to demonstrate score variation
+  across realistic risk profiles without misrepresenting any real firm.
+  They appear with a ⓘ marker throughout the dashboard and can be
+  filtered out via the **Find suppliers** page.
+
 ## Repository layout
 
 ```
