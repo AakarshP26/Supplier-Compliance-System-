@@ -157,10 +157,26 @@ def fuse(
     supplier_id: str,
     compliance: ComplianceReport,
     risk: RiskProfile,
+    *,
+    use_defense: bool = False,
 ) -> SupplierScore:
-    """Run DS fusion across all evidence and produce a SupplierScore."""
+    """Run DS fusion across all evidence and produce a SupplierScore.
+
+    When `use_defense=True`, signal-level weights from
+    `scoring.defense.calibrated_signal_weights` apply burst-detection and
+    template-similarity downweighting on top of the per-source credibility
+    and corroboration weighting. This is the paper's proposed defense.
+    """
     bpas: list[BPA] = []
     contributions: list[FeatureContribution] = []
+
+    if use_defense:
+        # Lazy import to avoid a cycle at module load
+        from scs.scoring.defense import calibrated_signal_weights
+
+        defense_weights = calibrated_signal_weights(risk)
+    else:
+        defense_weights = [1.0] * len(risk.signals)
 
     # Compliance evidence
     for check in compliance.checks:
@@ -171,27 +187,25 @@ def fuse(
                 feature=f"compliance::{check.source}",
                 raw_value={"pass": 1.0, "fail": -1.0, "unknown": 0.0}[check.status],
                 weight=check.provenance.credibility,
-                # Sign of contribution mirrors safe vs risky pull
                 contribution=(b.safe - b.risky) * 100.0,
             )
         )
 
-    # Risk evidence
-    for sig in risk.signals:
-        b = bpa_from_signal(sig)
+    # Risk evidence (with optional defense weight folded into the BPA)
+    for sig, dw in zip(risk.signals, defense_weights):
+        b = bpa_from_signal(sig, recency_decay=dw)
         bpas.append(b)
         contributions.append(
             FeatureContribution(
                 feature=f"news::{sig.event_type.value}::{sig.provenance.source_name}",
                 raw_value=float(sig.severity),
-                weight=sig.credibility * (1.0 if sig.is_corroborated else 0.5),
+                weight=sig.credibility * (1.0 if sig.is_corroborated else 0.5) * dw,
                 contribution=(b.safe - b.risky) * 100.0,
             )
         )
 
     fused = combine_many(bpas)
 
-    # Score: rescale belief difference [-1, 1] -> [0, 100], origin at 50
     diff = fused.safe - fused.risky
     score = 50.0 + 50.0 * diff
     score = max(0.0, min(100.0, score))
