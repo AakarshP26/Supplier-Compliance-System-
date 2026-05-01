@@ -159,21 +159,21 @@ def fuse(
     risk: RiskProfile,
     *,
     use_defense: bool = False,
+    profile=None,                           # SupplierProfile (optional)
+    incorporation_year: int | None = None,  # for years-in-operation rule
 ) -> SupplierScore:
     """Run DS fusion across all evidence and produce a SupplierScore.
 
-    When `use_defense=True`, signal-level weights from
-    `scoring.defense.calibrated_signal_weights` apply burst-detection and
-    template-similarity downweighting on top of the per-source credibility
-    and corroboration weighting. This is the paper's proposed defense.
+    Parameter-level evidence (from `profile`) is folded in alongside
+    compliance + news. Each parameter that has a known value contributes
+    one BPA to the fusion. Unknown parameters contribute nothing —
+    correctly increasing uncertainty mass.
     """
     bpas: list[BPA] = []
     contributions: list[FeatureContribution] = []
 
     if use_defense:
-        # Lazy import to avoid a cycle at module load
         from scs.scoring.defense import calibrated_signal_weights
-
         defense_weights = calibrated_signal_weights(risk)
     else:
         defense_weights = [1.0] * len(risk.signals)
@@ -203,6 +203,25 @@ def fuse(
                 contribution=(b.safe - b.risky) * 100.0,
             )
         )
+
+    # Parameter evidence (the SME-verification layer)
+    if profile is not None:
+        from scs.scoring.parameters import parameter_contributions
+        params = parameter_contributions(profile, incorporation_year)
+        for pc in params:
+            bpas.append(pc.bpa)
+            try:
+                raw_num = float(pc.raw_value) if pc.raw_value is not None else 0.0
+            except (TypeError, ValueError):
+                raw_num = 0.0
+            contributions.append(
+                FeatureContribution(
+                    feature=f"param::{pc.group}::{pc.label}",
+                    raw_value=raw_num,
+                    weight=pc.bpa.safe + pc.bpa.risky,
+                    contribution=(pc.bpa.safe - pc.bpa.risky) * 100.0,
+                )
+            )
 
     fused = combine_many(bpas)
 

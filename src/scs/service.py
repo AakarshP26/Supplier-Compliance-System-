@@ -9,6 +9,7 @@ from dataclasses import dataclass
 
 from scs.compliance.pipeline import run as run_compliance
 from scs.models import ComplianceReport, RiskProfile, Supplier, SupplierScore
+from scs.profile import SupplierProfile, get_profile
 from scs.risk.pipeline import run as run_risk
 from scs.scoring.fusion import fuse
 
@@ -19,10 +20,21 @@ class FullReport:
     compliance: ComplianceReport
     risk: RiskProfile
     score: SupplierScore
+    profile: SupplierProfile | None
 
 
 def assess(supplier: Supplier, *, use_defense: bool = True) -> FullReport:
     comp = run_compliance(supplier)
     risk = run_risk(supplier)
-    score = fuse(supplier.id, comp, risk, use_defense=use_defense)
-    return FullReport(supplier=supplier, compliance=comp, risk=risk, score=score)
+    profile = get_profile(supplier.id)
+    incorporation_year = supplier.incorporated.year if supplier.incorporated else None
+    score = fuse(
+        supplier.id, comp, risk,
+        use_defense=use_defense,
+        profile=profile,
+        incorporation_year=incorporation_year,
+    )
+    return FullReport(
+        supplier=supplier, compliance=comp, risk=risk,
+        score=score, profile=profile,
+    )
