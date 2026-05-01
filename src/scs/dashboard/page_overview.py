@@ -96,10 +96,12 @@ def render(use_defense: bool, threshold: float) -> None:
     rows = []
     for sid, s in scores.items():
         gt = labels_gt.get(sid)
+        sup = by_id[sid]
+        name_with_badge = f"{sup.name}  ⓘ" if sup.is_illustrative else sup.name
         rows.append({
-            "Supplier": by_id[sid].name,
-            "Country": by_id[sid].country,
-            "Category": by_id[sid].category.value.replace("_", " "),
+            "Supplier": name_with_badge,
+            "Country": sup.country,
+            "Category": sup.category.value.replace("_", " "),
             "Score": s.score,
             "Grade": s.grade,
             "Belief safe": s.belief_safe,

@@ -144,6 +144,39 @@ shift this if your operator's tolerance differs.
         """
     )
 
+    section("On the supplier directory")
+    st.markdown(
+        """
+The directory holds **two kinds of entries**:
+
+**Real-listed entities (61).** Companies with public-record analogues —
+Indian PLI awardees (Dixon, Lava, Optiemus, Foxconn India, Wistron India,
+Pegatron India, Bhagwati Products, Amber Enterprises, Syrma SGS, Kaynes,
+Cyient DLM, Avalon, Epack, VVDN, Centum, Bharat FIH, MosChip, Tata
+Electronics, Vedanta-Foxconn JV); Indian PSUs and listed firms (BEL,
+ITI, Tejas Networks, HFCL, Sterlite Tech, Tata Elxsi, Bosch India,
+Honeywell Automation India, Continental Automotive India); global
+semiconductor and component leaders (TSMC, Samsung, Intel, TI, NXP,
+Renesas, ST, Infineon, Murata, Vishay, Yageo, ASE, Amkor); authorised
+distributors (Digi-Key, Mouser, Arrow, Avnet, Future Electronics);
+global EMS (Compal, Quanta, Sanmina, Celestica, Flex parent); and three
+deliberately risky entities present on real OFAC SDN / World Bank
+debarred lists.
+
+**Illustrative SME-scale entities (25).** Marked with `is_illustrative=True`
+and a `note` field describing what they represent (Mysuru Precision
+Electronics, Deccan PCB Works, Konkan Circuit Solutions, etc.). These
+are fictitious composites of typical small Indian electronics SMEs,
+included to demonstrate score variation across realistic risk profiles
+without misrepresenting any real firm. They appear with a ⓘ marker
+throughout the dashboard and can be filtered out via the "Real only"
+toggle on the **Find suppliers** page.
+
+This disclosure is exposed in the sidebar and on every page where
+illustrative entries appear.
+        """
+    )
+
 
 def _pill(text: str, color: str) -> str:
     return (

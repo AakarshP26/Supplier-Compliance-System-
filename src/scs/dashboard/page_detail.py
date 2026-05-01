@@ -33,6 +33,17 @@ def render(use_defense: bool, threshold: float) -> None:
     # Hero
     hero(supplier, score)
 
+    # Illustrative banner
+    if supplier.is_illustrative:
+        st.warning(
+            f"ⓘ **Illustrative entry.** This supplier is a fictitious "
+            f"SME-scale entity included for demonstration purposes — its "
+            f"compliance status, news, and scores are constructed to show "
+            f"the system handling realistic risk profiles. It does not "
+            f"represent any real firm."
+            + (f"  \n\n📝 _{supplier.note}_" if supplier.note else "")
+        )
+
     # ---------- KPI strip ----------
     pred = "RISKY" if score.score < threshold else "SAFE"
     pred_color = PALETTE["danger"] if score.score < threshold else PALETTE["ok"]

@@ -6,14 +6,17 @@ or via:
     make dashboard
 
 Pages:
-  • Overview       - portfolio view across all 25 suppliers
-  • Supplier       - rich single-supplier report with belief decomposition,
-                     risk topology, news timeline, evidence sources,
-                     score waterfall.
-  • Compare        - up to 5 suppliers side-by-side (radar overlay,
-                     parallel coordinates, metric matrix).
-  • Adversarial    - the paper's central experiment, made interactive.
-  • Methodology    - the maths, the threat model, the defense.
+  • Overview        — portfolio view across all 86 suppliers
+  • Find suppliers  — multi-criteria filter + shortlist with CSV export
+  • Supplier        — rich single-supplier report (belief decomposition,
+                      risk topology, news timeline, evidence sources,
+                      score waterfall)
+  • Compare         — up to 5 suppliers side-by-side (radar overlay,
+                      parallel coordinates, metric matrix)
+  • Onboard         — submit a new supplier with optional news, run a
+                      session-only assessment
+  • Adversarial lab — the paper's central experiment, made interactive
+  • Methodology     — threat model, equations, defense, limitations
 """
 from __future__ import annotations
 
@@ -28,7 +31,8 @@ if str(_SRC) not in sys.path:
 import streamlit as st  # noqa: E402
 
 from scs.dashboard import (  # noqa: E402
-    page_overview, page_detail, page_compare, page_lab, page_method,
+    page_overview, page_find, page_detail, page_compare,
+    page_onboard, page_lab, page_method,
 )
 from scs.dashboard.styling import inject_css  # noqa: E402
 
@@ -51,7 +55,7 @@ with st.sidebar:
     st.markdown(
         """
 <div class="scs-brand">🛡️ Supplier Compliance</div>
-<div class="scs-tag">Trust-calibrated scoring · v0.1</div>
+<div class="scs-tag">Trust-calibrated scoring · v0.2</div>
         """,
         unsafe_allow_html=True,
     )
@@ -61,8 +65,10 @@ with st.sidebar:
         "Navigate",
         options=[
             "Overview",
+            "Find suppliers",
             "Supplier detail",
             "Compare",
+            "Onboard new supplier",
             "Adversarial lab",
             "Methodology",
         ],
@@ -97,6 +103,14 @@ with st.sidebar:
         "📊 **Reproducibility.** All numbers regenerable via "
         "`make eval` and `make sweep`."
     )
+    st.markdown("---")
+    st.caption(
+        "**Data.** 61 real public companies (PLI awardees, listed Indian "
+        "EMS, global semiconductor leaders, authorised distributors). "
+        "25 illustrative SME entries clearly marked with ⓘ — synthetic "
+        "composites used to demonstrate score variation across realistic "
+        "risk profiles. No illustrative entry refers to any real firm."
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -104,11 +118,13 @@ with st.sidebar:
 # ---------------------------------------------------------------------------
 
 PAGES = {
-    "Overview": page_overview.render,
-    "Supplier detail": page_detail.render,
-    "Compare": page_compare.render,
-    "Adversarial lab": page_lab.render,
-    "Methodology": page_method.render,
+    "Overview":              page_overview.render,
+    "Find suppliers":        page_find.render,
+    "Supplier detail":       page_detail.render,
+    "Compare":               page_compare.render,
+    "Onboard new supplier":  page_onboard.render,
+    "Adversarial lab":       page_lab.render,
+    "Methodology":           page_method.render,
 }
 
 PAGES[page](use_defense=use_defense, threshold=float(threshold))
