@@ -1,0 +1,33 @@
+{
+  "_schema": {
+    "supplier_id": "matches scs.data seed_suppliers",
+    "articles": [
+      {"id": "...", "title": "...", "body": "...", "url": "https://...", "published_at": "ISO date"}
+    ]
+  },
+  "_note": "Mix of tier-1 news, trade press, and press releases per supplier so the credibility prior varies. Bodies are short, deliberately, to keep LLM token cost low while preserving extractable signals.",
+  "corpus": {
+    "dixon-tech": [
+      {"id": "dixon-001", "title": "Dixon Technologies posts 87% jump in Q3 net profit on smartphone manufacturing volumes", "body": "Indian contract manufacturer Dixon Technologies reported an 87 per cent year-on-year increase in consolidated net profit for the December quarter, driven by record smartphone production for clients including Motorola and Xiaomi. Revenues from the mobile and EMS division grew 134 per cent. Management said the PLI scheme target for FY26 was met three months early.", "url": "https://www.livemint.com/companies/results/dixon-q3-results", "published_at": "2026-02-08"},
+      {"id": "dixon-002", "title": "Dixon Technologies expands Noida plant capacity to 70 million phones a year", "body": "Dixon Technologies has commissioned a third assembly line at its Noida facility, taking annual smartphone production capacity to 70 million units. The expansion is funded entirely from internal accruals.", "url": "https://www.thehindu.com/business/dixon-noida-expansion", "published_at": "2025-11-22"},
+      {"id": "dixon-003", "title": "Why Dixon is the most boring 100-bagger on the street", "body": "Dixon's quiet competence over a decade has produced extraordinary returns for early shareholders. The contract manufacturer is now seen as central to India's electronics export ambitions.", "url": "https://www.business-standard.com/markets/dixon-analysis", "published_at": "2025-09-30"}
+    ],
+    "foxconn-india": [
+      {"id": "fox-001", "title": "Foxconn doubles investment in Tamil Nadu electronics cluster", "body": "Hon Hai Technology announced an additional $1.5 billion commitment to its Tamil Nadu operations, citing improved component availability and state-level policy support. Hiring will reach 30,000 workers by year end.", "url": "https://www.reuters.com/business/foxconn-tn-expansion", "published_at": "2026-01-15"},
+      {"id": "fox-002", "title": "Foxconn India workers stage one-day strike over canteen conditions at Sriperumbudur plant", "body": "Around 4,000 workers at Foxconn's Sriperumbudur facility participated in a one-day stoppage demanding improved meal facilities and dormitory hygiene. Production resumed the following morning after a tripartite meeting with state labour officials.", "url": "https://www.thehindu.com/news/national/tamil-nadu/foxconn-strike", "published_at": "2025-08-04"}
+    ],
+    "shenzhen-shadow-corp": [
+      {"id": "ssc-001", "title": "Customs seize counterfeit STM32 microcontrollers traced to Shenzhen Shadow Components", "body": "European Anti-Fraud Office officers intercepted a shipment of 1.2 million microcontrollers found to be substandard remarks. Documentation traced the consignment to Shenzhen Shadow Components Trading Co., previously flagged in two GIDEP alerts.", "url": "https://www.eetimes.com/counterfeit-stm32-shenzhen", "published_at": "2025-07-19"},
+      {"id": "ssc-002", "title": "Shenzhen Shadow Components rebrands amid debarment fallout", "body": "Following its inclusion on the World Bank debarred list, Shenzhen Shadow Components has filed paperwork to operate under three new trading names across Hong Kong and Singapore. Industry observers warn the rebrand follows a familiar shell-company pattern.", "url": "https://www.evertiq.com/news/shenzhen-shadow-rebrand", "published_at": "2025-12-02"}
+    ],
+    "syrma-sgs": [
+      {"id": "syr-001", "title": "Syrma SGS wins Rs 800 crore order for medical electronics manufacturing", "body": "Chennai-based EMS firm Syrma SGS Technology has secured a multi-year contract to manufacture printed circuit board assemblies for a leading medical devices OEM. The contract is the company's largest single order in the medical segment to date.", "url": "https://www.business-standard.com/companies/syrma-medical-order", "published_at": "2026-03-04"}
+    ],
+    "vedanta-foxconn": [
+      {"id": "vf-001", "title": "Vedanta-Foxconn semiconductor JV abandoned as partners go separate ways", "body": "The high-profile $19.5 billion semiconductor joint venture between Vedanta and Foxconn has been formally dissolved, the parties confirmed. Foxconn cited execution timeline disagreements; Vedanta said it will pursue a fresh fab partner. India's chip ambitions face a setback as a result.", "url": "https://www.ft.com/content/vedanta-foxconn-jv-collapse", "published_at": "2025-07-10"}
+    ],
+    "kaynes-tech": [
+      {"id": "kay-001", "title": "Kaynes Technology guides for 60% revenue growth in FY26 on aerospace and defence wins", "body": "Kaynes Technology raised its FY26 revenue guidance after winning new contracts in the aerospace, defence, and railway signalling segments. The Mysuru-based EMS firm also reaffirmed its OSAT facility timeline.", "url": "https://www.economictimes.indiatimes.com/markets/kaynes-guidance", "published_at": "2026-02-19"}
+    ]
+  }
+}
