@@ -32,7 +32,7 @@ import streamlit as st  # noqa: E402
 
 from scs.dashboard import (  # noqa: E402
     page_overview, page_find, page_detail, page_compare,
-    page_onboard, page_lab, page_method,
+    page_onboard, page_lab, page_method, page_parameters,
 )
 from scs.dashboard.styling import inject_css  # noqa: E402
 
@@ -67,6 +67,7 @@ with st.sidebar:
             "Overview",
             "Find suppliers",
             "Supplier detail",
+            "Parameters used",
             "Compare",
             "Onboard new supplier",
             "Adversarial lab",
@@ -105,11 +106,13 @@ with st.sidebar:
     )
     st.markdown("---")
     st.caption(
-        "**Data.** 61 real public companies (PLI awardees, listed Indian "
-        "EMS, global semiconductor leaders, authorised distributors). "
-        "25 illustrative SME entries clearly marked with ⓘ — synthetic "
-        "composites used to demonstrate score variation across realistic "
-        "risk profiles. No illustrative entry refers to any real firm."
+        "**Data.** 87 suppliers in directory — Indian-focused (Bangalore "
+        "concentration). 41 real listed Indian firms (PLI awardees, "
+        "PSUs, listed EMS, semi design, automotive). 7 real Bangalore-"
+        "specific firms (Saankhya Labs, Signalchip, Wipro 3D, Zetwerk, "
+        "Tessolve, Tata Elxsi Whitefield, Capgemini Engineering). 35 "
+        "illustrative SMEs marked ⓘ. 4 deliberately-risky foreign for "
+        "OFAC/WB demos. No illustrative entry refers to any real firm."
     )
 
 
@@ -121,6 +124,7 @@ PAGES = {
     "Overview":              page_overview.render,
     "Find suppliers":        page_find.render,
     "Supplier detail":       page_detail.render,
+    "Parameters used":       page_parameters.render,
     "Compare":               page_compare.render,
     "Onboard new supplier":  page_onboard.render,
     "Adversarial lab":       page_lab.render,
