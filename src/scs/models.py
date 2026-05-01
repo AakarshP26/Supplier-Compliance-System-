@@ -63,6 +63,12 @@ class Supplier(BaseModel):
     # rationale of an illustrative one.
     note: str | None = None
 
+    # Geographical attribution. Populated for almost every Indian supplier
+    # so the dashboard can show city / state in tables and filters.
+    # ISO 3166-2 sub-codes for state (e.g. 'IN-KA', 'IN-TN', 'IN-MH').
+    city: str | None = None
+    state: str | None = None
+
     @field_validator("country")
     @classmethod
     def _country_upper(cls, v: str) -> str:

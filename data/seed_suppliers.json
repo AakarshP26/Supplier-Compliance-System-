@@ -12,7 +12,9 @@
       "Dixon",
       "Dixon Technologies India"
     ],
-    "note": "Listed PLI awardee (Mobile Manufacturing)"
+    "note": "Listed PLI awardee (Mobile Manufacturing)",
+    "city": "Noida",
+    "state": "IN-UP"
   },
   {
     "id": "foxconn-india",
@@ -25,7 +27,9 @@
       "Foxconn",
       "Hon Hai India"
     ],
-    "note": "Apple's primary contract manufacturer in India"
+    "note": "Apple's primary contract manufacturer in India",
+    "city": "Sriperumbudur",
+    "state": "IN-TN"
   },
   {
     "id": "pegatron-india",
@@ -36,7 +40,9 @@
     "website": "https://www.pegatroncorp.com",
     "aliases": [
       "Pegatron"
-    ]
+    ],
+    "city": "Chennai",
+    "state": "IN-TN"
   },
   {
     "id": "wistron-india",
@@ -47,7 +53,9 @@
     "website": "https://www.wistron.com",
     "aliases": [
       "Wistron"
-    ]
+    ],
+    "city": "Kolar",
+    "state": "IN-KA"
   },
   {
     "id": "lava-international",
@@ -59,7 +67,9 @@
     "website": "https://www.lavamobiles.com",
     "aliases": [
       "Lava"
-    ]
+    ],
+    "city": "Noida",
+    "state": "IN-UP"
   },
   {
     "id": "optiemus-electronics",
@@ -71,7 +81,9 @@
     "aliases": [
       "Optiemus"
     ],
-    "note": "PLI awardee"
+    "note": "PLI awardee",
+    "city": "Noida",
+    "state": "IN-UP"
   },
   {
     "id": "bhagwati-products",
@@ -82,7 +94,9 @@
     "aliases": [
       "Bhagwati",
       "Karbonn"
-    ]
+    ],
+    "city": "Noida",
+    "state": "IN-UP"
   },
   {
     "id": "amber-enterprises",
@@ -94,7 +108,9 @@
     "website": "https://www.ambergroupindia.com",
     "aliases": [
       "Amber Group"
-    ]
+    ],
+    "city": "Gurugram",
+    "state": "IN-HR"
   },
   {
     "id": "syrma-sgs",
@@ -106,7 +122,9 @@
     "website": "https://www.syrmasgs.com",
     "aliases": [
       "Syrma"
-    ]
+    ],
+    "city": "Chennai",
+    "state": "IN-TN"
   },
   {
     "id": "kaynes-tech",
@@ -118,7 +136,9 @@
     "website": "https://www.kaynestechnology.com",
     "aliases": [
       "Kaynes"
-    ]
+    ],
+    "city": "Mysuru",
+    "state": "IN-KA"
   },
   {
     "id": "tata-electronics",
@@ -131,7 +151,9 @@
       "Tata Elxsi",
       "Tata Semiconductor"
     ],
-    "note": "Building India's first commercial semiconductor fab in Dholera"
+    "note": "Building India's first commercial semiconductor fab in Dholera",
+    "city": "Dholera",
+    "state": "IN-GJ"
   },
   {
     "id": "vedanta-foxconn",
@@ -142,7 +164,9 @@
       "Vedanta Semiconductor",
       "Vedanta-Foxconn"
     ],
-    "note": "JV formally dissolved 2025"
+    "note": "JV formally dissolved 2025",
+    "city": "Sanand",
+    "state": "IN-GJ"
   },
   {
     "id": "elcina-pcb-1",
@@ -152,7 +176,9 @@
     "category": "pcb_fabricator",
     "aliases": [
       "Genus"
-    ]
+    ],
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "cyient-dlm",
@@ -165,7 +191,9 @@
     "aliases": [
       "Cyient",
       "Rangsons"
-    ]
+    ],
+    "city": "Hyderabad",
+    "state": "IN-TG"
   },
   {
     "id": "avalon-tech",
@@ -176,7 +204,9 @@
     "website": "https://www.avalontec.com",
     "aliases": [
       "Avalon"
-    ]
+    ],
+    "city": "Chennai",
+    "state": "IN-TN"
   },
   {
     "id": "epack-durables",
@@ -186,7 +216,9 @@
     "category": "ems",
     "aliases": [
       "Epack"
-    ]
+    ],
+    "city": "Greater Noida",
+    "state": "IN-UP"
   },
   {
     "id": "vvdn-tech",
@@ -197,7 +229,9 @@
     "website": "https://www.vvdntech.com",
     "aliases": [
       "VVDN"
-    ]
+    ],
+    "city": "Manesar",
+    "state": "IN-HR"
   },
   {
     "id": "sahasra-electronics",
@@ -207,7 +241,9 @@
     "category": "component_manufacturer",
     "aliases": [
       "Sahasra"
-    ]
+    ],
+    "city": "Bhiwadi",
+    "state": "IN-RJ"
   },
   {
     "id": "smile-electronics",
@@ -215,7 +251,9 @@
     "legal_name": "Smile Electronics Limited",
     "country": "IN",
     "category": "component_manufacturer",
-    "aliases": []
+    "aliases": [],
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "centum-electronics",
@@ -227,7 +265,9 @@
     "website": "https://www.centumelectronics.com",
     "aliases": [
       "Centum"
-    ]
+    ],
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "bharat-fih",
@@ -238,7 +278,9 @@
     "aliases": [
       "FIH India",
       "Foxconn Bharat"
-    ]
+    ],
+    "city": "Sriperumbudur",
+    "state": "IN-TN"
   },
   {
     "id": "moschip-tech",
@@ -250,7 +292,9 @@
     "website": "https://www.moschip.com",
     "aliases": [
       "MosChip"
-    ]
+    ],
+    "city": "Hyderabad",
+    "state": "IN-TG"
   },
   {
     "id": "salcomp-india",
@@ -262,7 +306,9 @@
     "aliases": [
       "Salcomp"
     ],
-    "note": "PLI awardee, mobile chargers"
+    "note": "PLI awardee, mobile chargers",
+    "city": "Chennai",
+    "state": "IN-TN"
   },
   {
     "id": "jabil-india",
@@ -273,7 +319,9 @@
     "website": "https://www.jabil.com",
     "aliases": [
       "Jabil"
-    ]
+    ],
+    "city": "Pune",
+    "state": "IN-MH"
   },
   {
     "id": "flex-india",
@@ -284,7 +332,9 @@
     "website": "https://www.flex.com",
     "aliases": [
       "Flextronics India"
-    ]
+    ],
+    "city": "Chennai",
+    "state": "IN-TN"
   },
   {
     "id": "bel-bengaluru",
@@ -297,7 +347,9 @@
     "aliases": [
       "BEL"
     ],
-    "note": "Defence PSU, Navratna company"
+    "note": "Defence PSU, Navratna company",
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "iti-limited",
@@ -310,7 +362,9 @@
     "aliases": [
       "ITI"
     ],
-    "note": "Telecom PSU under DoT"
+    "note": "Telecom PSU under DoT",
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "tejas-networks",
@@ -323,7 +377,9 @@
     "aliases": [
       "Tejas"
     ],
-    "note": "Tata-owned networking equipment OEM"
+    "note": "Tata-owned networking equipment OEM",
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "hfcl",
@@ -335,7 +391,9 @@
     "website": "https://www.hfcl.com",
     "aliases": [
       "Himachal Futuristic"
-    ]
+    ],
+    "city": "Gurugram",
+    "state": "IN-HR"
   },
   {
     "id": "sterlite-tech",
@@ -348,7 +406,9 @@
     "aliases": [
       "STL"
     ],
-    "note": "Optical fiber + networking"
+    "note": "Optical fiber + networking",
+    "city": "Aurangabad",
+    "state": "IN-MH"
   },
   {
     "id": "tata-elxsi",
@@ -358,7 +418,9 @@
     "category": "ems",
     "cin": "L85110KA1989PLC009968",
     "website": "https://www.tataelxsi.com",
-    "aliases": []
+    "aliases": [],
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "rakon-india",
@@ -370,7 +432,9 @@
     "aliases": [
       "Rakon"
     ],
-    "note": "Frequency control products (XOs, OCXOs)"
+    "note": "Frequency control products (XOs, OCXOs)",
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "padmini-vna",
@@ -381,7 +445,9 @@
     "website": "https://www.padminivna.com",
     "aliases": [
       "Padmini VNA"
-    ]
+    ],
+    "city": "Manesar",
+    "state": "IN-HR"
   },
   {
     "id": "bosch-india",
@@ -394,7 +460,9 @@
     "aliases": [
       "Bosch"
     ],
-    "note": "Multinational, automotive electronics dominant"
+    "note": "Multinational, automotive electronics dominant",
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "honeywell-india",
@@ -406,7 +474,9 @@
     "website": "https://www.honeywell.com/in",
     "aliases": [
       "Honeywell"
-    ]
+    ],
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "continental-india",
@@ -416,7 +486,9 @@
     "website": "https://www.continental.com/en-in",
     "aliases": [
       "Continental"
-    ]
+    ],
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "mysuru-precision",
@@ -424,7 +496,9 @@
     "country": "IN",
     "category": "component_manufacturer",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 small-scale resistor/inductor maker, GST-registered, no PLI"
+    "note": "Illustrative SME — small-scale resistor/inductor maker, GST-registered, no PLI",
+    "city": "Mysuru",
+    "state": "IN-KA"
   },
   {
     "id": "deccan-pcb",
@@ -432,7 +506,9 @@
     "country": "IN",
     "category": "pcb_fabricator",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 2-layer PCB house in Hyderabad, family-run"
+    "note": "Illustrative SME — 2-layer PCB house in Hyderabad, family-run",
+    "city": "Hyderabad",
+    "state": "IN-TG"
   },
   {
     "id": "konkan-circuits",
@@ -440,7 +516,9 @@
     "country": "IN",
     "category": "ems",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 automotive harness assembly, Pune"
+    "note": "Illustrative SME — automotive harness assembly, Pune",
+    "city": "Pune",
+    "state": "IN-MH"
   },
   {
     "id": "punjab-power-mod",
@@ -448,7 +526,9 @@
     "country": "IN",
     "category": "component_manufacturer",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 SMPS modules, mid-tier exporter"
+    "note": "Illustrative SME — SMPS modules, mid-tier exporter",
+    "city": "Mohali",
+    "state": "IN-PB"
   },
   {
     "id": "vellore-passives",
@@ -456,7 +536,9 @@
     "country": "IN",
     "category": "component_manufacturer",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 capacitor + inductor assembly"
+    "note": "Illustrative SME — capacitor + inductor assembly",
+    "city": "Vellore",
+    "state": "IN-TN"
   },
   {
     "id": "kerala-coast-emd",
@@ -464,7 +546,9 @@
     "country": "IN",
     "category": "ems",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 small-batch IoT board EMS"
+    "note": "Illustrative SME — small-batch IoT board EMS",
+    "city": "Kochi",
+    "state": "IN-KL"
   },
   {
     "id": "ahmedabad-led",
@@ -472,7 +556,9 @@
     "country": "IN",
     "category": "ems",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 LED driver assembler"
+    "note": "Illustrative SME — LED driver assembler",
+    "city": "Ahmedabad",
+    "state": "IN-GJ"
   },
   {
     "id": "noida-pcb-tech",
@@ -480,7 +566,9 @@
     "country": "IN",
     "category": "pcb_fabricator",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 4-layer PCB shop, BIS-pending"
+    "note": "Illustrative SME — 4-layer PCB shop, BIS-pending",
+    "city": "Noida",
+    "state": "IN-UP"
   },
   {
     "id": "chandigarh-instrument",
@@ -488,7 +576,9 @@
     "country": "IN",
     "category": "ems",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 measurement instrument EMS"
+    "note": "Illustrative SME — measurement instrument EMS",
+    "city": "Chandigarh",
+    "state": "IN-CH"
   },
   {
     "id": "tirupati-chip-test",
@@ -496,7 +586,9 @@
     "country": "IN",
     "category": "test_house",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 backend test services for legacy nodes"
+    "note": "Illustrative SME — backend test services for legacy nodes",
+    "city": "Tirupati",
+    "state": "IN-AP"
   },
   {
     "id": "rajasthan-magnetics",
@@ -504,7 +596,9 @@
     "country": "IN",
     "category": "component_manufacturer",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 transformer + inductor winder"
+    "note": "Illustrative SME — transformer + inductor winder",
+    "city": "Jaipur",
+    "state": "IN-RJ"
   },
   {
     "id": "bengal-broker-co",
@@ -512,7 +606,9 @@
     "country": "IN",
     "category": "distributor_broker",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 independent distributor, mixed authorised/non-authorised inventory"
+    "note": "Illustrative SME — independent distributor, mixed authorised/non-authorised inventory",
+    "city": "Kolkata",
+    "state": "IN-WB"
   },
   {
     "id": "indore-precision",
@@ -520,7 +616,9 @@
     "country": "IN",
     "category": "ems",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 defence-vendor aspirant, AS9100D-pending"
+    "note": "Illustrative SME — defence-vendor aspirant, AS9100D-pending",
+    "city": "Indore",
+    "state": "IN-MP"
   },
   {
     "id": "patna-control",
@@ -528,7 +626,9 @@
     "country": "IN",
     "category": "ems",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 PLC enclosures, building automation"
+    "note": "Illustrative SME — PLC enclosures, building automation",
+    "city": "Patna",
+    "state": "IN-BR"
   },
   {
     "id": "gurgaon-rf",
@@ -536,7 +636,9 @@
     "country": "IN",
     "category": "component_manufacturer",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 RF connectors and antennas"
+    "note": "Illustrative SME — RF connectors and antennas",
+    "city": "Gurugram",
+    "state": "IN-HR"
   },
   {
     "id": "siliguri-cable",
@@ -544,7 +646,9 @@
     "country": "IN",
     "category": "component_manufacturer",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 wire harness assembler"
+    "note": "Illustrative SME — wire harness assembler",
+    "city": "Bengaluru — Peenya Industrial Area",
+    "state": "IN-KA"
   },
   {
     "id": "varanasi-light",
@@ -552,7 +656,9 @@
     "country": "IN",
     "category": "ems",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 LED bulb assembler, BIS-listed"
+    "note": "Illustrative SME — LED bulb assembler, BIS-listed",
+    "city": "Bengaluru — Whitefield",
+    "state": "IN-KA"
   },
   {
     "id": "thane-microsensor",
@@ -560,7 +666,9 @@
     "country": "IN",
     "category": "component_manufacturer",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 MEMS pressure sensor packager"
+    "note": "Illustrative SME — MEMS pressure sensor packager",
+    "city": "Bengaluru — Electronic City",
+    "state": "IN-KA"
   },
   {
     "id": "coimbatore-power",
@@ -568,7 +676,9 @@
     "country": "IN",
     "category": "ems",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 solar inverter assembly"
+    "note": "Illustrative SME — solar inverter assembly",
+    "city": "Bengaluru — Bommasandra Industrial Area",
+    "state": "IN-KA"
   },
   {
     "id": "pune-thermal",
@@ -576,7 +686,9 @@
     "country": "IN",
     "category": "component_manufacturer",
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 heatsink and thermal pad supplier"
+    "note": "Illustrative SME — heatsink and thermal pad supplier",
+    "city": "Bengaluru — Jigani Industrial Area",
+    "state": "IN-KA"
   },
   {
     "id": "shenzhen-shadow-corp",
@@ -589,7 +701,9 @@
       "Shadow Components"
     ],
     "is_illustrative": true,
-    "note": "Illustrative \u2014 World Bank debarred entity (synthetic)"
+    "note": "Illustrative — World Bank debarred entity (synthetic)",
+    "city": "Shenzhen",
+    "state": null
   },
   {
     "id": "dnipro-microelectronics",
@@ -600,7 +714,9 @@
       "DME"
     ],
     "is_illustrative": true,
-    "note": "Illustrative \u2014 synthetic OFAC-listed entity"
+    "note": "Illustrative — synthetic OFAC-listed entity",
+    "city": "Dnipro",
+    "state": null
   },
   {
     "id": "shell-electronics-bvi",
@@ -613,7 +729,9 @@
       "AGS"
     ],
     "is_illustrative": true,
-    "note": "Illustrative \u2014 synthetic shell-company, both OFAC and World Bank flagged"
+    "note": "Illustrative — synthetic shell-company, both OFAC and World Bank flagged",
+    "city": "Road Town",
+    "state": null
   },
   {
     "id": "mumbai-grey-market",
@@ -621,7 +739,9 @@
     "country": "IN",
     "category": "distributor_broker",
     "is_illustrative": true,
-    "note": "Illustrative \u2014 synthetic high-risk Indian broker, mixed sourcing claims"
+    "note": "Illustrative — synthetic high-risk Indian broker, mixed sourcing claims",
+    "city": "Bengaluru — Attibele",
+    "state": "IN-KA"
   },
   {
     "id": "guangdong-relabel",
@@ -629,7 +749,9 @@
     "country": "CN",
     "category": "distributor_broker",
     "is_illustrative": true,
-    "note": "Illustrative \u2014 synthetic component-remarking risk profile"
+    "note": "Illustrative — synthetic component-remarking risk profile",
+    "city": "Dongguan",
+    "state": null
   },
   {
     "id": "saankhya-labs",
@@ -643,7 +765,9 @@
       "Saankhya"
     ],
     "is_illustrative": false,
-    "note": "Bangalore-headquartered SDR / 5G chip design firm; subsidiary of Tejas Networks."
+    "note": "Bangalore-headquartered SDR / 5G chip design firm; subsidiary of Tejas Networks.",
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "signalchip",
@@ -657,7 +781,9 @@
       "Signalchip"
     ],
     "is_illustrative": false,
-    "note": "Bangalore-based fabless semiconductor company; designed India's first 4G/5G SoCs."
+    "note": "Bangalore-based fabless semiconductor company; designed India's first 4G/5G SoCs.",
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "wipro-3d",
@@ -671,7 +797,9 @@
       "Wipro 3D"
     ],
     "is_illustrative": false,
-    "note": "Bangalore-based metal additive manufacturing arm of Wipro."
+    "note": "Bangalore-based metal additive manufacturing arm of Wipro.",
+    "city": "Bengaluru",
+    "state": "IN-KA"
   },
   {
     "id": "zetwerk-bangalore",
@@ -686,7 +814,9 @@
       "Zetwerk"
     ],
     "is_illustrative": false,
-    "note": "Bangalore-based manufacturing services unicorn; PCB & precision components."
+    "note": "Bangalore-based manufacturing services unicorn; PCB & precision components.",
+    "city": "Bengaluru — KR Puram",
+    "state": "IN-KA"
   },
   {
     "id": "tessolve-semi",
@@ -700,7 +830,9 @@
       "Tessolve"
     ],
     "is_illustrative": false,
-    "note": "Bangalore-headquartered semiconductor test and engineering services firm."
+    "note": "Bangalore-headquartered semiconductor test and engineering services firm.",
+    "city": "Bengaluru — Yeshwanthpur Industrial Suburb",
+    "state": "IN-KA"
   },
   {
     "id": "tata-elxsi-blr",
@@ -714,7 +846,9 @@
       "Tata Elxsi Whitefield"
     ],
     "is_illustrative": false,
-    "note": "Tata Elxsi's Bangalore design and prototyping centre at ITPB Whitefield."
+    "note": "Tata Elxsi's Bangalore design and prototyping centre at ITPB Whitefield.",
+    "city": "Bengaluru — Hebbal",
+    "state": "IN-KA"
   },
   {
     "id": "altran-india",
@@ -729,7 +863,9 @@
       "Capgemini Engineering"
     ],
     "is_illustrative": false,
-    "note": "Bangalore-based ER&D; large captive engineering centre."
+    "note": "Bangalore-based ER&D; large captive engineering centre.",
+    "city": "Bengaluru — Doddaballapur",
+    "state": "IN-KA"
   },
   {
     "id": "peenya-pcb-craft",
@@ -742,7 +878,9 @@
       "PPC"
     ],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 single-line PCB fabrication unit in Peenya Industrial Area."
+    "note": "Illustrative SME — single-line PCB fabrication unit in Peenya Industrial Area.",
+    "city": "Bengaluru — Bidadi",
+    "state": "IN-KA"
   },
   {
     "id": "whitefield-microsmt",
@@ -755,7 +893,9 @@
       "WMS"
     ],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 small-batch SMT assembly, Whitefield."
+    "note": "Illustrative SME — small-batch SMT assembly, Whitefield.",
+    "city": "Bengaluru — Hoskote",
+    "state": "IN-KA"
   },
   {
     "id": "ec-power-elx",
@@ -768,7 +908,9 @@
       "ECPE"
     ],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 DC-DC converters and SMPS modules, Electronic City Phase II."
+    "note": "Illustrative SME — DC-DC converters and SMPS modules, Electronic City Phase II.",
+    "city": "Bengaluru — Yelahanka",
+    "state": "IN-KA"
   },
   {
     "id": "bommanahalli-cable",
@@ -778,7 +920,9 @@
     "incorporated": "2016-01-01",
     "aliases": [],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 wiring harness and cable assembly, Bommanahalli."
+    "note": "Illustrative SME — wiring harness and cable assembly, Bommanahalli.",
+    "city": "Bengaluru — Mahadevapura",
+    "state": "IN-KA"
   },
   {
     "id": "yelahanka-instr",
@@ -790,7 +934,9 @@
       "YI"
     ],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 calibration and test instrument assembly."
+    "note": "Illustrative SME — calibration and test instrument assembly.",
+    "city": "Bengaluru — Hosur Road",
+    "state": "IN-KA"
   },
   {
     "id": "rajajinagar-led",
@@ -800,7 +946,9 @@
     "incorporated": "2017-01-01",
     "aliases": [],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 LED drivers and luminaire assembly."
+    "note": "Illustrative SME — LED drivers and luminaire assembly.",
+    "city": "Bengaluru — Peenya Industrial Area",
+    "state": "IN-KA"
   },
   {
     "id": "doddaballapur-sensor",
@@ -810,7 +958,9 @@
     "incorporated": "2019-01-01",
     "aliases": [],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 temperature and pressure sensors, Doddaballapur Industrial Area."
+    "note": "Illustrative SME — temperature and pressure sensors, Doddaballapur Industrial Area.",
+    "city": "Bengaluru — Whitefield",
+    "state": "IN-KA"
   },
   {
     "id": "hosur-rd-emd",
@@ -822,7 +972,9 @@
       "HRED"
     ],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 small embedded board EMS off Hosur Road."
+    "note": "Illustrative SME — small embedded board EMS off Hosur Road.",
+    "city": "Bengaluru — Electronic City",
+    "state": "IN-KA"
   },
   {
     "id": "jigani-relay",
@@ -832,7 +984,9 @@
     "incorporated": "2008-01-01",
     "aliases": [],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 electromechanical relays and contactors, Jigani."
+    "note": "Illustrative SME — electromechanical relays and contactors, Jigani.",
+    "city": "Bengaluru — Bommasandra Industrial Area",
+    "state": "IN-KA"
   },
   {
     "id": "kr-puram-passives",
@@ -842,7 +996,9 @@
     "incorporated": "2011-01-01",
     "aliases": [],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 wirewound resistors and chokes."
+    "note": "Illustrative SME — wirewound resistors and chokes.",
+    "city": "Bengaluru — Jigani Industrial Area",
+    "state": "IN-KA"
   },
   {
     "id": "anekal-magnetics",
@@ -854,7 +1010,9 @@
       "AM"
     ],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 ferrite cores and inductors."
+    "note": "Illustrative SME — ferrite cores and inductors.",
+    "city": "Bengaluru — Attibele",
+    "state": "IN-KA"
   },
   {
     "id": "narsapura-pcb",
@@ -864,7 +1022,9 @@
     "incorporated": "2020-01-01",
     "aliases": [],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 newer 4-layer PCB fab, Narsapura cluster."
+    "note": "Illustrative SME — newer 4-layer PCB fab, Narsapura cluster.",
+    "city": "Bengaluru — KR Puram",
+    "state": "IN-KA"
   },
   {
     "id": "mahadevpura-test",
@@ -876,7 +1036,9 @@
       "MTS"
     ],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 bare-board and assembled-board electrical testing."
+    "note": "Illustrative SME — bare-board and assembled-board electrical testing.",
+    "city": "Bengaluru — Yeshwanthpur Industrial Suburb",
+    "state": "IN-KA"
   },
   {
     "id": "bidadi-emi-emc",
@@ -886,7 +1048,9 @@
     "incorporated": "2014-01-01",
     "aliases": [],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 electromagnetic compliance testing services."
+    "note": "Illustrative SME — electromagnetic compliance testing services.",
+    "city": "Bengaluru — Hebbal",
+    "state": "IN-KA"
   },
   {
     "id": "nelamangala-encl",
@@ -896,7 +1060,9 @@
     "incorporated": "2012-01-01",
     "aliases": [],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 sheet-metal electronic enclosures."
+    "note": "Illustrative SME — sheet-metal electronic enclosures.",
+    "city": "Bengaluru — Doddaballapur",
+    "state": "IN-KA"
   },
   {
     "id": "soladevanahalli-tools",
@@ -906,7 +1072,9 @@
     "incorporated": "2011-01-01",
     "aliases": [],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 injection-mould tooling for plastic electronic housings."
+    "note": "Illustrative SME — injection-mould tooling for plastic electronic housings.",
+    "city": "Bengaluru — Bidadi",
+    "state": "IN-KA"
   },
   {
     "id": "attibele-cleanroom",
@@ -916,7 +1084,9 @@
     "incorporated": "2018-01-01",
     "aliases": [],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 class-10000 cleanroom assembly for medical electronics."
+    "note": "Illustrative SME — class-10000 cleanroom assembly for medical electronics.",
+    "city": "Bengaluru — Hoskote",
+    "state": "IN-KA"
   },
   {
     "id": "kengeri-batt",
@@ -928,7 +1098,9 @@
       "KBS"
     ],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 Li-ion BMS assembly, Kengeri."
+    "note": "Illustrative SME — Li-ion BMS assembly, Kengeri.",
+    "city": "Bengaluru — Yelahanka",
+    "state": "IN-KA"
   },
   {
     "id": "magadi-rd-coils",
@@ -938,6 +1110,8 @@
     "incorporated": "2013-01-01",
     "aliases": [],
     "is_illustrative": true,
-    "note": "Illustrative SME \u2014 transformer and inductor coil winding."
+    "note": "Illustrative SME — transformer and inductor coil winding.",
+    "city": "Bengaluru — Mahadevapura",
+    "state": "IN-KA"
   }
 ]

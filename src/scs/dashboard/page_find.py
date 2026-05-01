@@ -41,6 +41,8 @@ def _score_directory(use_defense: bool) -> pd.DataFrame:
             "Supplier":           s.name,
             "Legal name":         s.legal_name or "",
             "Country":            s.country,
+            "City":               s.city or "",
+            "State":              s.state or "",
             "Category":           s.category.value,
             "CIN":                s.cin or "",
             "Year":               s.incorporated.year if s.incorporated else None,
@@ -74,10 +76,23 @@ def render(use_defense: bool, threshold: float) -> None:
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        countries = sorted(df["Country"].unique().tolist())
-        sel_countries = st.multiselect(
-            "Country", options=countries, default=[],
-            placeholder="Any country",
+        # Region quick-filter — Bangalore-first, the directory's mainline focus
+        region = st.selectbox(
+            "Region",
+            options=[
+                "All",
+                "🇮🇳 India only",
+                "📍 Bangalore-area only",
+                "📍 Karnataka only",
+                "🌍 Foreign only",
+            ],
+            index=0,
+            help=(
+                "Bangalore-area is the dashboard's primary focus — 43 of the "
+                "87 suppliers in the directory are headquartered in Bengaluru's "
+                "industrial clusters (Peenya, Whitefield, Electronic City, "
+                "Bommasandra, Hebbal, Yelahanka, Hosur Road, etc.)."
+            ),
         )
     with col2:
         cats = sorted(df["Category"].unique().tolist())
@@ -133,13 +148,19 @@ def render(use_defense: bool, threshold: float) -> None:
         )
     with col8:
         text_query = st.text_input(
-            "Search name or legal name", placeholder="e.g. Tata, Foxconn, IS 16333",
+            "Search name, legal name, city, CIN", placeholder="e.g. Peenya, Tata, BIS",
         )
 
     # ---------- Apply filters ----------
     filtered = df.copy()
-    if sel_countries:
-        filtered = filtered[filtered["Country"].isin(sel_countries)]
+    if region == "🇮🇳 India only":
+        filtered = filtered[filtered["Country"] == "IN"]
+    elif region == "📍 Bangalore-area only":
+        filtered = filtered[filtered["City"].str.contains("Beng|Kolar", case=False, na=False)]
+    elif region == "📍 Karnataka only":
+        filtered = filtered[filtered["State"] == "IN-KA"]
+    elif region == "🌍 Foreign only":
+        filtered = filtered[filtered["Country"] != "IN"]
     if sel_cats:
         filtered = filtered[filtered["Category"].isin(sel_cats)]
     if sel_grades:
@@ -165,6 +186,7 @@ def render(use_defense: bool, threshold: float) -> None:
         mask = (
             filtered["Supplier"].str.lower().str.contains(q, na=False)
             | filtered["Legal name"].str.lower().str.contains(q, na=False)
+            | filtered["City"].str.lower().str.contains(q, na=False)
             | filtered["CIN"].str.lower().str.contains(q, na=False)
         )
         filtered = filtered[mask]
@@ -219,7 +241,7 @@ def render(use_defense: bool, threshold: float) -> None:
     )
 
     columns_to_show = [
-        "Supplier", "Country", "Category", "Score", "Grade",
+        "Supplier", "City", "Country", "Category", "Score", "Grade",
         "Compliance fails", "Articles", "Risk events",
     ]
 

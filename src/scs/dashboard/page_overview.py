@@ -104,6 +104,7 @@ def render(use_defense: bool, threshold: float) -> None:
         name_with_badge = f"{sup.name}  ⓘ" if sup.is_illustrative else sup.name
         rows.append({
             "Supplier": name_with_badge,
+            "City": sup.city or "—",
             "Country": sup.country,
             "Category": sup.category.value.replace("_", " "),
             "Score": s.score,

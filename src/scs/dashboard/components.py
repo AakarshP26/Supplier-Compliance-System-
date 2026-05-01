@@ -23,7 +23,10 @@ def section(title: str) -> None:
 def hero(supplier: Supplier, score: SupplierScore) -> None:
     """Big banner with grade and meta. Background tinted by grade."""
     color = grade_color(score.grade)
-    meta = f"{supplier.country} · {supplier.category.value.replace('_', ' ')}"
+    location = supplier.city or supplier.country
+    if supplier.city and supplier.state and supplier.state.startswith("IN-"):
+        location = f"{supplier.city}, {supplier.state[3:]}"
+    meta = f"📍 {location} · {supplier.category.value.replace('_', ' ')}"
     if supplier.cin:
         meta += f" · CIN {supplier.cin}"
     legal = supplier.legal_name or supplier.name

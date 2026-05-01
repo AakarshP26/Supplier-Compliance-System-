@@ -30,6 +30,7 @@ if str(_SRC) not in sys.path:
 
 import streamlit as st  # noqa: E402
 
+from scs.data import load_suppliers  # noqa: E402
 from scs.dashboard import (  # noqa: E402
     page_overview, page_find, page_detail, page_compare,
     page_onboard, page_lab, page_method, page_parameters,
@@ -47,6 +48,14 @@ st.set_page_config(
 inject_css()
 
 
+_suppliers = list(load_suppliers())
+_n_real = sum(1 for s in _suppliers if not s.is_illustrative)
+_n_illus = sum(1 for s in _suppliers if s.is_illustrative)
+_n_bangalore = sum(1 for s in _suppliers
+                    if s.city and ("Beng" in s.city or "Kolar" in s.city))
+_n_indian = sum(1 for s in _suppliers if s.country == "IN")
+
+
 # ---------------------------------------------------------------------------
 # Sidebar
 # ---------------------------------------------------------------------------
@@ -55,9 +64,14 @@ with st.sidebar:
     st.markdown(
         """
 <div class="scs-brand">🛡️ Supplier Compliance</div>
-<div class="scs-tag">Trust-calibrated scoring · v0.2</div>
+<div class="scs-tag">India / Bangalore SME focus · v0.3</div>
         """,
         unsafe_allow_html=True,
+    )
+    st.caption(
+        f"📂 **{len(_suppliers)} suppliers** in directory  \n"
+        f"🇮🇳 **{_n_indian}** Indian · 📍 **{_n_bangalore}** Bangalore-area  \n"
+        f"{_n_real} real-listed · {_n_illus} illustrative SMEs"
     )
     st.markdown("---")
 
