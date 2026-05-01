@@ -1,0 +1,19 @@
+{
+  "_note": "Sample BIS CRS registrations. In production, replace with a scraper or feed from crsbis.in. R-numbers below are illustrative.",
+  "registrations": [
+    {"firm_name": "Dixon Technologies (India) Limited", "r_number": "R-41001234", "products": ["IS 13252", "IS 16333"], "valid_until": "2027-03-31"},
+    {"firm_name": "Hon Hai Technology India Mega Development Pvt Ltd", "r_number": "R-41005512", "products": ["IS 16333"], "valid_until": "2026-09-30"},
+    {"firm_name": "Pegatron Technology India Pvt Ltd", "r_number": "R-41006781", "products": ["IS 13252"], "valid_until": "2026-12-31"},
+    {"firm_name": "Wistron Infocomm Manufacturing (India) Pvt Ltd", "r_number": "R-41003344", "products": ["IS 16333"], "valid_until": "2027-06-30"},
+    {"firm_name": "Lava International Limited", "r_number": "R-41001890", "products": ["IS 16333", "IS 13252"], "valid_until": "2027-01-31"},
+    {"firm_name": "Optiemus Electronics Limited", "r_number": "R-41004455", "products": ["IS 16333"], "valid_until": "2026-11-30"},
+    {"firm_name": "Bhagwati Products Limited", "r_number": "R-41002211", "products": ["IS 16333"], "valid_until": "2026-08-31"},
+    {"firm_name": "Amber Enterprises India Limited", "r_number": "R-41007799", "products": ["IS 1391"], "valid_until": "2027-04-30"},
+    {"firm_name": "Syrma SGS Technology Limited", "r_number": "R-41008812", "products": ["IS 13252", "IS 16046"], "valid_until": "2027-02-28"},
+    {"firm_name": "Kaynes Technology India Limited", "r_number": "R-41009923", "products": ["IS 13252", "IS 16046"], "valid_until": "2027-05-31"},
+    {"firm_name": "Cyient DLM Limited", "r_number": "R-41010567", "products": ["IS 13252"], "valid_until": "2026-10-31"},
+    {"firm_name": "Avalon Technologies Limited", "r_number": "R-41011223", "products": ["IS 13252"], "valid_until": "2027-03-15"},
+    {"firm_name": "VVDN Technologies Private Limited", "r_number": "R-41012987", "products": ["IS 16333"], "valid_until": "2026-12-15"},
+    {"firm_name": "Centum Electronics Limited", "r_number": "R-41013345", "products": ["IS 13252"], "valid_until": "2027-01-15"}
+  ]
+}
