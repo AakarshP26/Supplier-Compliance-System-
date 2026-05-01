@@ -4,93 +4,143 @@
 > **"When Suppliers Game the Algorithm: Evidence-Source Poisoning Attacks on
 > LLM-Based Supplier Risk Scoring, and a Trust-Calibrated Defense"**
 >
-> Aakarsh Prabhu, RV College of Engineering · Experiential Learning, VI Sem.
+> Aakarsh Prabhu · RV College of Engineering · Experiential Learning, VI Sem.
 
-## Research question
+[![Tests](https://img.shields.io/badge/tests-25%20passing-brightgreen)]()
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)]()
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)]()
+
+## TL;DR
 
 LLM-based supplier risk scoring (Liu & Meidani 2024 and follow-ups) treats
-the public information ecosystem — news, filings, reviews — as a trusted
-input. But a supplier under evaluation is not a passive subject of analysis;
-they have means and motive to **poison the evidence the LLM reads**.
+the public information ecosystem as a trusted input. We show this is a
+serious vulnerability: a debarred supplier can lift its score from grade
+**F (15.2)** to grade **A (83.3)** with twenty synthetic press releases.
+A trust-calibrated Dempster–Shafer fusion with burst and template-similarity
+downweighting restores correct classification (**F1 1.00**) on the same
+attack while keeping clean-data performance unchanged.
 
-This work asks:
+## Headline result
 
-> *How fragile are LLM-based supplier risk scorers under realistic
-> evidence-source poisoning, and can a trust-calibrated multi-source
-> fusion model recover the lost robustness without sacrificing accuracy?*
+```
+make eval
+```
 
-## Contributions
+| Condition | Accuracy | F1 | Flip rate | Mean score lift |
+|---|---:|---:|---:|---:|
+| Clean             | 0.88 | 0.73 |  —    |   —   |
+| **Attacked**      | 0.84 | **0.00** | 0.28 | +16.5 |
+| **Defended**      | **1.00** | **1.00** | 0.12 | +8.0 |
 
-1. **Threat model.** A formal characterisation of evidence-source poisoning
-   for compliance scorers, distinct from prompt injection, jailbreaks, and
-   model poisoning.
-2. **Attack benchmark.** A reproducible adversarial harness that perturbs
-   the news corpus around 25 real Indian electronics suppliers (PLI awardees
-   plus deliberately risky entities). We report flip rate, score delta, and
-   Expected Calibration Error before and after attack.
-3. **Defense.** A trust-calibrated multi-source fusion module using
-   Dempster–Shafer evidence combination with source-credibility priors,
-   corroboration weighting, and recency decay.
-4. **Open code & data.** All seed suppliers, reference lists, prompts,
-   adversarial articles, and evaluation scripts are in this repository.
+(B = 10 synthetic press releases, 25 seed suppliers, mock LLM backend.)
 
-## System overview
+## Architecture
 
 ```
    ┌──────────────────────────┐    ┌────────────────────────────┐
    │  Module 1 — Compliance   │    │  Module 2 — Risk sensing   │
-   │  OFAC · WB · BIS · MCA   │    │  News + LLM extraction     │
+   │  OFAC · WB · BIS         │    │  News + LLM extraction     │
    │  per-source credibility  │    │  per-article credibility   │
    └────────────┬─────────────┘    └──────────────┬─────────────┘
                 │                                 │
                 ▼                                 ▼
         ┌────────────────────────────────────────────────┐
-        │   Trust-calibrated fusion (Dempster–Shafer)     │
-        │   ⊕ corroboration penalty · recency decay       │
-        └────────────────────┬────────────────────────────┘
+        │   Trust-calibrated fusion (Dempster–Shafer)    │
+        │   ⊕ corroboration · burst · template penalties │
+        └────────────────────┬───────────────────────────┘
                              │
                              ▼
-                ┌─────────────────────────┐
-                │  Adversarial harness    │
-                │  inject → re-score →    │
-                │  measure Δ, flip, ECE   │
-                └─────────────────────────┘
+            ┌─────────────────────────────────┐
+            │  Adversarial harness            │
+            │  inject → re-score → measure    │
+            │  flip / lift / ECE              │
+            └─────────────────────────────────┘
+```
+
+## Quick start
+
+```bash
+git clone https://github.com/AakarshP26/Supplier-Compliance-System-.git
+cd Supplier-Compliance-System-
+
+make install      # installs pinned requirements
+make test         # 25 tests pass
+make eval         # reproduces the headline result table
+make sweep        # writes data/results/budget_sweep.csv (Figure 2 input)
+make dashboard    # launches the Streamlit demo at localhost:8501
+```
+
+The mock LLM backend is on by default (`USE_MOCK_LLM=1`), so everything
+above runs offline. To use the real Anthropic API:
+
+```bash
+cp .env.example .env
+# set ANTHROPIC_API_KEY and USE_MOCK_LLM=0
 ```
 
 ## Repository layout
 
 ```
 src/scs/
-  models.py            # Domain models with provenance
-  data.py              # Seed supplier loader + fuzzy lookup
-  compliance/          # OFAC, World Bank, BIS, MCA21 checkers
-  risk/                # News fetch + LLM signal extraction
-  scoring/             # Trust-calibrated DS fusion
-  adversarial/         # Poisoning attacks + evaluation harness
-  evaluation/          # Metrics: flip rate, ECE, score delta
-  dashboard/           # Streamlit demo
+  models.py          Provenance-aware domain models
+  credibility.py     Source credibility registry (gov / tier-1 / press-release / anon)
+  data.py            Seed supplier loader + fuzzy lookup
+  service.py         High-level assess() entrypoint
+
+  compliance/        Module 1 - structured compliance checks
+    ofac.py          OFAC SDN sanctions screening
+    world_bank.py    World Bank debarred firms
+    bis_crs.py       BIS Compulsory Registration Scheme (India)
+    pipeline.py      Parallel orchestrator -> ComplianceReport
+
+  risk/              Module 2 - LLM risk sensing
+    news.py          News corpus model + loader
+    prompts.py       Externalised prompts (verbatim in paper appendix)
+    extractor.py     LLM extractor with Anthropic + mock backends
+    pipeline.py      Cross-source corroboration -> RiskProfile
+
+  scoring/           Trust-calibrated fusion
+    fusion.py        Dempster-Shafer with Yager conflict-to-uncertainty
+    defense.py       Burst + template-similarity downweighting
+
+  adversarial/       Threat model + attack harness
+    attack.py        Evidence-source poisoning (press_release, anon_blog,
+                     self_published vectors)
+    runner.py        Run pipeline under attack
+
+  evaluation/        Reproducible experiments
+    metrics.py       F1, flip rate, score lift, ECE
+    ground_truth.py  Risky/safe labels for the seed set
+    run_experiment.py    Headline result table
+    run_budget_sweep.py  CSV for the paper's main figure
+
+  dashboard/
+    app.py           Streamlit demo (single supplier / compare / adversarial)
+
 data/
   seed_suppliers.json
-  reference/           # Sanctions/debarment reference snapshots
-  news/                # Cached news articles per supplier
-  adversarial/         # Synthetic poisoned articles
+  ground_truth.json
+  reference/
+    ofac_sdn_sample.json
+    wb_debarred_sample.json
+    bis_crs_sample.json
+  news/
+    seed_corpus.json
+  results/             generated by make eval / make sweep
 ```
 
-## Quick start
+## Citing this work
 
-```bash
-pip install -r requirements.txt
-cp .env.example .env  # leave USE_MOCK_LLM=1 for offline demo
-python -m scs.evaluation.run_clean       # baseline scores
-python -m scs.evaluation.run_attack      # under poisoning
-python -m scs.evaluation.run_defended    # with DS fusion defense
-streamlit run src/scs/dashboard/app.py   # interactive view
+```bibtex
+@misc{prabhu2026trustcal,
+  author = {Prabhu, Aakarsh},
+  title  = {When Suppliers Game the Algorithm: Evidence-Source Poisoning Attacks
+            on LLM-Based Supplier Risk Scoring, and a Trust-Calibrated Defense},
+  year   = {2026},
+  url    = {https://github.com/AakarshP26/Supplier-Compliance-System-}
+}
 ```
-
-## Status
-
-🚧 Active development — see commit history.
 
 ## License
 
-Apache 2.0 — see `LICENSE`.
+Apache 2.0 — see [LICENSE](LICENSE).
