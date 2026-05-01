@@ -6,13 +6,17 @@ schema-level commitment that makes trust-calibrated fusion possible.
 """
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from enum import Enum
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from scs.credibility import credibility_of
+
+
+def _now() -> datetime:
+    return datetime.now(timezone.utc)
 
 
 # ---------------------------------------------------------------------------
@@ -65,7 +69,7 @@ class Provenance(BaseModel):
         description="Human-readable source label, e.g. 'Reuters', 'OFAC SDN'",
     )
     source_url: str | None = None
-    observed_at: datetime = Field(default_factory=datetime.utcnow)
+    observed_at: datetime = Field(default_factory=_now)
     published_at: datetime | None = None
 
     @property
@@ -222,7 +226,7 @@ class SupplierScore(BaseModel):
     belief_risky: float = Field(..., ge=0.0, le=1.0)
     uncertainty: float = Field(..., ge=0.0, le=1.0)
     contributions: list[FeatureContribution]
-    computed_at: datetime = Field(default_factory=datetime.utcnow)
+    computed_at: datetime = Field(default_factory=_now)
 
     @property
     def grade(self) -> str:
