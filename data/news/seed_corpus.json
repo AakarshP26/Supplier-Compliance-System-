@@ -1,11 +1,9 @@
 {
   "_schema": {
     "supplier_id": "matches scs.data seed_suppliers",
-    "articles": [
-      {"id": "...", "title": "...", "body": "...", "url": "https://...", "published_at": "ISO date"}
-    ]
+    "articles": "list of {id, title, body, url, published_at}"
   },
-  "_note": "Mix of tier-1 news, trade press, and press releases per supplier so the credibility prior varies. Bodies are short, deliberately, to keep LLM token cost low while preserving extractable signals.",
+  "_note": "Mix of tier-1 news, trade press, and press releases. Bodies kept short to keep LLM costs low while preserving extractable signals. Illustrative articles are clearly marked in their bodies.",
   "corpus": {
     "dixon-tech": [
       {"id": "dixon-001", "title": "Dixon Technologies posts 87% jump in Q3 net profit on smartphone manufacturing volumes", "body": "Indian contract manufacturer Dixon Technologies reported an 87 per cent year-on-year increase in consolidated net profit for the December quarter, driven by record smartphone production for clients including Motorola and Xiaomi. Revenues from the mobile and EMS division grew 134 per cent. Management said the PLI scheme target for FY26 was met three months early.", "url": "https://www.livemint.com/companies/results/dixon-q3-results", "published_at": "2026-02-08"},
@@ -28,6 +26,64 @@
     ],
     "kaynes-tech": [
       {"id": "kay-001", "title": "Kaynes Technology guides for 60% revenue growth in FY26 on aerospace and defence wins", "body": "Kaynes Technology raised its FY26 revenue guidance after winning new contracts in the aerospace, defence, and railway signalling segments. The Mysuru-based EMS firm also reaffirmed its OSAT facility timeline.", "url": "https://www.economictimes.indiatimes.com/markets/kaynes-guidance", "published_at": "2026-02-19"}
+    ],
+    "tata-electronics": [
+      {"id": "tata-001", "title": "Tata Electronics begins commercial pilot at Dholera fab", "body": "Tata Electronics has begun commercial pilot wafer production at its Dholera semiconductor facility, marking the first commercial fab milestone for India. The plant targets 28nm and above process nodes for automotive and industrial applications.", "url": "https://www.thehindu.com/business/tata-dholera-pilot", "published_at": "2026-03-12"},
+      {"id": "tata-002", "title": "Tata Electronics signs technology licence with Powerchip Taiwan", "body": "Tata Electronics has formalised a multi-year technology transfer agreement with Powerchip Semiconductor Manufacturing Corp of Taiwan, covering process IP and engineering support. The deal accelerates the Dholera fab ramp.", "url": "https://www.reuters.com/technology/tata-powerchip-licence", "published_at": "2025-11-04"}
+    ],
+    "bel-bengaluru": [
+      {"id": "bel-001", "title": "BEL receives Rs 4,200 crore defence order for radar systems", "body": "Bharat Electronics Limited has received an order worth Rs 4,200 crore from the Ministry of Defence for the supply of advanced radar systems. The contract spans five years and reinforces the firm's position in defence electronics.", "url": "https://www.livemint.com/news/india/bel-radar-order", "published_at": "2026-01-22"}
+    ],
+    "tejas-networks": [
+      {"id": "tej-001", "title": "Tejas Networks wins BSNL 4G contract worth Rs 7,492 crore", "body": "Tejas Networks has been selected as the equipment supplier for BSNL's pan-India 4G rollout. The contract represents a significant milestone for indigenous telecom equipment manufacturing under the Make in India initiative.", "url": "https://www.thehindu.com/business/tejas-bsnl-4g", "published_at": "2025-10-18"}
+    ],
+    "tsmc": [
+      {"id": "tsmc-001", "title": "TSMC raises capex guidance on AI chip demand", "body": "Taiwan Semiconductor Manufacturing Co raised its FY26 capital expenditure guidance citing sustained AI accelerator demand. The foundry continues to lead the leading-edge node race with 2nm volume production on schedule.", "url": "https://www.bloomberg.com/news/articles/tsmc-capex", "published_at": "2026-02-14"}
+    ],
+    "intel": [
+      {"id": "intel-001", "title": "Intel Foundry secures major external customer commitment", "body": "Intel announced a multi-billion-dollar wafer agreement with a major fabless semiconductor company for its 18A process, marking a key milestone for its foundry ambitions. Production ramp begins H2 2026.", "url": "https://www.reuters.com/technology/intel-foundry-deal", "published_at": "2026-03-08"}
+    ],
+    "samsung-semi": [
+      {"id": "sam-001", "title": "Samsung memory division returns to profitability on HBM ramp", "body": "Samsung Electronics' memory division returned to profitability in the latest quarter, driven by high-bandwidth memory shipments to AI accelerator customers. The company guided for continued recovery through FY26.", "url": "https://www.ft.com/content/samsung-memory-q1", "published_at": "2026-02-01"}
+    ],
+    "ti": [
+      {"id": "ti-001", "title": "Texas Instruments announces $30 billion capacity expansion", "body": "Texas Instruments outlined a $30 billion plan to expand 300mm analog wafer capacity across Texas and Utah. The expansion targets automotive and industrial customers with 12-15 year ROI timeline.", "url": "https://www.reuters.com/business/ti-capacity-expansion", "published_at": "2025-09-25"}
+    ],
+    "nxp": [
+      {"id": "nxp-001", "title": "NXP wins automotive radar design at major European OEM", "body": "NXP Semiconductors has secured a multi-year design win for its automotive radar SoC platform at a major European automaker. The wins underscores the firm's leading position in vehicle radar.", "url": "https://www.eetimes.com/nxp-radar-design-win", "published_at": "2025-12-15"}
+    ],
+    "renesas": [
+      {"id": "ren-001", "title": "Renesas reports automotive MCU shortage easing", "body": "Renesas Electronics reported that automotive microcontroller lead times have normalised after a multi-year shortage cycle. The company guided for a return to mid-single-digit growth in FY26.", "url": "https://www.eetimes.com/renesas-mcu-recovery", "published_at": "2026-01-10"}
+    ],
+    "stmicro": [
+      {"id": "st-001", "title": "STMicroelectronics announces new Italian SiC fab", "body": "STMicroelectronics announced plans for a new silicon carbide fab in Catania, Italy, with state co-funding under the EU Chips Act. Volume production expected by 2027.", "url": "https://www.reuters.com/technology/st-sic-fab", "published_at": "2025-10-30"}
+    ],
+    "infineon": [
+      {"id": "inf-001", "title": "Infineon completes Dresden fab construction milestone", "body": "Infineon Technologies has completed cleanroom construction at its new Dresden 300mm power semiconductor fab. Tool installation begins Q2 2026 with production targeted for late 2027.", "url": "https://www.eetimes.com/infineon-dresden-milestone", "published_at": "2026-03-01"}
+    ],
+    "murata": [
+      {"id": "mur-001", "title": "Murata MLCC inventory normalises as smartphone demand recovers", "body": "Murata Manufacturing reported that multilayer ceramic capacitor inventory levels have normalised after a prolonged correction cycle. Smartphone-driven demand is gradually returning to growth.", "url": "https://www.eetimes.com/murata-mlcc-recovery", "published_at": "2026-02-20"}
+    ],
+    "ase-tech": [
+      {"id": "ase-001", "title": "ASE expands advanced packaging capacity for AI customers", "body": "ASE Technology Holding announced an expansion of its advanced packaging capacity in Kaohsiung, citing accelerating demand from AI accelerator customers. The expansion includes 2.5D and 3D packaging lines.", "url": "https://www.eetimes.com/ase-advanced-packaging", "published_at": "2026-01-28"}
+    ],
+    "salcomp-india": [
+      {"id": "sal-001", "title": "Salcomp India ramps Chennai charger plant under PLI scheme", "body": "Salcomp Manufacturing India has commissioned the second phase of its Chennai facility for mobile charger manufacturing under the PLI scheme. Annual output targeted at 200 million units.", "url": "https://www.business-standard.com/companies/salcomp-chennai-ramp", "published_at": "2025-12-08"}
+    ],
+    "amber-enterprises": [
+      {"id": "amb-001", "title": "Amber Enterprises expands AC component capacity ahead of summer season", "body": "Amber Enterprises India has commissioned a new air-conditioner component facility in Pune, taking total annual capacity to 4.5 million units across all plants ahead of the peak summer demand cycle.", "url": "https://www.livemint.com/companies/news/amber-pune-expansion", "published_at": "2026-01-30"}
+    ],
+    "vvdn-tech": [
+      {"id": "vvdn-001", "title": "VVDN Technologies opens new R&D centre in Manesar", "body": "VVDN Technologies has opened an expanded R&D centre in Manesar, Haryana, focused on networking, telematics, and smart camera products. The centre adds 500 engineering positions.", "url": "https://www.business-standard.com/companies/vvdn-randd-manesar", "published_at": "2025-11-15"}
+    ],
+    "mumbai-grey-market": [
+      {"id": "mgm-001", "title": "Illustrative scenario — customs flag suspected remarked components at Mumbai broker", "body": "Demo / illustrative article only. In this fictional scenario, Mumbai Grey Market Brokers is named in a customs notice for mislabelling component date codes. This article is fabricated for demonstration of the risk-scoring pipeline and does not refer to any real entity.", "url": "https://example.com/illustrative/mumbai-broker-customs", "published_at": "2025-08-12"}
+    ],
+    "guangdong-relabel": [
+      {"id": "gr-001", "title": "Illustrative scenario — synthetic remarking allegations at Guangdong distributor", "body": "Demo / illustrative article only. In this fictional scenario, Guangdong Relabel Industries is named by customer complaints about remarked TI parts. This article is fabricated for demonstration of the pipeline and does not refer to any real entity.", "url": "https://example.com/illustrative/guangdong-relabel-remarks", "published_at": "2025-09-22"}
+    ],
+    "bengal-broker-co": [
+      {"id": "bbc-001", "title": "Illustrative — independent distributor cited in counterfeit alert", "body": "Demo / illustrative article only. Bengal Broker Components is described in this fictional GIDEP-style alert as having shipped suspect counterfeit ICs. Fabricated for demonstration; does not refer to any real entity.", "url": "https://example.com/illustrative/bengal-broker", "published_at": "2025-10-05"}
     ]
   }
 }
