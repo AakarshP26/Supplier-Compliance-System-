@@ -1,94 +1,943 @@
 [
-  { "id": "dixon-tech", "name": "Dixon Technologies", "legal_name": "Dixon Technologies (India) Limited", "country": "IN", "category": "ems", "cin": "L32101DL1993PLC056320", "website": "https://www.dixoninfo.com", "incorporated": "1993-01-13", "aliases": ["Dixon", "Dixon Technologies India"], "note": "Listed PLI awardee (Mobile Manufacturing)" },
-  { "id": "foxconn-india", "name": "Foxconn Hon Hai India", "legal_name": "Hon Hai Technology India Mega Development Pvt Ltd", "country": "IN", "category": "ems", "website": "https://www.foxconn.com", "aliases": ["Foxconn", "Hon Hai India"], "note": "Apple's primary contract manufacturer in India" },
-  { "id": "pegatron-india", "name": "Pegatron India", "legal_name": "Pegatron Technology India Pvt Ltd", "country": "IN", "category": "ems", "website": "https://www.pegatroncorp.com", "aliases": ["Pegatron"] },
-  { "id": "wistron-india", "name": "Wistron Infocomm India", "legal_name": "Wistron Infocomm Manufacturing (India) Pvt Ltd", "country": "IN", "category": "ems", "website": "https://www.wistron.com", "aliases": ["Wistron"] },
-  { "id": "lava-international", "name": "Lava International", "legal_name": "Lava International Limited", "country": "IN", "category": "oem", "cin": "U32109DL2009PLC195124", "website": "https://www.lavamobiles.com", "aliases": ["Lava"] },
-  { "id": "optiemus-electronics", "name": "Optiemus Electronics", "legal_name": "Optiemus Electronics Limited", "country": "IN", "category": "ems", "website": "https://www.optiemuselectronics.com", "aliases": ["Optiemus"], "note": "PLI awardee" },
-  { "id": "bhagwati-products", "name": "Bhagwati Products", "legal_name": "Bhagwati Products Limited", "country": "IN", "category": "ems", "aliases": ["Bhagwati", "Karbonn"] },
-  { "id": "amber-enterprises", "name": "Amber Enterprises India", "legal_name": "Amber Enterprises India Limited", "country": "IN", "category": "ems", "cin": "L28910PB1990PLC010265", "website": "https://www.ambergroupindia.com", "aliases": ["Amber Group"] },
-  { "id": "syrma-sgs", "name": "Syrma SGS Technology", "legal_name": "Syrma SGS Technology Limited", "country": "IN", "category": "ems", "cin": "L30007TN2004PLC053837", "website": "https://www.syrmasgs.com", "aliases": ["Syrma"] },
-  { "id": "kaynes-tech", "name": "Kaynes Technology", "legal_name": "Kaynes Technology India Limited", "country": "IN", "category": "ems", "cin": "L29299KA1988PLC008750", "website": "https://www.kaynestechnology.com", "aliases": ["Kaynes"] },
-  { "id": "tata-electronics", "name": "Tata Electronics", "legal_name": "Tata Electronics Private Limited", "country": "IN", "category": "semiconductor_fab", "website": "https://www.tataelectronics.com", "aliases": ["Tata Elxsi", "Tata Semiconductor"], "note": "Building India's first commercial semiconductor fab in Dholera" },
-  { "id": "vedanta-foxconn", "name": "Vedanta Foxconn JV", "country": "IN", "category": "semiconductor_fab", "aliases": ["Vedanta Semiconductor", "Vedanta-Foxconn"], "note": "JV formally dissolved 2025" },
-  { "id": "elcina-pcb-1", "name": "Genus Electrotech", "legal_name": "Genus Electrotech Limited", "country": "IN", "category": "pcb_fabricator", "aliases": ["Genus"] },
-  { "id": "cyient-dlm", "name": "Cyient DLM", "legal_name": "Cyient DLM Limited", "country": "IN", "category": "ems", "cin": "L72200TG1993PLC015581", "website": "https://www.cyientdlm.com", "aliases": ["Cyient", "Rangsons"] },
-  { "id": "avalon-tech", "name": "Avalon Technologies", "legal_name": "Avalon Technologies Limited", "country": "IN", "category": "ems", "website": "https://www.avalontec.com", "aliases": ["Avalon"] },
-  { "id": "epack-durables", "name": "Epack Durable", "legal_name": "Epack Durable Limited", "country": "IN", "category": "ems", "aliases": ["Epack"] },
-  { "id": "vvdn-tech", "name": "VVDN Technologies", "legal_name": "VVDN Technologies Private Limited", "country": "IN", "category": "ems", "website": "https://www.vvdntech.com", "aliases": ["VVDN"] },
-  { "id": "sahasra-electronics", "name": "Sahasra Electronics", "legal_name": "Sahasra Electronics Solutions Pvt Ltd", "country": "IN", "category": "component_manufacturer", "aliases": ["Sahasra"] },
-  { "id": "smile-electronics", "name": "Smile Electronics", "legal_name": "Smile Electronics Limited", "country": "IN", "category": "component_manufacturer", "aliases": [] },
-  { "id": "centum-electronics", "name": "Centum Electronics", "legal_name": "Centum Electronics Limited", "country": "IN", "category": "ems", "cin": "L85110KA1993PLC013875", "website": "https://www.centumelectronics.com", "aliases": ["Centum"] },
-  { "id": "bharat-fih", "name": "Bharat FIH", "legal_name": "Bharat FIH Limited", "country": "IN", "category": "ems", "aliases": ["FIH India", "Foxconn Bharat"] },
-  { "id": "moschip-tech", "name": "MosChip Technologies", "legal_name": "MosChip Technologies Limited", "country": "IN", "category": "semiconductor_fab", "cin": "L31909TG1999PLC032184", "website": "https://www.moschip.com", "aliases": ["MosChip"] },
-
-  { "id": "salcomp-india", "name": "Salcomp India", "legal_name": "Salcomp Manufacturing India Pvt Ltd", "country": "IN", "category": "ems", "website": "https://www.salcomp.com", "aliases": ["Salcomp"], "note": "PLI awardee, mobile chargers" },
-  { "id": "jabil-india", "name": "Jabil India", "legal_name": "Jabil Circuit India Pvt Ltd", "country": "IN", "category": "ems", "website": "https://www.jabil.com", "aliases": ["Jabil"] },
-  { "id": "flex-india", "name": "Flex India", "legal_name": "Flextronics Technologies (India) Pvt Ltd", "country": "IN", "category": "ems", "website": "https://www.flex.com", "aliases": ["Flextronics India"] },
-  { "id": "bel-bengaluru", "name": "Bharat Electronics Limited", "legal_name": "Bharat Electronics Limited", "country": "IN", "category": "ems", "cin": "L32309KA1954GOI000787", "website": "https://www.bel-india.in", "aliases": ["BEL"], "note": "Defence PSU, Navratna company" },
-  { "id": "iti-limited", "name": "ITI Limited", "legal_name": "ITI Limited", "country": "IN", "category": "ems", "cin": "L32202KA1950GOI000640", "website": "https://www.itiltd.in", "aliases": ["ITI"], "note": "Telecom PSU under DoT" },
-  { "id": "tejas-networks", "name": "Tejas Networks", "legal_name": "Tejas Networks Limited", "country": "IN", "category": "oem", "cin": "L72900KA2000PLC026980", "website": "https://www.tejasnetworks.com", "aliases": ["Tejas"], "note": "Tata-owned networking equipment OEM" },
-  { "id": "hfcl", "name": "HFCL", "legal_name": "HFCL Limited", "country": "IN", "category": "oem", "cin": "L64200HR1987PLC074093", "website": "https://www.hfcl.com", "aliases": ["Himachal Futuristic"] },
-  { "id": "sterlite-tech", "name": "Sterlite Technologies", "legal_name": "Sterlite Technologies Limited", "country": "IN", "category": "component_manufacturer", "cin": "L31300MH2000PLC269062", "website": "https://www.stl.tech", "aliases": ["STL"], "note": "Optical fiber + networking" },
-  { "id": "tata-elxsi", "name": "Tata Elxsi", "legal_name": "Tata Elxsi Limited", "country": "IN", "category": "ems", "cin": "L85110KA1989PLC009968", "website": "https://www.tataelxsi.com", "aliases": [] },
-  { "id": "rakon-india", "name": "Rakon India", "legal_name": "Rakon India Pvt Ltd", "country": "IN", "category": "component_manufacturer", "website": "https://www.rakon.com", "aliases": ["Rakon"], "note": "Frequency control products (XOs, OCXOs)" },
-  { "id": "padmini-vna", "name": "Padmini VNA Mechatronics", "legal_name": "Padmini VNA Mechatronics Limited", "country": "IN", "category": "component_manufacturer", "website": "https://www.padminivna.com", "aliases": ["Padmini VNA"] },
-  { "id": "bosch-india", "name": "Bosch India", "legal_name": "Bosch Limited", "country": "IN", "category": "ems", "cin": "L85110KA1951PLC000761", "website": "https://www.bosch.in", "aliases": ["Bosch"], "note": "Multinational, automotive electronics dominant" },
-  { "id": "honeywell-india", "name": "Honeywell Automation India", "legal_name": "Honeywell Automation India Limited", "country": "IN", "category": "ems", "cin": "L29142PN1984PLC033074", "website": "https://www.honeywell.com/in", "aliases": ["Honeywell"] },
-  { "id": "continental-india", "name": "Continental Automotive India", "country": "IN", "category": "ems", "website": "https://www.continental.com/en-in", "aliases": ["Continental"] },
-
-  { "id": "tsmc", "name": "TSMC", "legal_name": "Taiwan Semiconductor Manufacturing Company", "country": "TW", "category": "semiconductor_fab", "website": "https://www.tsmc.com", "aliases": ["Taiwan Semi"], "note": "World's largest dedicated foundry" },
-  { "id": "samsung-semi", "name": "Samsung Electronics", "legal_name": "Samsung Electronics Co Ltd", "country": "KR", "category": "semiconductor_fab", "website": "https://www.samsung.com/semiconductor", "aliases": ["Samsung"] },
-  { "id": "intel", "name": "Intel Corporation", "legal_name": "Intel Corporation", "country": "US", "category": "semiconductor_fab", "website": "https://www.intel.com", "aliases": ["Intel Corp"] },
-  { "id": "ti", "name": "Texas Instruments", "legal_name": "Texas Instruments Incorporated", "country": "US", "category": "component_manufacturer", "website": "https://www.ti.com", "aliases": ["TI"], "note": "Analog and embedded processors" },
-  { "id": "onsemi", "name": "onsemi", "legal_name": "ON Semiconductor Corporation", "country": "US", "category": "component_manufacturer", "website": "https://www.onsemi.com", "aliases": ["ON Semiconductor", "Fairchild"] },
-  { "id": "nxp", "name": "NXP Semiconductors", "legal_name": "NXP B.V.", "country": "NL", "category": "component_manufacturer", "website": "https://www.nxp.com", "aliases": ["NXP"] },
-  { "id": "microchip", "name": "Microchip Technology", "legal_name": "Microchip Technology Incorporated", "country": "US", "category": "component_manufacturer", "website": "https://www.microchip.com", "aliases": ["Microchip"] },
-  { "id": "renesas", "name": "Renesas Electronics", "legal_name": "Renesas Electronics Corporation", "country": "JP", "category": "component_manufacturer", "website": "https://www.renesas.com", "aliases": ["Renesas"] },
-  { "id": "stmicro", "name": "STMicroelectronics", "legal_name": "STMicroelectronics N.V.", "country": "CH", "category": "component_manufacturer", "website": "https://www.st.com", "aliases": ["ST", "ST Micro"] },
-  { "id": "infineon", "name": "Infineon Technologies", "legal_name": "Infineon Technologies AG", "country": "DE", "category": "component_manufacturer", "website": "https://www.infineon.com", "aliases": ["Infineon"] },
-  { "id": "murata", "name": "Murata Manufacturing", "legal_name": "Murata Manufacturing Co Ltd", "country": "JP", "category": "component_manufacturer", "website": "https://www.murata.com", "aliases": ["Murata"], "note": "Passives leader, MLCC dominant" },
-  { "id": "vishay", "name": "Vishay Intertechnology", "legal_name": "Vishay Intertechnology Inc", "country": "US", "category": "component_manufacturer", "website": "https://www.vishay.com", "aliases": ["Vishay"] },
-  { "id": "yageo", "name": "Yageo Corporation", "legal_name": "Yageo Corporation", "country": "TW", "category": "component_manufacturer", "website": "https://www.yageo.com", "aliases": ["Yageo"] },
-  { "id": "ase-tech", "name": "ASE Technology", "legal_name": "ASE Technology Holding Co Ltd", "country": "TW", "category": "test_house", "website": "https://www.aseglobal.com", "aliases": ["ASE", "Advanced Semiconductor Engineering"], "note": "World's largest OSAT" },
-  { "id": "amkor", "name": "Amkor Technology", "legal_name": "Amkor Technology Inc", "country": "US", "category": "test_house", "website": "https://www.amkor.com", "aliases": ["Amkor"] },
-
-  { "id": "digikey", "name": "Digi-Key Electronics", "legal_name": "Digi-Key Electronics", "country": "US", "category": "distributor_authorised", "website": "https://www.digikey.com", "aliases": ["DigiKey"] },
-  { "id": "mouser", "name": "Mouser Electronics", "legal_name": "Mouser Electronics Inc", "country": "US", "category": "distributor_authorised", "website": "https://www.mouser.com", "aliases": ["Mouser"] },
-  { "id": "arrow", "name": "Arrow Electronics", "legal_name": "Arrow Electronics Inc", "country": "US", "category": "distributor_authorised", "website": "https://www.arrow.com", "aliases": ["Arrow"] },
-  { "id": "avnet", "name": "Avnet Inc", "legal_name": "Avnet Inc", "country": "US", "category": "distributor_authorised", "website": "https://www.avnet.com", "aliases": ["Avnet"] },
-  { "id": "future-electronics", "name": "Future Electronics", "country": "CA", "category": "distributor_authorised", "website": "https://www.futureelectronics.com", "aliases": [] },
-
-  { "id": "compal", "name": "Compal Electronics", "country": "TW", "category": "ems", "website": "https://www.compal.com", "aliases": ["Compal"] },
-  { "id": "quanta-computer", "name": "Quanta Computer", "country": "TW", "category": "ems", "website": "https://www.quantatw.com", "aliases": ["Quanta"] },
-  { "id": "sanmina", "name": "Sanmina Corporation", "country": "US", "category": "ems", "website": "https://www.sanmina.com", "aliases": ["Sanmina"] },
-  { "id": "celestica", "name": "Celestica", "country": "CA", "category": "ems", "website": "https://www.celestica.com", "aliases": [] },
-  { "id": "flex-ltd", "name": "Flex Ltd", "legal_name": "Flex Ltd (parent)", "country": "SG", "category": "ems", "website": "https://www.flex.com", "aliases": ["Flex parent"] },
-
-  { "id": "mysuru-precision", "name": "Mysuru Precision Electronics", "country": "IN", "category": "component_manufacturer", "is_illustrative": true, "note": "Illustrative SME — small-scale resistor/inductor maker, GST-registered, no PLI" },
-  { "id": "deccan-pcb", "name": "Deccan PCB Works", "country": "IN", "category": "pcb_fabricator", "is_illustrative": true, "note": "Illustrative SME — 2-layer PCB house in Hyderabad, family-run" },
-  { "id": "konkan-circuits", "name": "Konkan Circuit Solutions", "country": "IN", "category": "ems", "is_illustrative": true, "note": "Illustrative SME — automotive harness assembly, Pune" },
-  { "id": "punjab-power-mod", "name": "Punjab Power Modules", "country": "IN", "category": "component_manufacturer", "is_illustrative": true, "note": "Illustrative SME — SMPS modules, mid-tier exporter" },
-  { "id": "vellore-passives", "name": "Vellore Passives Pvt Ltd", "country": "IN", "category": "component_manufacturer", "is_illustrative": true, "note": "Illustrative SME — capacitor + inductor assembly" },
-  { "id": "kerala-coast-emd", "name": "Kerala Coast Embedded", "country": "IN", "category": "ems", "is_illustrative": true, "note": "Illustrative SME — small-batch IoT board EMS" },
-  { "id": "ahmedabad-led", "name": "Ahmedabad LED Systems", "country": "IN", "category": "ems", "is_illustrative": true, "note": "Illustrative SME — LED driver assembler" },
-  { "id": "noida-pcb-tech", "name": "Noida PCB Tech", "country": "IN", "category": "pcb_fabricator", "is_illustrative": true, "note": "Illustrative SME — 4-layer PCB shop, BIS-pending" },
-  { "id": "chandigarh-instrument", "name": "Chandigarh Instrumentation", "country": "IN", "category": "ems", "is_illustrative": true, "note": "Illustrative SME — measurement instrument EMS" },
-  { "id": "tirupati-chip-test", "name": "Tirupati Chip Test Services", "country": "IN", "category": "test_house", "is_illustrative": true, "note": "Illustrative SME — backend test services for legacy nodes" },
-  { "id": "rajasthan-magnetics", "name": "Rajasthan Magnetics", "country": "IN", "category": "component_manufacturer", "is_illustrative": true, "note": "Illustrative SME — transformer + inductor winder" },
-  { "id": "bengal-broker-co", "name": "Bengal Broker Components", "country": "IN", "category": "distributor_broker", "is_illustrative": true, "note": "Illustrative SME — independent distributor, mixed authorised/non-authorised inventory" },
-  { "id": "indore-precision", "name": "Indore Precision Manufacturing", "country": "IN", "category": "ems", "is_illustrative": true, "note": "Illustrative SME — defence-vendor aspirant, AS9100D-pending" },
-  { "id": "patna-control", "name": "Patna Control Systems", "country": "IN", "category": "ems", "is_illustrative": true, "note": "Illustrative SME — PLC enclosures, building automation" },
-  { "id": "gurgaon-rf", "name": "Gurgaon RF Components", "country": "IN", "category": "component_manufacturer", "is_illustrative": true, "note": "Illustrative SME — RF connectors and antennas" },
-  { "id": "siliguri-cable", "name": "Siliguri Cable Assemblies", "country": "IN", "category": "component_manufacturer", "is_illustrative": true, "note": "Illustrative SME — wire harness assembler" },
-  { "id": "varanasi-light", "name": "Varanasi Lighting Electronics", "country": "IN", "category": "ems", "is_illustrative": true, "note": "Illustrative SME — LED bulb assembler, BIS-listed" },
-  { "id": "thane-microsensor", "name": "Thane Micro Sensors", "country": "IN", "category": "component_manufacturer", "is_illustrative": true, "note": "Illustrative SME — MEMS pressure sensor packager" },
-  { "id": "coimbatore-power", "name": "Coimbatore Power Electronics", "country": "IN", "category": "ems", "is_illustrative": true, "note": "Illustrative SME — solar inverter assembly" },
-  { "id": "pune-thermal", "name": "Pune Thermal Solutions", "country": "IN", "category": "component_manufacturer", "is_illustrative": true, "note": "Illustrative SME — heatsink and thermal pad supplier" },
-
-  { "id": "shenzhen-shadow-corp", "name": "Shenzhen Shadow Components", "legal_name": "Shenzhen Shadow Components Trading Co Ltd", "country": "CN", "category": "distributor_broker", "aliases": ["SSCT", "Shadow Components"], "is_illustrative": true, "note": "Illustrative — World Bank debarred entity (synthetic)" },
-  { "id": "dnipro-microelectronics", "name": "Dnipro Microelectronics", "country": "RU", "category": "component_manufacturer", "aliases": ["DME"], "is_illustrative": true, "note": "Illustrative — synthetic OFAC-listed entity" },
-  { "id": "shell-electronics-bvi", "name": "Apex Global Sourcing", "legal_name": "Apex Global Sourcing (BVI) Ltd", "country": "VG", "category": "distributor_broker", "aliases": ["Apex BVI", "AGS"], "is_illustrative": true, "note": "Illustrative — synthetic shell-company, both OFAC and World Bank flagged" },
-  { "id": "mumbai-grey-market", "name": "Mumbai Grey Market Brokers", "country": "IN", "category": "distributor_broker", "is_illustrative": true, "note": "Illustrative — synthetic high-risk Indian broker, mixed sourcing claims" },
-  { "id": "guangdong-relabel", "name": "Guangdong Relabel Industries", "country": "CN", "category": "distributor_broker", "is_illustrative": true, "note": "Illustrative — synthetic component-remarking risk profile" }
+  {
+    "id": "dixon-tech",
+    "name": "Dixon Technologies",
+    "legal_name": "Dixon Technologies (India) Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L32101DL1993PLC056320",
+    "website": "https://www.dixoninfo.com",
+    "incorporated": "1993-01-13",
+    "aliases": [
+      "Dixon",
+      "Dixon Technologies India"
+    ],
+    "note": "Listed PLI awardee (Mobile Manufacturing)"
+  },
+  {
+    "id": "foxconn-india",
+    "name": "Foxconn Hon Hai India",
+    "legal_name": "Hon Hai Technology India Mega Development Pvt Ltd",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.foxconn.com",
+    "aliases": [
+      "Foxconn",
+      "Hon Hai India"
+    ],
+    "note": "Apple's primary contract manufacturer in India"
+  },
+  {
+    "id": "pegatron-india",
+    "name": "Pegatron India",
+    "legal_name": "Pegatron Technology India Pvt Ltd",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.pegatroncorp.com",
+    "aliases": [
+      "Pegatron"
+    ]
+  },
+  {
+    "id": "wistron-india",
+    "name": "Wistron Infocomm India",
+    "legal_name": "Wistron Infocomm Manufacturing (India) Pvt Ltd",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.wistron.com",
+    "aliases": [
+      "Wistron"
+    ]
+  },
+  {
+    "id": "lava-international",
+    "name": "Lava International",
+    "legal_name": "Lava International Limited",
+    "country": "IN",
+    "category": "oem",
+    "cin": "U32109DL2009PLC195124",
+    "website": "https://www.lavamobiles.com",
+    "aliases": [
+      "Lava"
+    ]
+  },
+  {
+    "id": "optiemus-electronics",
+    "name": "Optiemus Electronics",
+    "legal_name": "Optiemus Electronics Limited",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.optiemuselectronics.com",
+    "aliases": [
+      "Optiemus"
+    ],
+    "note": "PLI awardee"
+  },
+  {
+    "id": "bhagwati-products",
+    "name": "Bhagwati Products",
+    "legal_name": "Bhagwati Products Limited",
+    "country": "IN",
+    "category": "ems",
+    "aliases": [
+      "Bhagwati",
+      "Karbonn"
+    ]
+  },
+  {
+    "id": "amber-enterprises",
+    "name": "Amber Enterprises India",
+    "legal_name": "Amber Enterprises India Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L28910PB1990PLC010265",
+    "website": "https://www.ambergroupindia.com",
+    "aliases": [
+      "Amber Group"
+    ]
+  },
+  {
+    "id": "syrma-sgs",
+    "name": "Syrma SGS Technology",
+    "legal_name": "Syrma SGS Technology Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L30007TN2004PLC053837",
+    "website": "https://www.syrmasgs.com",
+    "aliases": [
+      "Syrma"
+    ]
+  },
+  {
+    "id": "kaynes-tech",
+    "name": "Kaynes Technology",
+    "legal_name": "Kaynes Technology India Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L29299KA1988PLC008750",
+    "website": "https://www.kaynestechnology.com",
+    "aliases": [
+      "Kaynes"
+    ]
+  },
+  {
+    "id": "tata-electronics",
+    "name": "Tata Electronics",
+    "legal_name": "Tata Electronics Private Limited",
+    "country": "IN",
+    "category": "semiconductor_fab",
+    "website": "https://www.tataelectronics.com",
+    "aliases": [
+      "Tata Elxsi",
+      "Tata Semiconductor"
+    ],
+    "note": "Building India's first commercial semiconductor fab in Dholera"
+  },
+  {
+    "id": "vedanta-foxconn",
+    "name": "Vedanta Foxconn JV",
+    "country": "IN",
+    "category": "semiconductor_fab",
+    "aliases": [
+      "Vedanta Semiconductor",
+      "Vedanta-Foxconn"
+    ],
+    "note": "JV formally dissolved 2025"
+  },
+  {
+    "id": "elcina-pcb-1",
+    "name": "Genus Electrotech",
+    "legal_name": "Genus Electrotech Limited",
+    "country": "IN",
+    "category": "pcb_fabricator",
+    "aliases": [
+      "Genus"
+    ]
+  },
+  {
+    "id": "cyient-dlm",
+    "name": "Cyient DLM",
+    "legal_name": "Cyient DLM Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L72200TG1993PLC015581",
+    "website": "https://www.cyientdlm.com",
+    "aliases": [
+      "Cyient",
+      "Rangsons"
+    ]
+  },
+  {
+    "id": "avalon-tech",
+    "name": "Avalon Technologies",
+    "legal_name": "Avalon Technologies Limited",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.avalontec.com",
+    "aliases": [
+      "Avalon"
+    ]
+  },
+  {
+    "id": "epack-durables",
+    "name": "Epack Durable",
+    "legal_name": "Epack Durable Limited",
+    "country": "IN",
+    "category": "ems",
+    "aliases": [
+      "Epack"
+    ]
+  },
+  {
+    "id": "vvdn-tech",
+    "name": "VVDN Technologies",
+    "legal_name": "VVDN Technologies Private Limited",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.vvdntech.com",
+    "aliases": [
+      "VVDN"
+    ]
+  },
+  {
+    "id": "sahasra-electronics",
+    "name": "Sahasra Electronics",
+    "legal_name": "Sahasra Electronics Solutions Pvt Ltd",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "aliases": [
+      "Sahasra"
+    ]
+  },
+  {
+    "id": "smile-electronics",
+    "name": "Smile Electronics",
+    "legal_name": "Smile Electronics Limited",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "aliases": []
+  },
+  {
+    "id": "centum-electronics",
+    "name": "Centum Electronics",
+    "legal_name": "Centum Electronics Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L85110KA1993PLC013875",
+    "website": "https://www.centumelectronics.com",
+    "aliases": [
+      "Centum"
+    ]
+  },
+  {
+    "id": "bharat-fih",
+    "name": "Bharat FIH",
+    "legal_name": "Bharat FIH Limited",
+    "country": "IN",
+    "category": "ems",
+    "aliases": [
+      "FIH India",
+      "Foxconn Bharat"
+    ]
+  },
+  {
+    "id": "moschip-tech",
+    "name": "MosChip Technologies",
+    "legal_name": "MosChip Technologies Limited",
+    "country": "IN",
+    "category": "semiconductor_fab",
+    "cin": "L31909TG1999PLC032184",
+    "website": "https://www.moschip.com",
+    "aliases": [
+      "MosChip"
+    ]
+  },
+  {
+    "id": "salcomp-india",
+    "name": "Salcomp India",
+    "legal_name": "Salcomp Manufacturing India Pvt Ltd",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.salcomp.com",
+    "aliases": [
+      "Salcomp"
+    ],
+    "note": "PLI awardee, mobile chargers"
+  },
+  {
+    "id": "jabil-india",
+    "name": "Jabil India",
+    "legal_name": "Jabil Circuit India Pvt Ltd",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.jabil.com",
+    "aliases": [
+      "Jabil"
+    ]
+  },
+  {
+    "id": "flex-india",
+    "name": "Flex India",
+    "legal_name": "Flextronics Technologies (India) Pvt Ltd",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.flex.com",
+    "aliases": [
+      "Flextronics India"
+    ]
+  },
+  {
+    "id": "bel-bengaluru",
+    "name": "Bharat Electronics Limited",
+    "legal_name": "Bharat Electronics Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L32309KA1954GOI000787",
+    "website": "https://www.bel-india.in",
+    "aliases": [
+      "BEL"
+    ],
+    "note": "Defence PSU, Navratna company"
+  },
+  {
+    "id": "iti-limited",
+    "name": "ITI Limited",
+    "legal_name": "ITI Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L32202KA1950GOI000640",
+    "website": "https://www.itiltd.in",
+    "aliases": [
+      "ITI"
+    ],
+    "note": "Telecom PSU under DoT"
+  },
+  {
+    "id": "tejas-networks",
+    "name": "Tejas Networks",
+    "legal_name": "Tejas Networks Limited",
+    "country": "IN",
+    "category": "oem",
+    "cin": "L72900KA2000PLC026980",
+    "website": "https://www.tejasnetworks.com",
+    "aliases": [
+      "Tejas"
+    ],
+    "note": "Tata-owned networking equipment OEM"
+  },
+  {
+    "id": "hfcl",
+    "name": "HFCL",
+    "legal_name": "HFCL Limited",
+    "country": "IN",
+    "category": "oem",
+    "cin": "L64200HR1987PLC074093",
+    "website": "https://www.hfcl.com",
+    "aliases": [
+      "Himachal Futuristic"
+    ]
+  },
+  {
+    "id": "sterlite-tech",
+    "name": "Sterlite Technologies",
+    "legal_name": "Sterlite Technologies Limited",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "cin": "L31300MH2000PLC269062",
+    "website": "https://www.stl.tech",
+    "aliases": [
+      "STL"
+    ],
+    "note": "Optical fiber + networking"
+  },
+  {
+    "id": "tata-elxsi",
+    "name": "Tata Elxsi",
+    "legal_name": "Tata Elxsi Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L85110KA1989PLC009968",
+    "website": "https://www.tataelxsi.com",
+    "aliases": []
+  },
+  {
+    "id": "rakon-india",
+    "name": "Rakon India",
+    "legal_name": "Rakon India Pvt Ltd",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "website": "https://www.rakon.com",
+    "aliases": [
+      "Rakon"
+    ],
+    "note": "Frequency control products (XOs, OCXOs)"
+  },
+  {
+    "id": "padmini-vna",
+    "name": "Padmini VNA Mechatronics",
+    "legal_name": "Padmini VNA Mechatronics Limited",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "website": "https://www.padminivna.com",
+    "aliases": [
+      "Padmini VNA"
+    ]
+  },
+  {
+    "id": "bosch-india",
+    "name": "Bosch India",
+    "legal_name": "Bosch Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L85110KA1951PLC000761",
+    "website": "https://www.bosch.in",
+    "aliases": [
+      "Bosch"
+    ],
+    "note": "Multinational, automotive electronics dominant"
+  },
+  {
+    "id": "honeywell-india",
+    "name": "Honeywell Automation India",
+    "legal_name": "Honeywell Automation India Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L29142PN1984PLC033074",
+    "website": "https://www.honeywell.com/in",
+    "aliases": [
+      "Honeywell"
+    ]
+  },
+  {
+    "id": "continental-india",
+    "name": "Continental Automotive India",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.continental.com/en-in",
+    "aliases": [
+      "Continental"
+    ]
+  },
+  {
+    "id": "mysuru-precision",
+    "name": "Mysuru Precision Electronics",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 small-scale resistor/inductor maker, GST-registered, no PLI"
+  },
+  {
+    "id": "deccan-pcb",
+    "name": "Deccan PCB Works",
+    "country": "IN",
+    "category": "pcb_fabricator",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 2-layer PCB house in Hyderabad, family-run"
+  },
+  {
+    "id": "konkan-circuits",
+    "name": "Konkan Circuit Solutions",
+    "country": "IN",
+    "category": "ems",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 automotive harness assembly, Pune"
+  },
+  {
+    "id": "punjab-power-mod",
+    "name": "Punjab Power Modules",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 SMPS modules, mid-tier exporter"
+  },
+  {
+    "id": "vellore-passives",
+    "name": "Vellore Passives Pvt Ltd",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 capacitor + inductor assembly"
+  },
+  {
+    "id": "kerala-coast-emd",
+    "name": "Kerala Coast Embedded",
+    "country": "IN",
+    "category": "ems",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 small-batch IoT board EMS"
+  },
+  {
+    "id": "ahmedabad-led",
+    "name": "Ahmedabad LED Systems",
+    "country": "IN",
+    "category": "ems",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 LED driver assembler"
+  },
+  {
+    "id": "noida-pcb-tech",
+    "name": "Noida PCB Tech",
+    "country": "IN",
+    "category": "pcb_fabricator",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 4-layer PCB shop, BIS-pending"
+  },
+  {
+    "id": "chandigarh-instrument",
+    "name": "Chandigarh Instrumentation",
+    "country": "IN",
+    "category": "ems",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 measurement instrument EMS"
+  },
+  {
+    "id": "tirupati-chip-test",
+    "name": "Tirupati Chip Test Services",
+    "country": "IN",
+    "category": "test_house",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 backend test services for legacy nodes"
+  },
+  {
+    "id": "rajasthan-magnetics",
+    "name": "Rajasthan Magnetics",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 transformer + inductor winder"
+  },
+  {
+    "id": "bengal-broker-co",
+    "name": "Bengal Broker Components",
+    "country": "IN",
+    "category": "distributor_broker",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 independent distributor, mixed authorised/non-authorised inventory"
+  },
+  {
+    "id": "indore-precision",
+    "name": "Indore Precision Manufacturing",
+    "country": "IN",
+    "category": "ems",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 defence-vendor aspirant, AS9100D-pending"
+  },
+  {
+    "id": "patna-control",
+    "name": "Patna Control Systems",
+    "country": "IN",
+    "category": "ems",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 PLC enclosures, building automation"
+  },
+  {
+    "id": "gurgaon-rf",
+    "name": "Gurgaon RF Components",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 RF connectors and antennas"
+  },
+  {
+    "id": "siliguri-cable",
+    "name": "Siliguri Cable Assemblies",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 wire harness assembler"
+  },
+  {
+    "id": "varanasi-light",
+    "name": "Varanasi Lighting Electronics",
+    "country": "IN",
+    "category": "ems",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 LED bulb assembler, BIS-listed"
+  },
+  {
+    "id": "thane-microsensor",
+    "name": "Thane Micro Sensors",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 MEMS pressure sensor packager"
+  },
+  {
+    "id": "coimbatore-power",
+    "name": "Coimbatore Power Electronics",
+    "country": "IN",
+    "category": "ems",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 solar inverter assembly"
+  },
+  {
+    "id": "pune-thermal",
+    "name": "Pune Thermal Solutions",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 heatsink and thermal pad supplier"
+  },
+  {
+    "id": "shenzhen-shadow-corp",
+    "name": "Shenzhen Shadow Components",
+    "legal_name": "Shenzhen Shadow Components Trading Co Ltd",
+    "country": "CN",
+    "category": "distributor_broker",
+    "aliases": [
+      "SSCT",
+      "Shadow Components"
+    ],
+    "is_illustrative": true,
+    "note": "Illustrative \u2014 World Bank debarred entity (synthetic)"
+  },
+  {
+    "id": "dnipro-microelectronics",
+    "name": "Dnipro Microelectronics",
+    "country": "RU",
+    "category": "component_manufacturer",
+    "aliases": [
+      "DME"
+    ],
+    "is_illustrative": true,
+    "note": "Illustrative \u2014 synthetic OFAC-listed entity"
+  },
+  {
+    "id": "shell-electronics-bvi",
+    "name": "Apex Global Sourcing",
+    "legal_name": "Apex Global Sourcing (BVI) Ltd",
+    "country": "VG",
+    "category": "distributor_broker",
+    "aliases": [
+      "Apex BVI",
+      "AGS"
+    ],
+    "is_illustrative": true,
+    "note": "Illustrative \u2014 synthetic shell-company, both OFAC and World Bank flagged"
+  },
+  {
+    "id": "mumbai-grey-market",
+    "name": "Mumbai Grey Market Brokers",
+    "country": "IN",
+    "category": "distributor_broker",
+    "is_illustrative": true,
+    "note": "Illustrative \u2014 synthetic high-risk Indian broker, mixed sourcing claims"
+  },
+  {
+    "id": "guangdong-relabel",
+    "name": "Guangdong Relabel Industries",
+    "country": "CN",
+    "category": "distributor_broker",
+    "is_illustrative": true,
+    "note": "Illustrative \u2014 synthetic component-remarking risk profile"
+  },
+  {
+    "id": "saankhya-labs",
+    "name": "Saankhya Labs",
+    "legal_name": "Saankhya Labs Private Limited",
+    "country": "IN",
+    "category": "semiconductor_fab",
+    "website": "https://www.saankhyalabs.com",
+    "incorporated": "2007-01-01",
+    "aliases": [
+      "Saankhya"
+    ],
+    "is_illustrative": false,
+    "note": "Bangalore-headquartered SDR / 5G chip design firm; subsidiary of Tejas Networks."
+  },
+  {
+    "id": "signalchip",
+    "name": "Signalchip Innovations",
+    "legal_name": "Signalchip Innovations Private Limited",
+    "country": "IN",
+    "category": "semiconductor_fab",
+    "website": "https://www.signalchip.com",
+    "incorporated": "2010-01-01",
+    "aliases": [
+      "Signalchip"
+    ],
+    "is_illustrative": false,
+    "note": "Bangalore-based fabless semiconductor company; designed India's first 4G/5G SoCs."
+  },
+  {
+    "id": "wipro-3d",
+    "name": "Wipro 3D",
+    "legal_name": "Wipro Infrastructure Engineering",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.wipro3d.com",
+    "incorporated": "2012-01-01",
+    "aliases": [
+      "Wipro 3D"
+    ],
+    "is_illustrative": false,
+    "note": "Bangalore-based metal additive manufacturing arm of Wipro."
+  },
+  {
+    "id": "zetwerk-bangalore",
+    "name": "Zetwerk Manufacturing",
+    "legal_name": "Zetwerk Manufacturing Businesses Pvt Ltd",
+    "country": "IN",
+    "category": "ems",
+    "cin": "U28900KA2017PTC107917",
+    "website": "https://www.zetwerk.com",
+    "incorporated": "2017-01-01",
+    "aliases": [
+      "Zetwerk"
+    ],
+    "is_illustrative": false,
+    "note": "Bangalore-based manufacturing services unicorn; PCB & precision components."
+  },
+  {
+    "id": "tessolve-semi",
+    "name": "Tessolve Semiconductor",
+    "legal_name": "Tessolve Semiconductor Pvt Ltd",
+    "country": "IN",
+    "category": "test_house",
+    "website": "https://www.tessolve.com",
+    "incorporated": "2004-01-01",
+    "aliases": [
+      "Tessolve"
+    ],
+    "is_illustrative": false,
+    "note": "Bangalore-headquartered semiconductor test and engineering services firm."
+  },
+  {
+    "id": "tata-elxsi-blr",
+    "name": "Tata Elxsi - Bangalore Design Centre",
+    "legal_name": "Tata Elxsi Limited (Whitefield Centre)",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.tataelxsi.com",
+    "incorporated": "1989-01-01",
+    "aliases": [
+      "Tata Elxsi Whitefield"
+    ],
+    "is_illustrative": false,
+    "note": "Tata Elxsi's Bangalore design and prototyping centre at ITPB Whitefield."
+  },
+  {
+    "id": "altran-india",
+    "name": "Capgemini Engineering India",
+    "legal_name": "Capgemini Engineering R&D India Pvt Ltd",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://capgemini-engineering.com",
+    "incorporated": "2003-01-01",
+    "aliases": [
+      "Altran India",
+      "Capgemini Engineering"
+    ],
+    "is_illustrative": false,
+    "note": "Bangalore-based ER&D; large captive engineering centre."
+  },
+  {
+    "id": "peenya-pcb-craft",
+    "name": "Peenya PCB Craft",
+    "legal_name": "Peenya PCB Craft Pvt Ltd",
+    "country": "IN",
+    "category": "pcb_fabricator",
+    "incorporated": "2014-01-01",
+    "aliases": [
+      "PPC"
+    ],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 single-line PCB fabrication unit in Peenya Industrial Area."
+  },
+  {
+    "id": "whitefield-microsmt",
+    "name": "Whitefield MicroSMT",
+    "legal_name": "Whitefield MicroSMT Solutions",
+    "country": "IN",
+    "category": "ems",
+    "incorporated": "2018-01-01",
+    "aliases": [
+      "WMS"
+    ],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 small-batch SMT assembly, Whitefield."
+  },
+  {
+    "id": "ec-power-elx",
+    "name": "Electronic City Power Electronics",
+    "legal_name": "ECP Electronics Pvt Ltd",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "incorporated": "2010-01-01",
+    "aliases": [
+      "ECPE"
+    ],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 DC-DC converters and SMPS modules, Electronic City Phase II."
+  },
+  {
+    "id": "bommanahalli-cable",
+    "name": "Bommanahalli Cable Assemblies",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "incorporated": "2016-01-01",
+    "aliases": [],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 wiring harness and cable assembly, Bommanahalli."
+  },
+  {
+    "id": "yelahanka-instr",
+    "name": "Yelahanka Instrumentation",
+    "country": "IN",
+    "category": "ems",
+    "incorporated": "2015-01-01",
+    "aliases": [
+      "YI"
+    ],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 calibration and test instrument assembly."
+  },
+  {
+    "id": "rajajinagar-led",
+    "name": "Rajajinagar LED Solutions",
+    "country": "IN",
+    "category": "ems",
+    "incorporated": "2017-01-01",
+    "aliases": [],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 LED drivers and luminaire assembly."
+  },
+  {
+    "id": "doddaballapur-sensor",
+    "name": "Doddaballapur Sensor Tech",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "incorporated": "2019-01-01",
+    "aliases": [],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 temperature and pressure sensors, Doddaballapur Industrial Area."
+  },
+  {
+    "id": "hosur-rd-emd",
+    "name": "Hosur Road Embedded Devices",
+    "country": "IN",
+    "category": "ems",
+    "incorporated": "2013-01-01",
+    "aliases": [
+      "HRED"
+    ],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 small embedded board EMS off Hosur Road."
+  },
+  {
+    "id": "jigani-relay",
+    "name": "Jigani Relay Industries",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "incorporated": "2008-01-01",
+    "aliases": [],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 electromechanical relays and contactors, Jigani."
+  },
+  {
+    "id": "kr-puram-passives",
+    "name": "KR Puram Passive Components",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "incorporated": "2011-01-01",
+    "aliases": [],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 wirewound resistors and chokes."
+  },
+  {
+    "id": "anekal-magnetics",
+    "name": "Anekal Magnetics",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "incorporated": "2009-01-01",
+    "aliases": [
+      "AM"
+    ],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 ferrite cores and inductors."
+  },
+  {
+    "id": "narsapura-pcb",
+    "name": "Narsapura PCB Manufacturing",
+    "country": "IN",
+    "category": "pcb_fabricator",
+    "incorporated": "2020-01-01",
+    "aliases": [],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 newer 4-layer PCB fab, Narsapura cluster."
+  },
+  {
+    "id": "mahadevpura-test",
+    "name": "Mahadevpura Test Solutions",
+    "country": "IN",
+    "category": "test_house",
+    "incorporated": "2016-01-01",
+    "aliases": [
+      "MTS"
+    ],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 bare-board and assembled-board electrical testing."
+  },
+  {
+    "id": "bidadi-emi-emc",
+    "name": "Bidadi EMI/EMC Lab",
+    "country": "IN",
+    "category": "test_house",
+    "incorporated": "2014-01-01",
+    "aliases": [],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 electromagnetic compliance testing services."
+  },
+  {
+    "id": "nelamangala-encl",
+    "name": "Nelamangala Enclosure Works",
+    "country": "IN",
+    "category": "ems",
+    "incorporated": "2012-01-01",
+    "aliases": [],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 sheet-metal electronic enclosures."
+  },
+  {
+    "id": "soladevanahalli-tools",
+    "name": "Soladevanahalli Tooling",
+    "country": "IN",
+    "category": "ems",
+    "incorporated": "2011-01-01",
+    "aliases": [],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 injection-mould tooling for plastic electronic housings."
+  },
+  {
+    "id": "attibele-cleanroom",
+    "name": "Attibele Cleanroom Assembly",
+    "country": "IN",
+    "category": "ems",
+    "incorporated": "2018-01-01",
+    "aliases": [],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 class-10000 cleanroom assembly for medical electronics."
+  },
+  {
+    "id": "kengeri-batt",
+    "name": "Kengeri Battery Systems",
+    "country": "IN",
+    "category": "ems",
+    "incorporated": "2019-01-01",
+    "aliases": [
+      "KBS"
+    ],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 Li-ion BMS assembly, Kengeri."
+  },
+  {
+    "id": "magadi-rd-coils",
+    "name": "Magadi Road Coil Industries",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "incorporated": "2013-01-01",
+    "aliases": [],
+    "is_illustrative": true,
+    "note": "Illustrative SME \u2014 transformer and inductor coil winding."
+  }
 ]
