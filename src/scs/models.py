@@ -72,10 +72,18 @@ class Provenance(BaseModel):
     observed_at: datetime = Field(default_factory=_now)
     published_at: datetime | None = None
 
+    @field_validator("observed_at", "published_at")
+    @classmethod
+    def _ensure_aware(cls, v: datetime | None) -> datetime | None:
+        if v is None:
+            return v
+        if v.tzinfo is None:
+            return v.replace(tzinfo=timezone.utc)
+        return v
+
     @property
     def credibility(self) -> float:
         """Credibility prior in [0, 1] derived from the source URL/name."""
-        # Prefer URL-based lookup; fall back to name-based
         url_prior = credibility_of(self.source_url) if self.source_url else None
         name_prior = credibility_of(self.source_name)
         if url_prior is not None and self.source_url:

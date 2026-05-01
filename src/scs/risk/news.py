@@ -9,10 +9,10 @@ or RSS feeds; the in-memory shape is unchanged.
 from __future__ import annotations
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from functools import lru_cache
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from scs.config import CONFIG
 
@@ -25,10 +25,16 @@ class NewsArticle(BaseModel):
     url: str | None = None
     published_at: datetime | None = None
 
-    # Set true when an article was injected by the adversarial harness.
-    # Useful for sanity-checking the defense (we should NOT see this field
-    # in the model's actual decision path — it's for evaluation only).
     is_synthetic: bool = Field(default=False, exclude=True)
+
+    @field_validator("published_at")
+    @classmethod
+    def _ensure_aware(cls, v: datetime | None) -> datetime | None:
+        if v is None:
+            return v
+        if v.tzinfo is None:
+            return v.replace(tzinfo=timezone.utc)
+        return v
 
 
 @lru_cache(maxsize=1)
