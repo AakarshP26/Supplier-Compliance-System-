@@ -68,7 +68,9 @@ class TestBISCRS:
         assert "R-" in c.detail  # registration number quoted
 
     def test_unregistered_indian_supplier_fails(self):
-        c = bis_crs.check(_supplier("sahasra-electronics"))
+        # Konkan Circuit Solutions is an illustrative SME with no BIS
+        # registration in our reference data.
+        c = bis_crs.check(_supplier("konkan-circuits"))
         assert c.status == "fail"
 
     def test_unregistered_foreign_supplier_unknown(self):

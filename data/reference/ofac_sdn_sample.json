@@ -22,5 +22,13 @@
     "country": "RU",
     "aliases": ["BCO"],
     "evidence_url": "https://sanctionssearch.ofac.treas.gov/"
+  },
+  {
+    "name": "Guangdong Relabel Industries",
+    "type": "Entity",
+    "programs": ["EAR-PLC"],
+    "country": "CN",
+    "remarks": "Illustrative synthetic entry — designated for repeated component-remarking violations.",
+    "evidence_url": "https://sanctionssearch.ofac.treas.gov/"
   }
 ]

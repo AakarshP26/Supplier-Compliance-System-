@@ -14,5 +14,13 @@
     "to_date": "2027-02-01",
     "grounds": "Substitution of counterfeit electronic components in World Bank-funded healthcare project.",
     "evidence_url": "https://projects.worldbank.org/en/projects-operations/procurement/debarred-firms"
+  },
+  {
+    "firm_name": "Mumbai Grey Market Brokers",
+    "country": "IN",
+    "from_date": "2025-09-01",
+    "to_date": "2027-09-01",
+    "grounds": "Illustrative synthetic entry — designated for misrepresentation in tender documentation under WB-funded project.",
+    "evidence_url": "https://projects.worldbank.org/en/projects-operations/procurement/debarred-firms"
   }
 ]
