@@ -159,3 +159,122 @@ def render(use_defense: bool, threshold: float) -> None:
         "Effective weight folds in source credibility, corroboration, and "
         "(when defense is on) burst + template-similarity penalties."
     )
+
+    # ---------- Extended profile (40+ verification parameters) ----------
+    if report.profile is not None:
+        from scs.scoring.parameters import parameter_contributions
+        prof = report.profile
+        section("Verification profile · 40+ parameters")
+        st.caption(
+            "Registrations, financials, operational capacity, certifications, "
+            "regulatory filings, and reputation signals — the data layer the "
+            "scorer reads in addition to compliance lists and news. See the "
+            "**Parameters used** page for the full taxonomy and per-parameter "
+            "thresholds."
+        )
+
+        incorp_year = supplier.incorporated.year if supplier.incorporated else None
+        param_contribs = parameter_contributions(prof, incorp_year)
+        n_known = sum(1 for v in prof.model_dump().values()
+                       if v not in (None, "unknown"))
+        n_signals = len(param_contribs)
+
+        c1, c2, c3 = st.columns(3)
+        with c1: kpi("Profile fields known", str(n_known))
+        with c2: kpi("Parameters scoring", str(n_signals), color=PALETTE["accent"])
+        with c3:
+            net = sum((pc.bpa.safe - pc.bpa.risky) * 100 for pc in param_contribs)
+            kpi("Net push from parameters", f"{net:+.1f}",
+                  color=PALETTE["ok"] if net > 0 else PALETTE["danger"])
+
+        # Three columns of fields, organised by section
+        sections = {
+            "Registrations": [
+                ("CIN",         prof.cin),
+                ("PAN",         prof.pan),
+                ("GSTIN",       prof.gstin),
+                ("Udyam",       prof.udyam_registration),
+                ("IEC",         prof.iec),
+                ("EPFO",        prof.epfo_registration),
+                ("ESIC",        prof.esic_registration),
+                ("Shop & Estab.", prof.shop_estab_license),
+            ],
+            "Financial": [
+                ("Udyam category",          prof.udyam_category.value if prof.udyam_category else None),
+                ("Annual turnover (₹ cr)",  prof.annual_turnover_cr),
+                ("Net worth (₹ cr)",        prof.net_worth_cr),
+                ("Current ratio",           prof.current_ratio),
+                ("Debt-to-equity",          prof.debt_to_equity),
+                ("Days payable outstanding", prof.days_payable_outstanding),
+                ("Days sales outstanding",   prof.days_sales_outstanding),
+                ("GST compliance score",     prof.gst_compliance_score),
+            ],
+            "Operations": [
+                ("Employees",               prof.employees),
+                ("Plant area (sqft)",       prof.plant_area_sqft),
+                ("Monthly capacity (units)", prof.monthly_capacity_units),
+                ("Capacity utilisation %",   prof.capacity_utilization_pct),
+                ("On-time delivery %",       prof.on_time_delivery_pct),
+                ("Defect rate (ppm)",        prof.defect_rate_ppm),
+            ],
+            "Quality": [
+                ("ISO 9001",     _cert_str(prof.iso_9001)),
+                ("ISO 14001",    _cert_str(prof.iso_14001)),
+                ("IATF 16949",   _cert_str(prof.iatf_16949)),
+                ("AS9100",       _cert_str(prof.as_9100)),
+                ("ISO 13485",    _cert_str(prof.iso_13485)),
+                ("IPC-A-610",    _cert_str(prof.ipc_a_610)),
+                ("BIS CRS active", prof.bis_crs_active),
+            ],
+            "Regulatory": [
+                ("MCA active",          prof.mca_status_active),
+                ("KSPCB pollution NOC", prof.pollution_noc_kspcb),
+                ("Fire NOC",            prof.fire_noc),
+                ("Factories Act licence", prof.factories_act_license),
+                ("EPF dues clear",      prof.epf_dues_clear),
+                ("ITR filed",           prof.income_tax_returns_filed),
+            ],
+            "Reputation": [
+                ("Domain age (years)",     prof.domain_age_years),
+                ("Online review (1-5)",    prof.online_review_score),
+                ("Customer references",    prof.customer_references_count),
+                ("Labour disputes (3 yr)", prof.labor_cases_3y),
+                ("Media coverage breadth", prof.media_coverage_breadth),
+            ],
+        }
+
+        # Three columns side-by-side
+        col_a, col_b, col_c = st.columns(3)
+        groups_to_cols = {
+            0: ("Registrations", "Quality"),
+            1: ("Financial", "Regulatory"),
+            2: ("Operations", "Reputation"),
+        }
+        cols = [col_a, col_b, col_c]
+        for i, col in enumerate(cols):
+            with col:
+                for group_name in groups_to_cols[i]:
+                    rows = sections[group_name]
+                    st.markdown(f"**{group_name}**")
+                    df_rows = []
+                    for label, val in rows:
+                        if val is None or val == "unknown":
+                            disp = "—"
+                        elif isinstance(val, float):
+                            disp = f"{val:,.2f}"
+                        elif isinstance(val, int):
+                            disp = f"{val:,}"
+                        else:
+                            disp = str(val)
+                        df_rows.append({"Field": label, "Value": disp})
+                    import pandas as _pd
+                    st.dataframe(_pd.DataFrame(df_rows), hide_index=True,
+                                 use_container_width=True)
+
+
+def _cert_str(status):
+    if status is None:
+        return None
+    if hasattr(status, "value"):
+        return status.value
+    return str(status)

@@ -27,7 +27,11 @@ def _score_directory(use_defense: bool) -> pd.DataFrame:
     for s in load_suppliers():
         comp = run_comp(s)
         risk = run_risk(s)
-        scr = fuse(s.id, comp, risk, use_defense=use_defense)
+        from scs.profile import get_profile
+        prof = get_profile(s.id)
+        ipy = s.incorporated.year if s.incorporated else None
+        scr = fuse(s.id, comp, risk, use_defense=use_defense,
+                   profile=prof, incorporation_year=ipy)
 
         risk_events = sorted({sg.event_type.value for sg in risk.signals
                               if sg.event_type.value != "positive"})

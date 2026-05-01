@@ -8,6 +8,7 @@ from scs.compliance.pipeline import run as run_comp
 from scs.data import load_suppliers
 from scs.evaluation.ground_truth import load_labels
 from scs.evaluation.metrics import RISK_THRESHOLD
+from scs.profile import get_profile
 from scs.risk.pipeline import run as run_risk
 from scs.scoring.fusion import fuse
 
@@ -26,7 +27,10 @@ def _portfolio(use_defense: bool):
     for s in suppliers:
         comp = run_comp(s)
         risk = run_risk(s)
-        scr = fuse(s.id, comp, risk, use_defense=use_defense)
+        prof = get_profile(s.id)
+        ipy = s.incorporated.year if s.incorporated else None
+        scr = fuse(s.id, comp, risk, use_defense=use_defense,
+                   profile=prof, incorporation_year=ipy)
         scores[s.id] = scr
         risk_profiles[s.id] = risk
         comp_reports[s.id] = comp
