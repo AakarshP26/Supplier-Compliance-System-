@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Dnipro Microelectronics",
+    "type": "Entity",
+    "programs": ["RUSSIA-EO14024"],
+    "country": "RU",
+    "remarks": "Designated under Executive Order 14024 for operating in the Russian Federation electronics sector.",
+    "evidence_url": "https://sanctionssearch.ofac.treas.gov/"
+  },
+  {
+    "name": "Apex Global Sourcing (BVI) Ltd",
+    "type": "Entity",
+    "programs": ["NS-PLC"],
+    "country": "VG",
+    "remarks": "Front company designated for evasion of US export controls on dual-use electronics.",
+    "evidence_url": "https://sanctionssearch.ofac.treas.gov/"
+  },
+  {
+    "name": "Bratislava Components OAO",
+    "type": "Entity",
+    "programs": ["RUSSIA-EO14024"],
+    "country": "RU",
+    "aliases": ["BCO"],
+    "evidence_url": "https://sanctionssearch.ofac.treas.gov/"
+  }
+]
