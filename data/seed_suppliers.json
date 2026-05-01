@@ -1,0 +1,224 @@
+[
+  {
+    "id": "dixon-tech",
+    "name": "Dixon Technologies",
+    "legal_name": "Dixon Technologies (India) Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L32101DL1993PLC056320",
+    "website": "https://www.dixoninfo.com",
+    "incorporated": "1993-01-13",
+    "aliases": ["Dixon", "Dixon Technologies India"]
+  },
+  {
+    "id": "foxconn-india",
+    "name": "Foxconn Hon Hai India",
+    "legal_name": "Hon Hai Technology India Mega Development Pvt Ltd",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.foxconn.com",
+    "aliases": ["Foxconn", "Hon Hai India"]
+  },
+  {
+    "id": "pegatron-india",
+    "name": "Pegatron India",
+    "legal_name": "Pegatron Technology India Pvt Ltd",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.pegatroncorp.com",
+    "aliases": ["Pegatron"]
+  },
+  {
+    "id": "wistron-india",
+    "name": "Wistron Infocomm India",
+    "legal_name": "Wistron Infocomm Manufacturing (India) Pvt Ltd",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.wistron.com",
+    "aliases": ["Wistron"]
+  },
+  {
+    "id": "lava-international",
+    "name": "Lava International",
+    "legal_name": "Lava International Limited",
+    "country": "IN",
+    "category": "oem",
+    "cin": "U32109DL2009PLC195124",
+    "website": "https://www.lavamobiles.com",
+    "aliases": ["Lava"]
+  },
+  {
+    "id": "optiemus-electronics",
+    "name": "Optiemus Electronics",
+    "legal_name": "Optiemus Electronics Limited",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.optiemuselectronics.com",
+    "aliases": ["Optiemus"]
+  },
+  {
+    "id": "bhagwati-products",
+    "name": "Bhagwati Products",
+    "legal_name": "Bhagwati Products Limited",
+    "country": "IN",
+    "category": "ems",
+    "aliases": ["Bhagwati", "Karbonn"]
+  },
+  {
+    "id": "amber-enterprises",
+    "name": "Amber Enterprises India",
+    "legal_name": "Amber Enterprises India Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L28910PB1990PLC010265",
+    "website": "https://www.ambergroupindia.com",
+    "aliases": ["Amber Group"]
+  },
+  {
+    "id": "syrma-sgs",
+    "name": "Syrma SGS Technology",
+    "legal_name": "Syrma SGS Technology Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L30007TN2004PLC053837",
+    "website": "https://www.syrmasgs.com",
+    "aliases": ["Syrma"]
+  },
+  {
+    "id": "kaynes-tech",
+    "name": "Kaynes Technology",
+    "legal_name": "Kaynes Technology India Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L29299KA1988PLC008750",
+    "website": "https://www.kaynestechnology.com",
+    "aliases": ["Kaynes"]
+  },
+  {
+    "id": "tata-electronics",
+    "name": "Tata Electronics",
+    "legal_name": "Tata Electronics Private Limited",
+    "country": "IN",
+    "category": "semiconductor_fab",
+    "website": "https://www.tataelectronics.com",
+    "aliases": ["Tata Elxsi", "Tata Semiconductor"]
+  },
+  {
+    "id": "vedanta-foxconn",
+    "name": "Vedanta Foxconn JV",
+    "country": "IN",
+    "category": "semiconductor_fab",
+    "aliases": ["Vedanta Semiconductor", "Vedanta-Foxconn"]
+  },
+  {
+    "id": "elcina-pcb-1",
+    "name": "Genus Electrotech",
+    "legal_name": "Genus Electrotech Limited",
+    "country": "IN",
+    "category": "pcb_fabricator",
+    "aliases": ["Genus"]
+  },
+  {
+    "id": "cyient-dlm",
+    "name": "Cyient DLM",
+    "legal_name": "Cyient DLM Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L72200TG1993PLC015581",
+    "website": "https://www.cyientdlm.com",
+    "aliases": ["Cyient", "Rangsons"]
+  },
+  {
+    "id": "avalon-tech",
+    "name": "Avalon Technologies",
+    "legal_name": "Avalon Technologies Limited",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.avalontec.com",
+    "aliases": ["Avalon"]
+  },
+  {
+    "id": "epack-durables",
+    "name": "Epack Durable",
+    "legal_name": "Epack Durable Limited",
+    "country": "IN",
+    "category": "ems",
+    "aliases": ["Epack"]
+  },
+  {
+    "id": "vvdn-tech",
+    "name": "VVDN Technologies",
+    "legal_name": "VVDN Technologies Private Limited",
+    "country": "IN",
+    "category": "ems",
+    "website": "https://www.vvdntech.com",
+    "aliases": ["VVDN"]
+  },
+  {
+    "id": "sahasra-electronics",
+    "name": "Sahasra Electronics",
+    "legal_name": "Sahasra Electronics Solutions Pvt Ltd",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "aliases": ["Sahasra"]
+  },
+  {
+    "id": "smile-electronics",
+    "name": "Smile Electronics",
+    "legal_name": "Smile Electronics Limited",
+    "country": "IN",
+    "category": "component_manufacturer",
+    "aliases": []
+  },
+  {
+    "id": "centum-electronics",
+    "name": "Centum Electronics",
+    "legal_name": "Centum Electronics Limited",
+    "country": "IN",
+    "category": "ems",
+    "cin": "L85110KA1993PLC013875",
+    "website": "https://www.centumelectronics.com",
+    "aliases": ["Centum"]
+  },
+  {
+    "id": "bharat-fih",
+    "name": "Bharat FIH",
+    "legal_name": "Bharat FIH Limited",
+    "country": "IN",
+    "category": "ems",
+    "aliases": ["FIH India", "Foxconn Bharat"]
+  },
+  {
+    "id": "moschip-tech",
+    "name": "MosChip Technologies",
+    "legal_name": "MosChip Technologies Limited",
+    "country": "IN",
+    "category": "semiconductor_fab",
+    "cin": "L31909TG1999PLC032184",
+    "website": "https://www.moschip.com",
+    "aliases": ["MosChip"]
+  },
+  {
+    "id": "shenzhen-shadow-corp",
+    "name": "Shenzhen Shadow Components",
+    "legal_name": "Shenzhen Shadow Components Trading Co Ltd",
+    "country": "CN",
+    "category": "distributor_broker",
+    "aliases": ["SSCT", "Shadow Components"]
+  },
+  {
+    "id": "dnipro-microelectronics",
+    "name": "Dnipro Microelectronics",
+    "country": "RU",
+    "category": "component_manufacturer",
+    "aliases": ["DME"]
+  },
+  {
+    "id": "shell-electronics-bvi",
+    "name": "Apex Global Sourcing",
+    "legal_name": "Apex Global Sourcing (BVI) Ltd",
+    "country": "VG",
+    "category": "distributor_broker",
+    "aliases": ["Apex BVI", "AGS"]
+  }
+]
