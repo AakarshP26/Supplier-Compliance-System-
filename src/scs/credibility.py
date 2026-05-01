@@ -41,6 +41,7 @@ _DOMAIN_PRIORS: dict[str, float] = {
     "sec.gov": _TIER_GOVERNMENT,
     "mca.gov.in": _TIER_GOVERNMENT,
     "bis.gov.in": _TIER_GOVERNMENT,
+    "crsbis.in": _TIER_GOVERNMENT,
     "meity.gov.in": _TIER_GOVERNMENT,
     "europa.eu": _TIER_GOVERNMENT,
     # Tier-1 news
