@@ -1,0 +1,30 @@
+{
+  "_doc": "Ground truth risky/safe labels for the 25 seed suppliers. Risky=true if the supplier appears in OFAC SDN, World Bank Debarred, or has clear factual basis (counterfeit findings, formal sanctions). Used solely for offline evaluation; the live system never reads this file.",
+  "labels": {
+    "dixon-tech": {"risky": false, "rationale": "Listed PLI awardee, BIS-registered, multiple positive earnings articles."},
+    "foxconn-india": {"risky": false, "rationale": "Tier-1 EMS with active Indian operations, BIS-registered."},
+    "pegatron-india": {"risky": false, "rationale": "Authorised contract manufacturer with no flagged issues."},
+    "wistron-india": {"risky": false, "rationale": "Authorised contract manufacturer with no flagged issues."},
+    "lava-international": {"risky": false, "rationale": "Listed Indian OEM, BIS-registered."},
+    "optiemus-electronics": {"risky": false, "rationale": "PLI awardee, BIS-registered."},
+    "bhagwati-products": {"risky": false, "rationale": "PLI awardee."},
+    "amber-enterprises": {"risky": false, "rationale": "Listed Indian EMS firm."},
+    "syrma-sgs": {"risky": false, "rationale": "Listed Indian EMS firm with active orderbook."},
+    "kaynes-tech": {"risky": false, "rationale": "Listed Indian EMS firm with positive guidance."},
+    "tata-electronics": {"risky": false, "rationale": "Listed conglomerate division entering semiconductor manufacturing."},
+    "vedanta-foxconn": {"risky": true, "rationale": "Joint venture formally dissolved (FT, 2025-07); ongoing financial distress for the JV entity."},
+    "elcina-pcb-1": {"risky": false, "rationale": "ELCINA member; clean record."},
+    "cyient-dlm": {"risky": false, "rationale": "Listed Indian EMS firm."},
+    "avalon-tech": {"risky": false, "rationale": "Listed Indian EMS firm."},
+    "epack-durables": {"risky": false, "rationale": "Listed Indian EMS firm."},
+    "vvdn-tech": {"risky": false, "rationale": "Established Indian design + manufacturing firm."},
+    "sahasra-electronics": {"risky": false, "rationale": "Operational SME; missing CRS in our sample data is a sample-data limitation, not a real-world flag."},
+    "smile-electronics": {"risky": false, "rationale": "Listed Indian component manufacturer."},
+    "centum-electronics": {"risky": false, "rationale": "Listed Indian EMS firm."},
+    "bharat-fih": {"risky": false, "rationale": "Foxconn Indian arm under different name; BIS-registered."},
+    "moschip-tech": {"risky": false, "rationale": "Listed Indian semiconductor design firm."},
+    "shenzhen-shadow-corp": {"risky": true, "rationale": "On World Bank debarred list; counterfeit finding traced to this entity."},
+    "dnipro-microelectronics": {"risky": true, "rationale": "On OFAC SDN under RUSSIA-EO14024."},
+    "shell-electronics-bvi": {"risky": true, "rationale": "On OFAC SDN (NS-PLC); on World Bank debarred list."}
+  }
+}
