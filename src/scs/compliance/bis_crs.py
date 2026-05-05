@@ -18,8 +18,26 @@ from scs.config import CONFIG
 from scs.models import ComplianceCheck, Provenance, Supplier
 
 SOURCE_NAME = "BIS CRS"
-MATCH_THRESHOLD = 85
+MATCH_THRESHOLD = 88
 EVIDENCE_BASE = "https://www.crsbis.in/"
+
+_GENERIC_SUFFIXES = (
+    " pvt ltd", " pvt. ltd.", " private limited",
+    " limited", " ltd.", " ltd", " inc.", " inc",
+    " corp.", " corp", " corporation", " co.",
+    " (india)", " india", " (bvi)", " (bengaluru)",
+)
+
+
+def _normalize(name: str) -> str:
+    """Strip generic corporate suffixes so the core name dominates the
+    fuzzy match. Without this, every entity ending in 'Pvt Ltd' matches
+    every other entity ending in 'Pvt Ltd' at ~85%."""
+    s = name.lower().strip()
+    for suf in _GENERIC_SUFFIXES:
+        if s.endswith(suf):
+            s = s[: -len(suf)].strip()
+    return s
 
 
 @lru_cache(maxsize=1)
@@ -65,7 +83,7 @@ def check(supplier: Supplier) -> ComplianceCheck:
     best_entry: dict | None = None
     for n in names:
         for entry in registrations:
-            score = fuzz.WRatio(n.lower(), entry["firm_name"].lower())
+            score = fuzz.WRatio(_normalize(n), _normalize(entry["firm_name"]))
             if score > best_score:
                 best_score = score
                 best_entry = entry

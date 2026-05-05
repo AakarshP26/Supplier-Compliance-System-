@@ -601,16 +601,6 @@
     "state": "IN-RJ"
   },
   {
-    "id": "bengal-broker-co",
-    "name": "Bengal Broker Components",
-    "country": "IN",
-    "category": "distributor_broker",
-    "is_illustrative": true,
-    "note": "Illustrative SME — independent distributor, mixed authorised/non-authorised inventory",
-    "city": "Kolkata",
-    "state": "IN-WB"
-  },
-  {
     "id": "indore-precision",
     "name": "Indore Precision Manufacturing",
     "country": "IN",
@@ -689,69 +679,6 @@
     "note": "Illustrative SME — heatsink and thermal pad supplier",
     "city": "Bengaluru — Jigani Industrial Area",
     "state": "IN-KA"
-  },
-  {
-    "id": "shenzhen-shadow-corp",
-    "name": "Shenzhen Shadow Components",
-    "legal_name": "Shenzhen Shadow Components Trading Co Ltd",
-    "country": "CN",
-    "category": "distributor_broker",
-    "aliases": [
-      "SSCT",
-      "Shadow Components"
-    ],
-    "is_illustrative": true,
-    "note": "Illustrative — World Bank debarred entity (synthetic)",
-    "city": "Shenzhen",
-    "state": null
-  },
-  {
-    "id": "dnipro-microelectronics",
-    "name": "Dnipro Microelectronics",
-    "country": "RU",
-    "category": "component_manufacturer",
-    "aliases": [
-      "DME"
-    ],
-    "is_illustrative": true,
-    "note": "Illustrative — synthetic OFAC-listed entity",
-    "city": "Dnipro",
-    "state": null
-  },
-  {
-    "id": "shell-electronics-bvi",
-    "name": "Apex Global Sourcing",
-    "legal_name": "Apex Global Sourcing (BVI) Ltd",
-    "country": "VG",
-    "category": "distributor_broker",
-    "aliases": [
-      "Apex BVI",
-      "AGS"
-    ],
-    "is_illustrative": true,
-    "note": "Illustrative — synthetic shell-company, both OFAC and World Bank flagged",
-    "city": "Road Town",
-    "state": null
-  },
-  {
-    "id": "mumbai-grey-market",
-    "name": "Mumbai Grey Market Brokers",
-    "country": "IN",
-    "category": "distributor_broker",
-    "is_illustrative": true,
-    "note": "Illustrative — synthetic high-risk Indian broker, mixed sourcing claims",
-    "city": "Bengaluru — Attibele",
-    "state": "IN-KA"
-  },
-  {
-    "id": "guangdong-relabel",
-    "name": "Guangdong Relabel Industries",
-    "country": "CN",
-    "category": "distributor_broker",
-    "is_illustrative": true,
-    "note": "Illustrative — synthetic component-remarking risk profile",
-    "city": "Dongguan",
-    "state": null
   },
   {
     "id": "saankhya-labs",
@@ -1113,5 +1040,110 @@
     "note": "Illustrative SME — transformer and inductor coil winding.",
     "city": "Bengaluru — Mahadevapura",
     "state": "IN-KA"
+  },
+  {
+    "id": "ecopmin-tech",
+    "name": "Ecopmin Technologies",
+    "legal_name": "Ecopmin Technologies Pvt Ltd",
+    "country": "IN",
+    "city": "Peenya, Bengaluru",
+    "state": "Karnataka",
+    "category": "ems",
+    "aliases": [
+      "Ecopmin"
+    ],
+    "incorporated": "2016-04-15",
+    "is_illustrative": false,
+    "note": "Real Peenya-area cleantech & electronics MSME — \"Do More By Using Less\"."
+  },
+  {
+    "id": "rashmi-electricals",
+    "name": "Rashmi Electricals",
+    "legal_name": "Rashmi Electricals Pvt Ltd",
+    "country": "IN",
+    "city": "Peenya, Bengaluru",
+    "state": "Karnataka",
+    "category": "component_manufacturer",
+    "aliases": [
+      "Rashmi"
+    ],
+    "incorporated": "1992-06-12",
+    "is_illustrative": false,
+    "note": "Real Peenya electrical-components SME with long operating history."
+  },
+  {
+    "id": "tek-tools-bengaluru",
+    "name": "Tek Tools Bengaluru",
+    "legal_name": "Tek Tools Pvt Ltd",
+    "country": "IN",
+    "city": "Peenya, Bengaluru",
+    "state": "Karnataka",
+    "category": "component_manufacturer",
+    "aliases": [
+      "Tek Tools"
+    ],
+    "incorporated": "2008-09-22",
+    "is_illustrative": false,
+    "note": "Real Peenya-area precision tools and electronics fixturing SME."
+  },
+  {
+    "id": "yelahanka-shadow-traders",
+    "name": "Yelahanka Shadow Traders",
+    "legal_name": "Yelahanka Shadow Traders Pvt Ltd",
+    "country": "IN",
+    "city": "Yelahanka, Bengaluru",
+    "state": "Karnataka",
+    "category": "distributor_broker",
+    "aliases": [
+      "YST"
+    ],
+    "incorporated": "2024-02-15",
+    "is_illustrative": true,
+    "note": "Illustrative — synthetic Bangalore broker designed to demonstrate OFAC fail (shell-company evasion pattern) + recent-incorporation domain-age risk. Used as the primary adversarial-lab target."
+  },
+  {
+    "id": "peenya-grey-market",
+    "name": "Peenya Grey Market Brokers",
+    "legal_name": "PGM Brokers (Bengaluru) Pvt Ltd",
+    "country": "IN",
+    "city": "Peenya, Bengaluru",
+    "state": "Karnataka",
+    "category": "distributor_broker",
+    "aliases": [
+      "PGM"
+    ],
+    "incorporated": "2025-01-10",
+    "is_illustrative": true,
+    "note": "Illustrative — synthetic broker with no BIS CRS registration selling CRS-mandatory products. Demonstrates BIS CRS fail."
+  },
+  {
+    "id": "bommanahalli-relabel",
+    "name": "Bommanahalli Relabel Components",
+    "legal_name": "Bommanahalli Relabel Components Pvt Ltd",
+    "country": "IN",
+    "city": "Bommanahalli, Bengaluru",
+    "state": "Karnataka",
+    "category": "distributor_broker",
+    "aliases": [
+      "BRC"
+    ],
+    "incorporated": "2024-08-20",
+    "is_illustrative": true,
+    "note": "Illustrative — synthetic relabel broker, demonstrates the counterfeit/relabeling supply-chain risk pattern in a Bengaluru context."
+  },
+  {
+    "id": "rajajinagar-evasion-shell",
+    "name": "Rajajinagar Trading Shell",
+    "legal_name": "RJN Trading Pvt Ltd",
+    "country": "IN",
+    "city": "Rajajinagar, Bengaluru",
+    "state": "Karnataka",
+    "category": "distributor_broker",
+    "aliases": [
+      "RJN Trading"
+    ],
+    "incorporated": "2025-06-01",
+    "is_illustrative": true,
+    "note": "Illustrative — very-recently-incorporated shell entity with OFAC name-collision pattern. Demonstrates fuzzy-match fail and short-domain-age risk together."
   }
 ]

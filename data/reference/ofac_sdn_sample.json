@@ -1,34 +1,40 @@
 [
   {
-    "name": "Dnipro Microelectronics",
-    "type": "Entity",
-    "programs": ["RUSSIA-EO14024"],
-    "country": "RU",
-    "remarks": "Designated under Executive Order 14024 for operating in the Russian Federation electronics sector.",
-    "evidence_url": "https://sanctionssearch.ofac.treas.gov/"
-  },
-  {
-    "name": "Apex Global Sourcing (BVI) Ltd",
-    "type": "Entity",
-    "programs": ["NS-PLC"],
-    "country": "VG",
-    "remarks": "Front company designated for evasion of US export controls on dual-use electronics.",
-    "evidence_url": "https://sanctionssearch.ofac.treas.gov/"
-  },
-  {
     "name": "Bratislava Components OAO",
     "type": "Entity",
-    "programs": ["RUSSIA-EO14024"],
+    "programs": [
+      "RUSSIA-EO14024"
+    ],
     "country": "RU",
-    "aliases": ["BCO"],
+    "aliases": [
+      "BCO"
+    ],
     "evidence_url": "https://sanctionssearch.ofac.treas.gov/"
   },
   {
-    "name": "Guangdong Relabel Industries",
+    "name": "Yelahanka Shadow Traders",
     "type": "Entity",
-    "programs": ["EAR-PLC"],
-    "country": "CN",
-    "remarks": "Illustrative synthetic entry — designated for repeated component-remarking violations.",
+    "programs": [
+      "NS-PLC"
+    ],
+    "country": "IN",
+    "aliases": [
+      "YST"
+    ],
+    "remarks": "Illustrative entry — synthetic Bangalore-area entity used to demonstrate OFAC fuzzy-match fail in a domestic-supplier context. NOT a real OFAC designation.",
+    "evidence_url": "https://sanctionssearch.ofac.treas.gov/"
+  },
+  {
+    "name": "Rajajinagar Trading Pvt Ltd",
+    "type": "Entity",
+    "programs": [
+      "NS-PLC"
+    ],
+    "country": "IN",
+    "aliases": [
+      "RJN Trading"
+    ],
+    "remarks": "Illustrative entry — synthetic shell entity for OFAC-evasion demonstration in the Bengaluru context. NOT a real OFAC designation.",
     "evidence_url": "https://sanctionssearch.ofac.treas.gov/"
   }
 ]

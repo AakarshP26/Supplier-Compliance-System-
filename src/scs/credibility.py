@@ -6,7 +6,7 @@ from. Higher = more trustworthy.
 
 Priors are conservative defaults grounded in recognisable taxonomies:
 
-* Government & multilateral compliance lists (OFAC, World Bank) — 0.95+,
+* Government compliance lists (OFAC SDN, BIS CRS, MCA) — 0.95+,
   treated as near-ground-truth for what they cover.
 * Tier-1 international news with editorial standards — 0.80.
 * Trade press with domain expertise — 0.70.

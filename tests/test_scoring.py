@@ -70,12 +70,12 @@ class TestFusion:
         assert score.grade in {"A", "B"}
 
     def test_sanctioned_supplier_scores_low(self):
-        s = get_supplier("dnipro-microelectronics")
+        s = get_supplier("yelahanka-shadow-traders")
         score = fuse(s.id, run_comp(s), run_risk(s))
         assert score.score < RISK_THRESHOLD
 
-    def test_debarred_supplier_scores_low(self):
-        s = get_supplier("shenzhen-shadow-corp")
+    def test_compliance_fail_supplier_scores_low(self):
+        s = get_supplier("peenya-grey-market")
         score = fuse(s.id, run_comp(s), run_risk(s))
         assert score.score < RISK_THRESHOLD
 
@@ -99,7 +99,7 @@ class TestAdversarial:
         assert all(a.is_synthetic for a in result.injected)
 
     def test_attack_lifts_score(self):
-        s = get_supplier("shenzhen-shadow-corp")
+        s = get_supplier("yelahanka-shadow-traders")
         comp = run_comp(s)
         clean_score = fuse(s.id, comp, run_risk(s)).score
         risk_attacked, _ = run_attacked(s, AttackConfig(budget=20, vector="press_release"))
@@ -109,7 +109,7 @@ class TestAdversarial:
 
     def test_defense_blocks_attack_lift(self):
         # Canonical regression for the paper's main result.
-        s = get_supplier("shenzhen-shadow-corp")
+        s = get_supplier("yelahanka-shadow-traders")
         comp = run_comp(s)
         clean = fuse(s.id, comp, run_risk(s)).score
         risk_attacked, _ = run_attacked(s, AttackConfig(budget=20, vector="press_release"))

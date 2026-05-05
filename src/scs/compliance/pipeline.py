@@ -11,13 +11,12 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable
 
-from scs.compliance import bis_crs, ofac, world_bank
+from scs.compliance import bis_crs, ofac
 from scs.models import ComplianceCheck, ComplianceReport, Supplier
 
 # Order is preserved in the resulting report.
 _CHECKERS: list[Callable[[Supplier], ComplianceCheck]] = [
     ofac.check,
-    world_bank.check,
     bis_crs.check,
 ]
 
