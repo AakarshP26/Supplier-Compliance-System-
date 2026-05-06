@@ -64,9 +64,9 @@ def _score_directory(use_defense: bool) -> pd.DataFrame:
 def render(use_defense: bool, threshold: float) -> None:
     st.title("🔍 Find suppliers")
     st.caption(
-        "Filter the directory by country, category, score band, compliance "
-        "status, and risk type. Use this to shortlist candidates before "
-        "drilling into the detail page."
+        "Filter the Bangalore-area supplier directory by industrial cluster, "
+        "category, score band, compliance status, and risk profile. "
+        "Use this to shortlist candidates before drilling into the detail page."
     )
 
     df = _score_directory(use_defense)
@@ -76,22 +76,26 @@ def render(use_defense: bool, threshold: float) -> None:
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        # Region quick-filter — Bangalore-first, the directory's mainline focus
-        region = st.selectbox(
-            "Region",
+        # Bangalore cluster filter — replaces country filter since the
+        # directory is now 100% Indian / Bangalore-focused.
+        cluster = st.selectbox(
+            "Bangalore cluster",
             options=[
-                "All",
-                "🇮🇳 India only",
-                "📍 Bangalore-area only",
-                "📍 Karnataka only",
-                "🌍 Foreign only",
+                "All clusters",
+                "Peenya",
+                "Whitefield",
+                "Electronic City",
+                "Bommanahalli",
+                "Yelahanka",
+                "Rajajinagar",
+                "Other Bangalore",
+                "Outside Bangalore (rest of India)",
             ],
             index=0,
             help=(
-                "Bangalore-area is the dashboard's primary focus — 43 of the "
-                "87 suppliers in the directory are headquartered in Bengaluru's "
-                "industrial clusters (Peenya, Whitefield, Electronic City, "
-                "Bommasandra, Hebbal, Yelahanka, Hosur Road, etc.)."
+                "Most suppliers in the directory are headquartered in Bengaluru's "
+                "industrial clusters. Use this filter to narrow to a specific area "
+                "(e.g. Peenya for SMEs, Whitefield for IT-services-grade firms)."
             ),
         )
     with col2:
@@ -140,10 +144,10 @@ def render(use_defense: bool, threshold: float) -> None:
             options=["All (real + illustrative)", "Real only", "Illustrative only"],
             index=0,
             help=(
-                "Real entities have public-record analogues. Illustrative "
+                "Real entities are public-record companies. Illustrative "
                 "suppliers are SME-scale fictitious entities marked clearly "
-                "so the dashboard can demonstrate score variation across the "
-                "spectrum without misrepresenting any real firm."
+                "so the dashboard can demonstrate score variation across "
+                "the spectrum without misrepresenting any real firm."
             ),
         )
     with col8:
@@ -153,14 +157,21 @@ def render(use_defense: bool, threshold: float) -> None:
 
     # ---------- Apply filters ----------
     filtered = df.copy()
-    if region == "🇮🇳 India only":
-        filtered = filtered[filtered["Country"] == "IN"]
-    elif region == "📍 Bangalore-area only":
-        filtered = filtered[filtered["City"].str.contains("Beng|Kolar", case=False, na=False)]
-    elif region == "📍 Karnataka only":
-        filtered = filtered[filtered["State"] == "IN-KA"]
-    elif region == "🌍 Foreign only":
-        filtered = filtered[filtered["Country"] != "IN"]
+    if cluster != "All clusters":
+        if cluster == "Outside Bangalore (rest of India)":
+            filtered = filtered[~filtered["City"].str.contains("Beng|Bang", case=False, na=False)]
+        elif cluster == "Other Bangalore":
+            named = ["Peenya", "Whitefield", "Electronic City", "Bommanahalli",
+                     "Yelahanka", "Rajajinagar"]
+            mask_bgl = filtered["City"].str.contains("Beng|Bang", case=False, na=False)
+            mask_named = filtered["City"].apply(
+                lambda c: any(n.lower() in (c or "").lower() for n in named)
+            )
+            filtered = filtered[mask_bgl & ~mask_named]
+        else:
+            filtered = filtered[
+                filtered["City"].str.contains(cluster, case=False, na=False)
+            ]
     if sel_cats:
         filtered = filtered[filtered["Category"].isin(sel_cats)]
     if sel_grades:
@@ -217,14 +228,14 @@ def render(use_defense: bool, threshold: float) -> None:
     # ---------- Result table ----------
     sort_col = st.radio(
         "Sort by",
-        options=["Score (high to low)", "Score (low to high)", "Supplier", "Country", "Grade"],
+        options=["Score (high to low)", "Score (low to high)", "Supplier", "City", "Grade"],
         horizontal=True, index=0,
     )
     sort_map = {
         "Score (high to low)": ("Score", False),
         "Score (low to high)": ("Score", True),
         "Supplier": ("Supplier", True),
-        "Country": ("Country", True),
+        "City": ("City", True),
         "Grade": ("Grade", True),
     }
     col, asc = sort_map[sort_col]
@@ -240,8 +251,9 @@ def render(use_defense: bool, threshold: float) -> None:
         axis=1,
     )
 
+    # Country column is hidden — directory is 100% Bangalore-focused now
     columns_to_show = [
-        "Supplier", "City", "Country", "Category", "Score", "Grade",
+        "Supplier", "City", "Category", "Score", "Grade",
         "Compliance fails", "Articles", "Risk events",
     ]
 
@@ -262,27 +274,72 @@ def render(use_defense: bool, threshold: float) -> None:
         },
     )
 
-    # ---------- Detail expander on selection-by-id ----------
+    # ---------- Drill into a result (expanded) ----------
     section("Drill into a result")
     pick = st.selectbox(
-        "Select a supplier to see top contributions",
+        "Pick a supplier to see a richer breakdown",
         options=["—"] + out["Supplier"].tolist(),
         index=0,
     )
     if pick and pick != "—":
+        clean_name = pick.rstrip(" ⓘ")
         row = out[out["Supplier"] == pick].iloc[0]
-        c1, c2, c3 = st.columns(3)
-        with c1: kpi("Score", f"{row['Score']:.1f}", color=score_color(row["Score"]))
-        with c2: kpi("Grade", row["Grade"], color=PALETTE["grade_a"] if row["Grade"]=="A" else PALETTE["grade_f"] if row["Grade"]=="F" else PALETTE["warn"])
-        with c3: kpi("Articles", str(int(row["Articles"])))
 
+        # Headline KPIs
+        c1, c2, c3, c4, c5 = st.columns(5)
+        with c1: kpi("Score", f"{row['Score']:.1f}", color=score_color(row["Score"]))
+        with c2:
+            grade_color = (PALETTE["grade_a"] if row["Grade"] == "A"
+                           else PALETTE["grade_f"] if row["Grade"] == "F"
+                           else PALETTE["warn"])
+            kpi("Grade", row["Grade"], color=grade_color)
+        with c3: kpi("Belief safe", f"{row['Belief safe']:.2f}", color=PALETTE["ok"])
+        with c4: kpi("Belief risky", f"{row['Belief risky']:.2f}", color=PALETTE["danger"])
+        with c5: kpi("Uncertainty", f"{row['Uncertainty']:.2f}", color=PALETTE["unknown"])
+
+        # Identity / location card
+        c1, c2 = st.columns(2)
+        with c1:
+            st.markdown("**Identity**")
+            id_rows = []
+            if row["Legal name"]: id_rows.append(("Legal name", row["Legal name"]))
+            id_rows.append(("Category", row["Category"].replace("_", " ")))
+            if row["CIN"]:        id_rows.append(("CIN", row["CIN"]))
+            if row["Year"]:       id_rows.append(("Incorporated", str(int(row["Year"]))))
+            if row["City"]:       id_rows.append(("Location", row["City"]))
+            for label, val in id_rows:
+                st.markdown(f"- **{label}:** {val}")
+        with c2:
+            st.markdown("**Risk signals**")
+            st.markdown(f"- **Compliance fails:** {int(row['Compliance fails'])}")
+            st.markdown(f"- **News articles seen:** {int(row['Articles'])}")
+            st.markdown(f"- **Max news severity:** {int(row['Max severity'])} / 5")
+            st.markdown(f"- **Event types:** {row['Risk events']}")
+
+        # Illustrative note
         if row["Note"]:
-            st.info(f"📝 {row['Note']}")
+            st.info(f"📝 **Note** — {row['Note']}")
+
+        # Plain-English verdict
+        if row["Score"] >= threshold:
+            st.success(
+                f"**Verdict — Pass** ({clean_name} scores {row['Score']:.1f}, above the "
+                f"{threshold:.0f} threshold). Belief mass leans toward safe with "
+                f"{row['Belief safe']:.0%} safe, {row['Belief risky']:.0%} risky, "
+                f"{row['Uncertainty']:.0%} uncertainty."
+            )
+        else:
+            st.error(
+                f"**Verdict — Risky** ({clean_name} scores {row['Score']:.1f}, below the "
+                f"{threshold:.0f} threshold). Belief mass leans toward risky with "
+                f"{row['Belief risky']:.0%} risky, {row['Belief safe']:.0%} safe, "
+                f"{row['Uncertainty']:.0%} uncertainty."
+            )
 
         st.caption(
-            f"To see the full report — belief decomposition, risk topology, "
-            f"news timeline, contribution waterfall — open **{row['Supplier'].rstrip(' ⓘ')}** "
-            f"in the **Supplier detail** page."
+            f"Open **{clean_name}** in the **Supplier detail** page (sidebar) for the "
+            f"full report — belief donut, risk topology radar, news timeline, "
+            f"score-contribution waterfall, and the 40+ verification parameters."
         )
 
     # ---------- CSV export ----------

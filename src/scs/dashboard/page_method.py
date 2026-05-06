@@ -8,9 +8,159 @@ from scs.dashboard.components import section
 from scs.dashboard.styling import PALETTE
 
 
+def _flowchart_svg() -> str:
+    """Inline SVG showing the full Bangalore-only pipeline.
+
+    Three evidence streams (compliance, news, parameters) feed into
+    Yager fusion which produces a SupplierScore. The optional defense
+    layer wraps the news stream.
+    """
+    primary  = "#1A365D"   # navy
+    accent   = "#2E75B6"   # blue
+    ok       = "#1F8A4C"   # green
+    warn     = "#D97706"   # amber
+    danger   = "#B91C1C"   # red
+    muted    = "#595959"
+    bg       = "#F4F6FA"
+    border   = "#CFD3DC"
+
+    return f"""
+<svg viewBox="0 0 1100 580" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, system-ui, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="{primary}"/>
+    </marker>
+    <marker id="arrowAccent" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="{accent}"/>
+    </marker>
+  </defs>
+
+  <!-- ==================== INPUT ==================== -->
+  <rect x="450" y="20" width="200" height="60" rx="6"
+        fill="white" stroke="{primary}" stroke-width="2"/>
+  <text x="550" y="48" text-anchor="middle" font-size="15" font-weight="700" fill="{primary}">Supplier</text>
+  <text x="550" y="68" text-anchor="middle" font-size="11" fill="{muted}">name · CIN · aliases · category · city</text>
+
+  <!-- arrows from input down to 3 streams -->
+  <line x1="550" y1="80" x2="170" y2="120" stroke="{primary}" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="550" y1="80" x2="550" y2="120" stroke="{primary}" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="550" y1="80" x2="930" y2="120" stroke="{primary}" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ==================== COMPLIANCE STREAM ==================== -->
+  <rect x="40" y="120" width="260" height="180" rx="8"
+        fill="{bg}" stroke="{accent}" stroke-width="1.5"/>
+  <text x="170" y="145" text-anchor="middle" font-size="13" font-weight="700" fill="{primary}">1 · Compliance pipeline</text>
+  <text x="170" y="162" text-anchor="middle" font-size="10" fill="{muted}">parallel async checks</text>
+
+  <rect x="58" y="178" width="224" height="34" rx="4" fill="white" stroke="{border}"/>
+  <text x="68" y="200" font-size="11" font-weight="600" fill="{primary}">OFAC SDN</text>
+  <text x="170" y="200" font-size="10" fill="{muted}">fuzzy match ≥ 88</text>
+
+  <rect x="58" y="218" width="224" height="34" rx="4" fill="white" stroke="{border}"/>
+  <text x="68" y="240" font-size="11" font-weight="600" fill="{primary}">BIS CRS</text>
+  <text x="170" y="240" font-size="10" fill="{muted}">R-number lookup</text>
+
+  <text x="170" y="280" text-anchor="middle" font-size="10" fill="{muted}">→ pass / fail / unknown</text>
+
+  <!-- ==================== NEWS STREAM ==================== -->
+  <rect x="420" y="120" width="260" height="180" rx="8"
+        fill="{bg}" stroke="{accent}" stroke-width="1.5"/>
+  <text x="550" y="145" text-anchor="middle" font-size="13" font-weight="700" fill="{primary}">2 · News intelligence</text>
+  <text x="550" y="162" text-anchor="middle" font-size="10" fill="{muted}">LLM extraction → corroboration</text>
+
+  <rect x="438" y="178" width="224" height="34" rx="4" fill="white" stroke="{border}"/>
+  <text x="448" y="200" font-size="11" font-weight="600" fill="{primary}">Article extractor</text>
+  <text x="572" y="200" font-size="10" fill="{muted}">structured signal</text>
+
+  <rect x="438" y="218" width="224" height="34" rx="4" fill="white" stroke="{border}"/>
+  <text x="448" y="240" font-size="11" font-weight="600" fill="{primary}">Corroboration</text>
+  <text x="572" y="240" font-size="10" fill="{muted}">cross-domain check</text>
+
+  <text x="550" y="280" text-anchor="middle" font-size="10" fill="{muted}">→ event_type · severity · sentiment</text>
+
+  <!-- ==================== PARAMETERS STREAM ==================== -->
+  <rect x="800" y="120" width="260" height="180" rx="8"
+        fill="{bg}" stroke="{accent}" stroke-width="1.5"/>
+  <text x="930" y="145" text-anchor="middle" font-size="13" font-weight="700" fill="{primary}">3 · Verification parameters</text>
+  <text x="930" y="162" text-anchor="middle" font-size="10" fill="{muted}">40+ Indian SME public-record fields</text>
+
+  <rect x="818" y="178" width="224" height="34" rx="4" fill="white" stroke="{border}"/>
+  <text x="828" y="200" font-size="11" font-weight="600" fill="{primary}">Numeric ramps</text>
+  <text x="942" y="200" font-size="10" fill="{muted}">healthy ↔ concerning</text>
+
+  <rect x="818" y="218" width="224" height="34" rx="4" fill="white" stroke="{border}"/>
+  <text x="828" y="240" font-size="11" font-weight="600" fill="{primary}">Categorical maps</text>
+  <text x="942" y="240" font-size="10" fill="{muted}">cert / NOC / yes-no</text>
+
+  <text x="930" y="280" text-anchor="middle" font-size="10" fill="{muted}">unknown → uncertainty mass</text>
+
+  <!-- ==================== DEFENSE LAYER (wraps news) ==================== -->
+  <rect x="385" y="320" width="330" height="64" rx="6"
+        fill="white" stroke="{warn}" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <text x="550" y="342" text-anchor="middle" font-size="12" font-weight="700" fill="{warn}">Trust-calibrated defense (optional)</text>
+  <text x="550" y="362" text-anchor="middle" font-size="10" fill="{muted}">credibility prior × burst penalty × template-similarity penalty</text>
+  <text x="550" y="376" text-anchor="middle" font-size="10" fill="{muted}">applied to news signals before fusion</text>
+  <line x1="550" y1="300" x2="550" y2="320" stroke="{warn}" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ==================== BPA conversion (3 → 1) ==================== -->
+  <rect x="40" y="320" width="260" height="44" rx="6" fill="white" stroke="{primary}" stroke-width="1.5"/>
+  <text x="170" y="342" text-anchor="middle" font-size="12" font-weight="700" fill="{primary}">BPAs from compliance</text>
+  <text x="170" y="358" text-anchor="middle" font-size="10" fill="{muted}">credibility 0.95 · pass×0.5 · fail×0.85</text>
+  <line x1="170" y1="300" x2="170" y2="320" stroke="{accent}" stroke-width="1.5" marker-end="url(#arrowAccent)"/>
+
+  <rect x="800" y="320" width="260" height="44" rx="6" fill="white" stroke="{primary}" stroke-width="1.5"/>
+  <text x="930" y="342" text-anchor="middle" font-size="12" font-weight="700" fill="{primary}">BPAs from parameters</text>
+  <text x="930" y="358" text-anchor="middle" font-size="10" fill="{muted}">one BPA per known field</text>
+  <line x1="930" y1="300" x2="930" y2="320" stroke="{accent}" stroke-width="1.5" marker-end="url(#arrowAccent)"/>
+
+  <!-- arrows from each BPA box → fusion -->
+  <line x1="170" y1="364" x2="500" y2="430" stroke="{primary}" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="550" y1="384" x2="550" y2="430" stroke="{primary}" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="930" y1="364" x2="600" y2="430" stroke="{primary}" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ==================== YAGER FUSION ==================== -->
+  <rect x="380" y="430" width="340" height="64" rx="8"
+        fill="{primary}" stroke="{primary}" stroke-width="2"/>
+  <text x="550" y="455" text-anchor="middle" font-size="14" font-weight="700" fill="white">Yager-rule DS fusion</text>
+  <text x="550" y="475" text-anchor="middle" font-size="11" fill="white">conflict mass → uncertainty (not normalised away)</text>
+  <text x="550" y="488" text-anchor="middle" font-size="10" fill="white" opacity="0.85">m_safe + m_risky + m_Θ = 1.0</text>
+
+  <!-- arrow to score -->
+  <line x1="550" y1="494" x2="550" y2="520" stroke="{primary}" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ==================== SCORE ==================== -->
+  <rect x="350" y="520" width="400" height="48" rx="6"
+        fill="white" stroke="{ok}" stroke-width="2"/>
+  <text x="550" y="542" text-anchor="middle" font-size="13" font-weight="700" fill="{primary}">SupplierScore</text>
+  <text x="550" y="560" text-anchor="middle" font-size="10" fill="{muted}">score 0–100 · grade A–F · belief decomposition · contributions waterfall</text>
+
+</svg>
+""".strip()
+
+
 def render(use_defense: bool, threshold: float) -> None:
     st.title("📐 Methodology")
-    st.caption("How the system actually works — the paper's §4, made interactive.")
+    st.caption("How the system actually works — pipeline overview, math, and limitations.")
+
+    # ---------- Architecture flowchart ----------
+    section("Pipeline architecture")
+    st.markdown(
+        """
+The figure below shows the full data flow: a supplier object enters at
+the top, three independent evidence streams produce BPAs, the optional
+trust-calibrated defense layer wraps the news stream, and Yager-rule
+fusion combines everything into a single SupplierScore.
+        """
+    )
+    st.markdown(_flowchart_svg(), unsafe_allow_html=True)
+    st.caption(
+        "Three independent evidence streams (compliance, news, "
+        "verification parameters) → BPAs → Yager fusion → SupplierScore. "
+        "Defense layer is dashed because it is optional and only applies "
+        "to the news stream."
+    )
 
     section("Threat model")
     st.markdown(
@@ -27,11 +177,11 @@ they **cannot** plausibly modify.
             f"""
 **Out of reach for the adversary**
 
-{_pill('Government lists', PALETTE['ok'])}  OFAC SDN, World Bank Debarred,
-BIS CRS — these are authoritative and slow to falsify.
+{_pill('Government lists', PALETTE['ok'])}  OFAC SDN, BIS CRS, MCA21,
+GSTN — these are authoritative and slow to falsify.
 
-{_pill('Tier-1 news', PALETTE['ok'])}  Reuters, FT, The Hindu — high
-editorial barrier; placing fake stories here is hard.
+{_pill('Tier-1 news', PALETTE['ok'])}  Reuters, FT, The Hindu, Economic
+Times — high editorial barrier; placing fake stories here is hard.
             """
         )
     with col_b:
@@ -138,36 +288,39 @@ shift this if your operator's tolerance differs.
 - **Mock LLM in offline mode.** The default backend uses regex on
   keywords — strictly weaker than a real LLM. Real Anthropic backend is
   selectable via env var.
-- **Sample compliance lists.** OFAC, World Bank, and BIS data here are
-  small offline snapshots for reproducibility. Production would pull
-  live feeds.
+- **Sample compliance lists.** OFAC and BIS CRS data here are small
+  offline snapshots for reproducibility. Production would pull live
+  feeds (sanctionssearch.ofac.treas.gov, crsbis.in).
+- **Synthetic profile values.** Real listed firms have real identities
+  (CIN, category, location), but their parameter values (current ratio,
+  defect rate, etc.) are realistic patterns, not scraped from MCA21.
         """
     )
 
     section("On the supplier directory")
     st.markdown(
         """
-The directory holds **two kinds of entries**:
+The directory is **100% Indian, Bangalore-focused**. It holds two
+kinds of entries:
 
-**Real-listed entities (61).** Companies with public-record analogues —
+**Real-listed entities.** Companies with public-record analogues —
 Indian PLI awardees (Dixon, Lava, Optiemus, Foxconn India, Wistron India,
-Pegatron India, Bhagwati Products, Amber Enterprises, Syrma SGS, Kaynes,
-Cyient DLM, Avalon, Epack, VVDN, Centum, Bharat FIH, MosChip, Tata
-Electronics, Vedanta-Foxconn JV); Indian PSUs and listed firms (BEL,
-ITI, Tejas Networks, HFCL, Sterlite Tech, Tata Elxsi, Bosch India,
-Honeywell Automation India, Continental Automotive India); global
-semiconductor and component leaders (TSMC, Samsung, Intel, TI, NXP,
-Renesas, ST, Infineon, Murata, Vishay, Yageo, ASE, Amkor); authorised
-distributors (Digi-Key, Mouser, Arrow, Avnet, Future Electronics);
-global EMS (Compal, Quanta, Sanmina, Celestica, Flex parent); and three
-deliberately risky entities present on real OFAC SDN / World Bank
-debarred lists.
+Pegatron India, Bhagwati, Amber, Syrma SGS, Kaynes, Cyient DLM, Avalon,
+Epack, VVDN, Centum, Bharat FIH, MosChip, Tata Electronics, Vedanta-
+Foxconn JV); Indian PSUs and listed firms (BEL Bengaluru, ITI, Tejas
+Networks, HFCL, Sterlite Tech, Tata Elxsi, Bosch India, Honeywell
+Automation India, Continental Automotive India); real Bangalore SMEs
+including **Ecopmin Technologies (Peenya)**, Rashmi Electricals (Peenya),
+and Tek Tools Bengaluru (Peenya).
 
-**Illustrative SME-scale entities (25).** Marked with `is_illustrative=True`
-and a `note` field describing what they represent (Mysuru Precision
-Electronics, Deccan PCB Works, Konkan Circuit Solutions, etc.). These
-are fictitious composites of typical small Indian electronics SMEs,
-included to demonstrate score variation across realistic risk profiles
+**Illustrative SME-scale entities.** Marked with `is_illustrative=True`
+and a `note` field describing what they represent. This includes both
+healthy SMEs (Mysuru Precision Electronics, Deccan PCB Works, etc.) and
+**four risk-target demonstrators** specifically designed for the
+adversarial-lab demo: yelahanka-shadow-traders (OFAC fail + adversarial
+target), peenya-grey-market (BIS CRS fail), bommanahalli-relabel
+(counterfeit broker), rajajinagar-evasion-shell (alias-match fail).
+These exist to demonstrate the system's full range of behaviour
 without misrepresenting any real firm. They appear with a ⓘ marker
 throughout the dashboard and can be filtered out via the "Real only"
 toggle on the **Find suppliers** page.

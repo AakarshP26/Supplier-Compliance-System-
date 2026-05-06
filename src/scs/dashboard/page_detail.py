@@ -153,11 +153,55 @@ def render(use_defense: bool, threshold: float) -> None:
 
     # ---------- Score breakdown ----------
     section("Score contribution waterfall")
+
+    with st.expander("📖 How to read this chart", expanded=False):
+        st.markdown(
+            """
+The waterfall shows every individual piece of evidence the system saw
+for this supplier and exactly how each one moved the final score.
+Reading it left-to-right is reading the system's reasoning step by
+step.
+
+**The bars.** Each bar is one piece of evidence — one compliance
+check, one news article, or one verification parameter. Green bars
+push the score up (toward *safe*); red bars push it down (toward
+*risky*).
+
+**The labels.** Each bar is tagged with where it came from. Compliance
+checks are prefixed `compliance::`, news signals are
+`news::<event_type>::<source>`, and parameter contributions are
+`param::<group>::<name>`. The source name appears so you can see
+*which* outlet or *which* parameter is doing the pushing.
+
+**The size of each bar.** A bar's length is its *effective* push,
+which already folds in:
+- The source's credibility (a Reuters article pushes harder than a press release).
+- Whether the signal is corroborated (cross-source agreement doubles weight).
+- The burst penalty (if the defense is on and the supplier saw an article spike).
+- The template-similarity penalty (if the article is a template-spam clone).
+
+So a bar that *looks* small isn't a small claim — it's a claim the
+system has *de-weighted* for credibility reasons. That is exactly the
+trust-calibrated defense in action.
+
+**Reading the verdict.** Sum every green bar, subtract every red bar,
+add 50 — that's the final score. The chart's right edge sits at that
+final score so you can verify the math visually.
+
+**What to look for as a reviewer.** When defense is OFF, expect to
+see many low-credibility green bars from press releases and anonymous
+blogs swelling the score upward. When defense is ON, those same bars
+are visibly shorter — that's the burst and template penalties biting.
+The waterfall is the system's full audit trail; nothing is hidden.
+            """
+        )
+
     st.plotly_chart(charts.contributions_waterfall(score), use_container_width=True)
     st.caption(
         "Each row shows one piece of evidence and its push on the final score. "
         "Effective weight folds in source credibility, corroboration, and "
-        "(when defense is on) burst + template-similarity penalties."
+        "(when defense is on) burst + template-similarity penalties. "
+        "Click the explainer above for a full reading guide."
     )
 
     # ---------- Extended profile (40+ verification parameters) ----------

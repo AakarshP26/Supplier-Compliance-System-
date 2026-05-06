@@ -20,6 +20,7 @@ from scs.compliance.pipeline import run as run_comp
 from scs.models import (
     ComplianceCheck, ComplianceReport, Provenance, RiskProfile, Supplier, SupplierCategory,
 )
+from scs.profile import CertStatus, SupplierProfile
 from scs.risk.extractor import extract_signal
 from scs.risk.news import NewsArticle
 from scs.risk.pipeline import _annotate_corroboration
@@ -58,6 +59,7 @@ def _run_for_new_supplier(
     supplier: Supplier,
     pasted_articles: list[NewsArticle],
     use_defense: bool,
+    profile=None,
 ) -> dict[str, Any]:
     """Run compliance + risk + fusion for a brand-new supplier."""
     comp: ComplianceReport = run_comp(supplier)
@@ -71,8 +73,130 @@ def _run_for_new_supplier(
         signals=signals,
         article_count=len(pasted_articles),
     )
-    score = fuse(supplier.id, comp, risk, use_defense=use_defense)
-    return {"supplier": supplier, "compliance": comp, "risk": risk, "score": score}
+    incorp_year = supplier.incorporated.year if supplier.incorporated else None
+    score = fuse(
+        supplier.id, comp, risk, use_defense=use_defense,
+        profile=profile, incorporation_year=incorp_year,
+    )
+    return {
+        "supplier": supplier, "compliance": comp, "risk": risk,
+        "score": score, "profile": profile,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Profile builder: convert raw form inputs to a SupplierProfile
+# ---------------------------------------------------------------------------
+
+
+def _f(v) -> float | None:
+    """Treat 0.0 as 'not provided' so DS fusion routes to uncertainty."""
+    if v is None:
+        return None
+    try:
+        v = float(v)
+    except (TypeError, ValueError):
+        return None
+    return v if v > 0 else None
+
+
+def _i(v) -> int | None:
+    """Treat 0 as 'not provided'."""
+    if v is None:
+        return None
+    try:
+        v = int(v)
+    except (TypeError, ValueError):
+        return None
+    return v if v > 0 else None
+
+
+def _yn(v) -> str | None:
+    """Map 'unknown'/empty to None; pass 'yes'/'no' through."""
+    if v in (None, "", "unknown"):
+        return None
+    if v in ("yes", "no"):
+        return v
+    return None
+
+
+_CERT_MAP = {
+    "active":  CertStatus.ACTIVE,
+    "expired": CertStatus.EXPIRED,
+    "pending": CertStatus.PENDING,
+    "na":      CertStatus.NA,
+    "unknown": CertStatus.UNKNOWN,
+}
+
+
+def _cert(v) -> CertStatus:
+    return _CERT_MAP.get(v, CertStatus.UNKNOWN)
+
+
+def _build_profile_from_inputs(
+    sid: str, params: dict[str, Any]
+) -> SupplierProfile | None:
+    """Convert the onboarding form inputs to a SupplierProfile object.
+
+    Returns None if the params dict is empty (the onboarding flow
+    didn't include the parameter section).
+    """
+    if not params:
+        return None
+
+    # YN fields default to "unknown" in the schema, so we must pass the
+    # string when set; otherwise omit the key.
+    kwargs: dict[str, Any] = {"supplier_id": sid}
+
+    # --- Identity / registrations ---
+    if params.get("gstin"): kwargs["gstin"] = params["gstin"]
+    if params.get("pan"):   kwargs["pan"] = params["pan"]
+    if params.get("iec"):   kwargs["iec"] = params["iec"]
+    udyam = params.get("udyam_registration")
+    if udyam == "yes":
+        kwargs["udyam_registration"] = "ONBOARDED"
+    if (yn := _yn(params.get("epfo_registration"))): kwargs["epfo_registration"] = yn
+    if (yn := _yn(params.get("esic_registration"))): kwargs["esic_registration"] = yn
+
+    # --- Financial ---
+    kwargs["annual_turnover_cr"]      = _f(params.get("annual_turnover_cr"))
+    kwargs["net_worth_cr"]            = _f(params.get("net_worth_cr"))
+    kwargs["current_ratio"]           = _f(params.get("current_ratio"))
+    kwargs["debt_to_equity"]          = _f(params.get("debt_to_equity"))
+    kwargs["gst_compliance_score"]    = _f(params.get("gst_compliance_score"))
+    kwargs["days_payable_outstanding"] = _i(params.get("days_payable_outstanding"))
+
+    # --- Operational ---
+    kwargs["employees"]                = _i(params.get("employees"))
+    kwargs["plant_area_sqft"]          = _i(params.get("plant_area_sqft"))
+    kwargs["on_time_delivery_pct"]     = _f(params.get("on_time_delivery_pct"))
+    kwargs["defect_rate_ppm"]          = _f(params.get("defect_rate_ppm"))
+    kwargs["capacity_utilization_pct"] = _f(params.get("capacity_utilization_pct"))
+
+    # --- Quality certs ---
+    kwargs["iso_9001"]   = _cert(params.get("iso_9001"))
+    kwargs["iso_14001"]  = _cert(params.get("iso_14001"))
+    kwargs["iatf_16949"] = _cert(params.get("iatf_16949"))
+    kwargs["as_9100"]    = _cert(params.get("as_9100"))
+    kwargs["ipc_a_610"]  = _cert(params.get("ipc_a_610"))
+    if (yn := _yn(params.get("bis_crs_active"))): kwargs["bis_crs_active"] = yn
+
+    # --- Regulatory ---
+    if (yn := _yn(params.get("mca_status_active"))):       kwargs["mca_status_active"] = yn
+    if (yn := _yn(params.get("pollution_noc_kspcb"))):     kwargs["pollution_noc_kspcb"] = yn
+    if (yn := _yn(params.get("fire_noc"))):                kwargs["fire_noc"] = yn
+    if (yn := _yn(params.get("factories_act_license"))):   kwargs["factories_act_license"] = yn
+    if (yn := _yn(params.get("epf_dues_clear"))):          kwargs["epf_dues_clear"] = yn
+    if (yn := _yn(params.get("income_tax_returns_filed"))): kwargs["income_tax_returns_filed"] = yn
+
+    # Drop None numeric values to be schema-clean
+    kwargs = {k: v for k, v in kwargs.items() if v is not None}
+
+    try:
+        return SupplierProfile(**kwargs)
+    except Exception as e:
+        st.warning(f"Could not build profile from inputs: {e}")
+        return None
 
 
 # ---------------------------------------------------------------------------
@@ -128,44 +252,186 @@ def _render_form(use_defense: bool) -> dict[str, Any] | None:
                 help="Other names this supplier is known by — used for fuzzy matching against compliance lists.",
             )
 
-        st.markdown("#### 2 · News intelligence (optional)")
+        st.markdown("#### 2 · News intelligence (optional — 1 article)")
         st.caption(
-            "Paste 0 or more news article bodies you've seen about this supplier. "
-            "Each one will be passed through the LLM extractor (or the keyword "
-            "fallback in offline mode) and combined into the risk score."
+            "Paste a single news article you've seen about this supplier. "
+            "It will be passed through the LLM extractor (or the keyword "
+            "fallback in offline mode) and folded into the risk score."
         )
 
-        n_articles = st.number_input(
-            "How many articles will you paste?", min_value=0, max_value=10, value=2, step=1,
+        with st.expander("Article (optional)", expanded=True):
+            n_title = st.text_input(
+                "Title", key="art_title",
+                placeholder=f"e.g. {name or 'Acme'} wins multi-year supply contract",
+            )
+            n_body = st.text_area(
+                "Body (1–2 short paragraphs is fine)",
+                key="art_body", height=120,
+                placeholder="Paste the article body. The LLM will summarise into a structured RiskSignal.",
+            )
+            col_x, col_y = st.columns([3, 1])
+            with col_x:
+                n_url = st.text_input(
+                    "Source URL", key="art_url",
+                    placeholder="https://www.thehindu.com/...  (URL drives credibility prior)",
+                    help="Source domain determines credibility prior. Tier-1 (Reuters, The Hindu, ET) "
+                         "weighs more in fusion than press releases or anonymous blogs.",
+                )
+            with col_y:
+                n_pub = st.date_input(
+                    "Published", key="art_pub", value=date.today(),
+                )
+
+        st.markdown("#### 3 · Compliance & verification parameters (optional)")
+        st.caption(
+            "Provide the supplier's public-record parameters so the system can "
+            "score them on financial health, operations, regulatory standing, and "
+            "quality. Leave any field blank if you don't have data — the DS fusion "
+            "treats missing values as uncertainty rather than penalising them."
         )
 
-        article_inputs: list[dict[str, Any]] = []
-        for i in range(int(n_articles)):
-            with st.expander(f"Article {i + 1}", expanded=(i < 2)):
-                title = st.text_input(
-                    "Title", key=f"title_{i}",
-                    placeholder=f"e.g. {name or 'Acme'} wins multi-year supply contract",
+        param_inputs: dict[str, Any] = {}
+
+        # --- Registrations & identity ---
+        with st.expander("📋 Registrations & identity", expanded=False):
+            r1, r2, r3 = st.columns(3)
+            with r1:
+                param_inputs["gstin"] = st.text_input(
+                    "GSTIN", key="p_gstin",
+                    placeholder="29ABCDE1234F1Z8",
+                    help="15-char GST id; first 2 are state code (29 = Karnataka).",
                 )
-                body = st.text_area(
-                    "Body (1–2 short paragraphs is fine)",
-                    key=f"body_{i}", height=120,
-                    placeholder="Paste the article body. The LLM will summarise into a structured RiskSignal.",
+                param_inputs["pan"] = st.text_input("PAN", key="p_pan", placeholder="ABCDE1234F")
+            with r2:
+                param_inputs["udyam_registration"] = st.selectbox(
+                    "Udyam (MSME) registered?", ["unknown", "yes", "no"], key="p_udyam",
                 )
-                col_x, col_y = st.columns([3, 1])
-                with col_x:
-                    url = st.text_input(
-                        "Source URL", key=f"url_{i}",
-                        placeholder="https://www.reuters.com/...  (URL drives credibility prior)",
-                        help="Source domain determines the credibility prior. Higher-tier outlets weigh more in fusion.",
-                    )
-                with col_y:
-                    pub = st.date_input(
-                        "Published", key=f"pub_{i}", value=date.today(),
-                    )
-                article_inputs.append(dict(
-                    title=title.strip(), body=body.strip(),
-                    url=url.strip() or None, pub=pub,
-                ))
+                param_inputs["epfo_registration"] = st.selectbox(
+                    "EPFO registered?", ["unknown", "yes", "no"], key="p_epfo",
+                )
+            with r3:
+                param_inputs["esic_registration"] = st.selectbox(
+                    "ESIC registered?", ["unknown", "yes", "no"], key="p_esic",
+                )
+                param_inputs["iec"] = st.text_input("IEC code", key="p_iec",
+                                                     placeholder="IEC0123456")
+
+        # --- Financial health ---
+        with st.expander("💰 Financial health", expanded=False):
+            f1, f2, f3 = st.columns(3)
+            with f1:
+                param_inputs["annual_turnover_cr"] = st.number_input(
+                    "Annual turnover (₹ crore)", key="p_turnover",
+                    min_value=0.0, max_value=100000.0, value=0.0, step=0.5,
+                )
+                param_inputs["net_worth_cr"] = st.number_input(
+                    "Net worth (₹ crore)", key="p_networth",
+                    min_value=-1000.0, max_value=100000.0, value=0.0, step=0.5,
+                    help="Negative net worth is a strong solvency red flag.",
+                )
+            with f2:
+                param_inputs["current_ratio"] = st.number_input(
+                    "Current ratio", key="p_cr",
+                    min_value=0.0, max_value=20.0, value=0.0, step=0.05,
+                    help="Healthy ≥ 1.5; concerning < 1.0.",
+                )
+                param_inputs["debt_to_equity"] = st.number_input(
+                    "Debt-to-equity", key="p_de",
+                    min_value=0.0, max_value=20.0, value=0.0, step=0.1,
+                    help="Healthy ≤ 1.0; concerning > 2.5.",
+                )
+            with f3:
+                param_inputs["gst_compliance_score"] = st.number_input(
+                    "GST compliance score (0-100)", key="p_gst",
+                    min_value=0.0, max_value=100.0, value=0.0, step=1.0,
+                    help="GSTN portal score; healthy ≥ 80; concerning ≤ 50.",
+                )
+                param_inputs["days_payable_outstanding"] = st.number_input(
+                    "Days payable outstanding", key="p_dpo",
+                    min_value=0, max_value=500, value=0, step=1,
+                    help="Healthy ≤ 45 days; concerning ≥ 120 (suggests payment distress).",
+                )
+
+        # --- Operations ---
+        with st.expander("🏭 Operations", expanded=False):
+            o1, o2, o3 = st.columns(3)
+            with o1:
+                param_inputs["employees"] = st.number_input(
+                    "Employees", key="p_emp",
+                    min_value=0, max_value=100000, value=0, step=1,
+                )
+                param_inputs["plant_area_sqft"] = st.number_input(
+                    "Plant area (sqft)", key="p_area",
+                    min_value=0, max_value=10000000, value=0, step=100,
+                )
+            with o2:
+                param_inputs["on_time_delivery_pct"] = st.number_input(
+                    "On-time delivery %", key="p_otd",
+                    min_value=0.0, max_value=100.0, value=0.0, step=0.5,
+                    help="Healthy ≥ 95%; concerning < 80%.",
+                )
+                param_inputs["defect_rate_ppm"] = st.number_input(
+                    "Defect rate (ppm)", key="p_def",
+                    min_value=0, max_value=1000000, value=0, step=100,
+                    help="Healthy ≤ 500 ppm; concerning ≥ 5000 ppm.",
+                )
+            with o3:
+                param_inputs["capacity_utilization_pct"] = st.number_input(
+                    "Capacity utilization %", key="p_cap",
+                    min_value=0.0, max_value=100.0, value=0.0, step=1.0,
+                    help="Sweet spot: 50-85%. Below 30% (idle) or above 95% (no headroom) are red flags.",
+                )
+
+        # --- Quality certifications ---
+        with st.expander("✅ Quality certifications", expanded=False):
+            q1, q2, q3 = st.columns(3)
+            CERT_OPTS = ["unknown", "active", "expired", "pending", "na"]
+            with q1:
+                param_inputs["iso_9001"] = st.selectbox(
+                    "ISO 9001 (QMS)", CERT_OPTS, key="p_iso9k",
+                )
+                param_inputs["iso_14001"] = st.selectbox(
+                    "ISO 14001 (env)", CERT_OPTS, key="p_iso14k",
+                )
+            with q2:
+                param_inputs["iatf_16949"] = st.selectbox(
+                    "IATF 16949 (auto)", CERT_OPTS, key="p_iatf",
+                )
+                param_inputs["as_9100"] = st.selectbox(
+                    "AS9100 (aerospace)", CERT_OPTS, key="p_as9k",
+                )
+            with q3:
+                param_inputs["ipc_a_610"] = st.selectbox(
+                    "IPC-A-610 (acceptability)", CERT_OPTS, key="p_ipc",
+                )
+                param_inputs["bis_crs_active"] = st.selectbox(
+                    "BIS CRS active?", ["unknown", "yes", "no"], key="p_biscrs",
+                )
+
+        # --- Regulatory ---
+        with st.expander("📜 Regulatory & licences", expanded=False):
+            g1, g2 = st.columns(2)
+            YN_OPTS = ["unknown", "yes", "no"]
+            with g1:
+                param_inputs["mca_status_active"] = st.selectbox(
+                    "MCA registration active?", YN_OPTS, key="p_mca",
+                )
+                param_inputs["pollution_noc_kspcb"] = st.selectbox(
+                    "KSPCB pollution NOC?", YN_OPTS, key="p_kspcb",
+                )
+                param_inputs["fire_noc"] = st.selectbox(
+                    "Fire NOC current?", YN_OPTS, key="p_fire",
+                )
+            with g2:
+                param_inputs["factories_act_license"] = st.selectbox(
+                    "Factories Act licence?", YN_OPTS, key="p_fact",
+                )
+                param_inputs["epf_dues_clear"] = st.selectbox(
+                    "EPF dues clear?", YN_OPTS, key="p_epfd",
+                )
+                param_inputs["income_tax_returns_filed"] = st.selectbox(
+                    "Income tax returns filed?", YN_OPTS, key="p_itr",
+                )
 
         st.markdown("---")
         c1, c2 = st.columns([1, 3])
@@ -185,6 +451,14 @@ def _render_form(use_defense: bool) -> dict[str, Any] | None:
             st.error("Trading name is required.")
             return None
 
+        # Build the article list — at most one article
+        articles = []
+        if n_title.strip() and n_body.strip():
+            articles.append(dict(
+                title=n_title.strip(), body=n_body.strip(),
+                url=(n_url.strip() or None), pub=n_pub,
+            ))
+
         return dict(
             name=name.strip(),
             legal_name=legal_name.strip() or None,
@@ -194,7 +468,8 @@ def _render_form(use_defense: bool) -> dict[str, Any] | None:
             website=website.strip() or None,
             year=int(year),
             aliases=[a.strip() for a in aliases_raw.split(",") if a.strip()],
-            articles=[a for a in article_inputs if a["title"] and a["body"]],
+            articles=articles,
+            params=param_inputs,
         )
 
 
@@ -371,7 +646,7 @@ def render(use_defense: bool, threshold: float) -> None:
             st.error(f"Could not build supplier object: {e}")
             return
 
-        # Build pasted articles
+        # Build pasted articles (at most one)
         articles: list[NewsArticle] = []
         for i, a in enumerate(submitted["articles"]):
             articles.append(NewsArticle(
@@ -383,8 +658,12 @@ def render(use_defense: bool, threshold: float) -> None:
                 published_at=datetime.combine(a["pub"], datetime.min.time(), tzinfo=timezone.utc),
             ))
 
+        # Build a SupplierProfile from the parameter inputs (treat 'unknown'
+        # / 0 / empty as "missing" so DS fusion routes them to uncertainty).
+        profile = _build_profile_from_inputs(sid, submitted.get("params", {}))
+
         with st.spinner("Running compliance + risk pipeline…"):
-            result = _run_for_new_supplier(supplier, articles, use_defense)
+            result = _run_for_new_supplier(supplier, articles, use_defense, profile=profile)
 
         st.session_state.last_assessment = result
         st.session_state.onboarded_suppliers.append({

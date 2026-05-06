@@ -65,6 +65,18 @@ with st.sidebar:
         """
 <div class="scs-brand">🛡️ Supplier Compliance</div>
 <div class="scs-tag">India / Bangalore SME focus · v0.3</div>
+<div style="margin-top:8px; padding:8px 10px; background:rgba(46,117,182,0.08);
+            border-left:3px solid #2E75B6; border-radius:4px;
+            font-size:11px; color:#1F1F1F; line-height:1.5;">
+  <div style="font-weight:600; color:#1A365D; margin-bottom:2px;">
+    Project by
+  </div>
+  <div>Aakarsh Prabhu</div>
+  <div>Ved · Aniruddh · Ganesh</div>
+  <div style="font-size:10px; color:#595959; margin-top:3px;">
+    VI Sem CSE · RVCE Bengaluru
+  </div>
+</div>
         """,
         unsafe_allow_html=True,
     )

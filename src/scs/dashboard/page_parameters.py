@@ -90,9 +90,14 @@ _EXTRA_FIELDS_DESC = {
 # ---------------------------------------------------------------------------
 
 
-def _coverage_for(field_name: str | None) -> tuple[int, list]:
-    """Return (count_known, list_of_known_values) across all profiles."""
-    if field_name is None:
+def _coverage_for(field_name) -> tuple[int, list]:
+    """Return (count_known, list_of_known_values) across all profiles.
+
+    Robust to None and pandas-NaN (which appears as a float when DataFrame
+    cells store None).
+    """
+    # Pandas converts None to NaN — guard against both
+    if field_name is None or not isinstance(field_name, str) or not field_name:
         return 0, []
     values = []
     for prof in load_profiles().values():
@@ -110,28 +115,60 @@ def _coverage_pct(known: int, total: int) -> float:
     return 100.0 * known / total if total else 0.0
 
 
-def _value_distribution_chart(values: list, label: str) -> go.Figure | None:
+def _value_distribution_chart(
+    values: list,
+    label: str,
+    healthy: float | None = None,
+    concerning: float | None = None,
+) -> go.Figure | None:
     if not values:
         return None
     if all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in values):
-        # Numeric histogram
+        # Numeric histogram with optional healthy/concerning thresholds
         fig = go.Figure(go.Histogram(
             x=values, marker=dict(color=PALETTE["accent"]),
-            hovertemplate=f"%{{x}}: %{{y}} suppliers<extra></extra>",
+            hovertemplate="%{x}: %{y} suppliers<extra></extra>",
+            nbinsx=min(20, max(5, len(values) // 4)),
         ))
-        fig.update_layout(**plotly_layout(height=200), bargap=0.05,
+        # Threshold lines
+        ymax = max(1, sum(1 for _ in values))
+        if healthy is not None and isinstance(healthy, (int, float)):
+            fig.add_vline(x=healthy, line_color=PALETTE["ok"], line_dash="dash",
+                          annotation_text=f"healthy ≥ {healthy}",
+                          annotation_position="top right",
+                          annotation_font_color=PALETTE["ok"])
+        if concerning is not None and isinstance(concerning, (int, float)):
+            fig.add_vline(x=concerning, line_color=PALETTE["danger"], line_dash="dash",
+                          annotation_text=f"concerning",
+                          annotation_position="top left",
+                          annotation_font_color=PALETTE["danger"])
+        fig.update_layout(**plotly_layout(height=240), bargap=0.05,
                           xaxis=dict(title=label),
                           yaxis=dict(title="Suppliers"))
         return fig
     else:
-        # Categorical bar
+        # Categorical bar with safe / risky / neutral coloring
         c = Counter(str(v) for v in values)
+        # Sort by descending count for readability
+        items = c.most_common()
+        cat_colors = []
+        for cat, _ in items:
+            low = cat.lower()
+            if low in ("active", "yes", "true"):
+                cat_colors.append(PALETTE["ok"])
+            elif low in ("expired", "no", "false"):
+                cat_colors.append(PALETTE["danger"])
+            elif low in ("pending",):
+                cat_colors.append(PALETTE["warn"])
+            else:
+                cat_colors.append(PALETTE["accent"])
         fig = go.Figure(go.Bar(
-            x=list(c.keys()), y=list(c.values()),
-            marker=dict(color=PALETTE["accent"]),
-            hovertemplate="%{x}: %{y}<extra></extra>",
+            x=[k for k, _ in items], y=[v for _, v in items],
+            marker=dict(color=cat_colors),
+            hovertemplate="%{x}: %{y} suppliers<extra></extra>",
+            text=[v for _, v in items], textposition="outside",
         ))
-        fig.update_layout(**plotly_layout(height=200),
+        fig.update_layout(**plotly_layout(height=240),
                           xaxis=dict(title=label),
                           yaxis=dict(title="Suppliers"))
         return fig
@@ -292,21 +329,61 @@ def render(use_defense: bool, threshold: float) -> None:
     field = row["_field"]
     known, values = _coverage_for(field)
 
+    # Look up the spec (if it's in the taxonomy) to get healthy/concerning
+    spec = next((s for s in SPECS if s.key == pick), None)
+    healthy_v: float | None = None
+    concerning_v: float | None = None
+    if spec is not None:
+        # For higher_is_better → healthy_min is the "good" line, concerning_max is bad
+        # For lower_is_better → healthy_max is the "good" ceiling, concerning_min is bad
+        if spec.direction == "higher_is_better":
+            healthy_v = spec.healthy_min
+            concerning_v = spec.concerning_max
+        elif spec.direction == "lower_is_better":
+            healthy_v = spec.healthy_max
+            concerning_v = spec.concerning_min
+
     c1, c2, c3 = st.columns(3)
     with c1: kpi("Known values", f"{known} / {len(load_profiles())}")
     with c2: kpi("Group", row["Group"])
     with c3: kpi("Used in scoring", row["Used in scoring"],
                   color=PALETTE["accent"] if row["Used in scoring"] == "✓" else PALETTE["muted"])
 
-    if not values:
-        st.info("No supplier in the directory currently has a value for this parameter.")
+    if not isinstance(field, str) or not field:
+        st.info(
+            f"📋 **{row['Label']}** is defined in the taxonomy but does not "
+            f"map to a profile field in the current directory schema. "
+            f"It's documented as a reference parameter; the scoring layer "
+            f"will pick it up once a corresponding `SupplierProfile` field "
+            f"is added."
+        )
+    elif not values:
+        st.info(
+            f"📋 **{row['Label']}** maps to profile field `{field}`, but no "
+            f"supplier in the current directory has a value populated for "
+            f"it. Run an onboarding pass to fill data in."
+        )
     else:
         st.markdown(f"**{row['Label']}**  ·  unit: `{row['Unit']}`")
         if row["Description"] not in (None, "—"):
             st.caption(row["Description"])
-        chart = _value_distribution_chart(values, row["Label"])
+
+        chart = _value_distribution_chart(
+            values, row["Label"],
+            healthy=healthy_v, concerning=concerning_v,
+        )
         if chart is not None:
             st.plotly_chart(chart, use_container_width=True)
+
+        # Tiny stats summary below the chart
+        if all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in values):
+            import numpy as _np
+            arr = _np.array(values, dtype=float)
+            c1, c2, c3, c4 = st.columns(4)
+            with c1: kpi("Min",    f"{arr.min():.2f}")
+            with c2: kpi("Median", f"{_np.median(arr):.2f}")
+            with c3: kpi("Mean",   f"{arr.mean():.2f}")
+            with c4: kpi("Max",    f"{arr.max():.2f}")
 
     # ---------- Per-supplier contribution view ----------
     section("Parameter contributions for one supplier")
