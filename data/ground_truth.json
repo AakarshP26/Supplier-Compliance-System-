@@ -247,86 +247,107 @@
     },
     "mysuru-precision": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile by construction."
+      "rationale": "Illustrative SME — clean profile by construction."
     },
     "deccan-pcb": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
     "konkan-circuits": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
     "punjab-power-mod": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
     "vellore-passives": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 BIS registered, clean."
+      "rationale": "Illustrative SME — BIS registered, clean."
     },
     "kerala-coast-emd": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
     "ahmedabad-led": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 BIS registered."
+      "rationale": "Illustrative SME — BIS registered."
     },
     "noida-pcb-tech": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 BIS-pending; sample-data only."
+      "rationale": "Illustrative SME — BIS-pending; sample-data only."
     },
     "chandigarh-instrument": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
     "tirupati-chip-test": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
     "rajasthan-magnetics": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
     "indore-precision": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile, defence aspirant."
+      "rationale": "Illustrative SME — clean profile, defence aspirant."
     },
     "patna-control": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
     "gurgaon-rf": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
     "siliguri-cable": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
     "varanasi-light": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 BIS registered, clean."
+      "rationale": "Illustrative SME — BIS registered, clean."
     },
     "thane-microsensor": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
     "coimbatore-power": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 BIS registered."
+      "rationale": "Illustrative SME — BIS registered."
     },
     "pune-thermal": {
       "risky": false,
-      "rationale": "Illustrative SME \u2014 clean profile."
+      "rationale": "Illustrative SME — clean profile."
     },
-    "yelahanka-shadow-traders": true,
-    "peenya-grey-market": true,
-    "bommanahalli-relabel": true,
-    "rajajinagar-evasion-shell": true,
-    "ecopmin-tech": false,
-    "rashmi-electricals": false,
-    "tek-tools-bengaluru": false
+    "yelahanka-shadow-traders": {
+      "risky": true,
+      "rationale": "Illustrative — synthetic Bangalore shell entity with OFAC-list match plus 3 labour cases, no MCA/EPF/KSPCB compliance, recent incorporation. Used as the primary adversarial-lab demo target."
+    },
+    "peenya-grey-market": {
+      "risky": true,
+      "rationale": "Illustrative — synthetic broker selling BIS-CRS-mandatory products without CRS registration. Demonstrates the BIS CRS fail path."
+    },
+    "bommanahalli-relabel": {
+      "risky": true,
+      "rationale": "Illustrative — synthetic relabel/counterfeit broker with consumer-forum ruling against it. Demonstrates the counterfeit-electronics risk pattern."
+    },
+    "rajajinagar-evasion-shell": {
+      "risky": true,
+      "rationale": "Illustrative — recently-incorporated shell entity with OFAC alias match (\"RJN Trading\"). Demonstrates fuzzy-match alias-based detection."
+    },
+    "ecopmin-tech": {
+      "risky": false,
+      "rationale": "Real — Peenya-area cleantech/electronics MSME with active MCA, EPFO, KSPCB registrations and ISO 9001 certification. Subject of the project domain-validation interview on 27 April 2026."
+    },
+    "rashmi-electricals": {
+      "risky": false,
+      "rationale": "Real — long-operating Peenya electrical-components SME, BIS CRS registered, clean compliance record."
+    },
+    "tek-tools-bengaluru": {
+      "risky": false,
+      "rationale": "Real — Peenya precision-tools SME, BIS CRS registered, clean compliance record."
+    }
   }
 }

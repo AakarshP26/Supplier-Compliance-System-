@@ -154,7 +154,21 @@ trust-calibrated defense layer wraps the news stream, and Yager-rule
 fusion combines everything into a single SupplierScore.
         """
     )
-    st.markdown(_flowchart_svg(), unsafe_allow_html=True)
+    # Render the SVG inside an HTML component — st.markdown's sanitizer
+    # can strip <svg>/<defs>/<marker> elements even with unsafe_allow_html.
+    # components.v1.html bypasses that and gives a clean iframe.
+    import streamlit.components.v1 as components
+    components.html(
+        f"""
+<div style="display:flex; justify-content:center; padding:8px;">
+  <div style="max-width:1100px; width:100%;">
+    {_flowchart_svg()}
+  </div>
+</div>
+        """,
+        height=620,
+        scrolling=False,
+    )
     st.caption(
         "Three independent evidence streams (compliance, news, "
         "verification parameters) → BPAs → Yager fusion → SupplierScore. "
