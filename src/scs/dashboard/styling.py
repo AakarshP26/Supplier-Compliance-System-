@@ -151,6 +151,17 @@ button[data-baseweb="tab"] { padding-top: 0.4rem; padding-bottom: 0.4rem; }
 
 /* Make code blocks denser */
 code { font-size: 0.85em; }
+
+/* Copilot styling */
+.stChatFloatingInputContainer {
+    bottom: 20px;
+}
+[data-testid="stChatMessage"] {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(120,120,120,0.1);
+    margin-bottom: 0.5rem;
+}
 </style>
 """
 

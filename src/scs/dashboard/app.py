@@ -33,6 +33,7 @@ import streamlit as st  # noqa: E402
 from scs.dashboard import (  # noqa: E402
     page_overview, page_find, page_detail, page_compare,
     page_onboard, page_lab, page_method, page_parameters,
+    copilot,
 )
 from scs.dashboard.styling import inject_css  # noqa: E402
 
@@ -131,4 +132,11 @@ PAGES = {
     "Methodology":           page_method.render,
 }
 
-PAGES[page](use_defense=use_defense, threshold=float(threshold))
+# Main layout with persistent Copilot
+main_col, copilot_col = st.columns([3, 1], gap="medium")
+
+with main_col:
+    PAGES[page](use_defense=use_defense, threshold=float(threshold))
+
+with copilot_col:
+    copilot.render_copilot({"page": page, "use_defense": use_defense, "threshold": threshold})
