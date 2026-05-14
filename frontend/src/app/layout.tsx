@@ -28,6 +28,7 @@ export default function RootLayout({
               <div className="text-xs font-semibold text-white/30 uppercase tracking-wider mb-4 px-2">Dashboards</div>
               <Link href="/" className="block px-4 py-2.5 rounded-lg hover:bg-white/5 text-sm font-medium text-white/70 hover:text-white transition-colors">Overview</Link>
               <Link href="/suppliers" className="block px-4 py-2.5 rounded-lg hover:bg-white/5 text-sm font-medium text-white/70 hover:text-white transition-colors">Suppliers</Link>
+              <Link href="/map" className="block px-4 py-2.5 rounded-lg hover:bg-white/5 text-sm font-medium text-white/70 hover:text-white transition-colors">Map</Link>
               <div className="mt-8 mb-4 px-2 text-xs font-semibold text-white/30 uppercase tracking-wider">Analysis</div>
               <Link href="/lab" className="block px-4 py-2.5 rounded-lg hover:bg-white/5 text-sm font-medium text-white/70 hover:text-white transition-colors">Adversarial Lab</Link>
             </nav>

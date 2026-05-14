@@ -63,6 +63,10 @@ class Supplier(BaseModel):
     # rationale of an illustrative one.
     note: str | None = None
 
+    address: str | None = None
+    lat: float | None = None
+    lng: float | None = None
+
     @field_validator("country")
     @classmethod
     def _country_upper(cls, v: str) -> str:

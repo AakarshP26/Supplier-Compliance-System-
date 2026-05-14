@@ -5,17 +5,206 @@ import { BlurFade } from "@/components/ui/blur-fade";
 import { ShieldCheck, ArrowUp, RotateCcw } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
+  PieChart, Pie, Cell, Legend, ResponsiveContainer,
+} from "recharts";
+
+// ─── Chart spec types ───────────────────────────────────────────────────────
+
+interface BarSpec {
+  type: "bar";
+  title: string;
+  xKey: string;
+  bars: { key: string; color: string; label?: string }[];
+  data: Record<string, string | number>[];
+  yLabel?: string;
+  layout?: "horizontal" | "vertical";
+}
+
+interface DonutSpec {
+  type: "donut";
+  title: string;
+  data: { name: string; value: number; color: string }[];
+}
+
+type ChartSpec = BarSpec | DonutSpec;
+
+// ─── Chart components ────────────────────────────────────────────────────────
+
+function ChartTooltipStyle({ active, payload, label }: { active?: boolean; payload?: { name: string; value: number; color: string }[]; label?: string }) {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="bg-[#111] border border-white/10 rounded px-3 py-2 text-[11px] font-mono space-y-1">
+      {label && <p className="text-white/50 mb-1">{label}</p>}
+      {payload.map((p) => (
+        <p key={p.name} style={{ color: p.color }}>{p.name}: <span className="text-white/80">{typeof p.value === "number" ? p.value.toFixed(p.value % 1 === 0 ? 0 : 2) : p.value}</span></p>
+      ))}
+    </div>
+  );
+}
+
+function BarChartCard({ spec }: { spec: BarSpec }) {
+  const isVertical = spec.layout === "vertical";
+  return (
+    <div className="my-4 bg-white/[0.03] border border-white/[0.08] rounded-lg p-4">
+      <p className="text-[11px] uppercase tracking-widest text-white/35 mb-4">{spec.title}</p>
+      <ResponsiveContainer width="100%" height={260}>
+        <BarChart
+          data={spec.data}
+          layout={isVertical ? "vertical" : "horizontal"}
+          margin={{ top: 4, right: 16, bottom: 8, left: isVertical ? 140 : 0 }}
+          barCategoryGap="30%"
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+          {isVertical ? (
+            <>
+              <XAxis type="number" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} />
+              <YAxis dataKey={spec.xKey} type="category" tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10 }} axisLine={false} tickLine={false} width={136} />
+            </>
+          ) : (
+            <>
+              <XAxis dataKey={spec.xKey} tick={{ fill: "rgba(255,255,255,0.4)", fontSize: 10 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} label={spec.yLabel ? { value: spec.yLabel, angle: -90, position: "insideLeft", fill: "rgba(255,255,255,0.25)", fontSize: 10 } : undefined} />
+            </>
+          )}
+          <Tooltip content={<ChartTooltipStyle />} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
+          {spec.bars.length > 1 && <Legend wrapperStyle={{ fontSize: 10, color: "rgba(255,255,255,0.4)" }} />}
+          {spec.bars.map((b) => (
+            <Bar key={b.key} dataKey={b.key} name={b.label ?? b.key} fill={b.color} radius={[2, 2, 0, 0]} maxBarSize={40} />
+          ))}
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+const RADIAN = Math.PI / 180;
+function DonutLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent }: { cx: number; cy: number; midAngle: number; innerRadius: number; outerRadius: number; percent: number }) {
+  if (percent < 0.04) return null;
+  const r = innerRadius + (outerRadius - innerRadius) * 0.55;
+  const x = cx + r * Math.cos(-midAngle * RADIAN);
+  const y = cy + r * Math.sin(-midAngle * RADIAN);
+  return (
+    <text x={x} y={y} fill="rgba(255,255,255,0.75)" textAnchor="middle" dominantBaseline="central" fontSize={11} fontFamily="monospace">
+      {`${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+}
+
+function DonutChartCard({ spec }: { spec: DonutSpec }) {
+  return (
+    <div className="my-4 bg-white/[0.03] border border-white/[0.08] rounded-lg p-4">
+      <p className="text-[11px] uppercase tracking-widest text-white/35 mb-4">{spec.title}</p>
+      <ResponsiveContainer width="100%" height={240}>
+        <PieChart>
+          <Pie
+            data={spec.data}
+            cx="50%"
+            cy="50%"
+            innerRadius={60}
+            outerRadius={95}
+            paddingAngle={2}
+            dataKey="value"
+            labelLine={false}
+            label={DonutLabel as Parameters<typeof Pie>[0]["label"]}
+          >
+            {spec.data.map((entry, i) => (
+              <Cell key={i} fill={entry.color} stroke="transparent" />
+            ))}
+          </Pie>
+          <Tooltip content={<ChartTooltipStyle />} />
+          <Legend
+            wrapperStyle={{ fontSize: 10, color: "rgba(255,255,255,0.4)", paddingTop: 8 }}
+            formatter={(value, entry) => (
+              <span style={{ color: "rgba(255,255,255,0.55)" }}>
+                {value} <span style={{ color: (entry as { color?: string }).color ?? "white" }}>({(entry as { payload?: { value: number } }).payload?.value ?? ""})</span>
+              </span>
+            )}
+          />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+function ChartBlock({ raw }: { raw: string }) {
+  try {
+    const spec: ChartSpec = JSON.parse(raw);
+    if (spec.type === "bar") return <BarChartCard spec={spec} />;
+    if (spec.type === "donut") return <DonutChartCard spec={spec} />;
+  } catch {
+    // fall through to raw display
+  }
+  return <pre className="text-[11px] text-white/30 bg-white/5 rounded p-3 overflow-auto">{raw}</pre>;
+}
+
+// ─── Markdown renderer with chart injection ───────────────────────────────────
+
+function AssistantContent({ content }: { content: string }) {
+  const parts: { type: "md" | "chart"; text: string }[] = [];
+  const chartRe = /```chart\n([\s\S]*?)```/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+
+  while ((m = chartRe.exec(content)) !== null) {
+    if (m.index > last) parts.push({ type: "md", text: content.slice(last, m.index) });
+    parts.push({ type: "chart", text: m[1].trim() });
+    last = m.index + m[0].length;
+  }
+  if (last < content.length) parts.push({ type: "md", text: content.slice(last) });
+
+  return (
+    <div className="space-y-1">
+      {parts.map((p, i) =>
+        p.type === "chart" ? (
+          <ChartBlock key={i} raw={p.text} />
+        ) : (
+          <div key={i} className="prose prose-sm prose-invert max-w-none text-white/75
+            prose-p:leading-relaxed prose-p:my-1.5
+            prose-strong:text-white/90 prose-strong:font-semibold
+            prose-headings:text-white/90 prose-headings:font-semibold prose-headings:mt-4 prose-headings:mb-1
+            prose-ul:my-1.5 prose-ul:space-y-0.5 prose-li:my-0
+            prose-ol:my-1.5 prose-ol:space-y-0.5
+            prose-code:text-indigo-300 prose-code:bg-indigo-500/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:before:content-none prose-code:after:content-none
+            prose-hr:border-white/10 prose-hr:my-3
+          ">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                code(props) {
+                  const { className, children } = props;
+                  const lang = /language-(\w+)/.exec(className || "")?.[1];
+                  if (lang === "chart") {
+                    return <ChartBlock raw={String(children).trim()} />;
+                  }
+                  return <code className={className}>{children}</code>;
+                },
+              }}
+            >
+              {p.text}
+            </ReactMarkdown>
+          </div>
+        )
+      )}
+    </div>
+  );
+}
+
+// ─── Suggestions ──────────────────────────────────────────────────────────────
 
 const SUGGESTIONS = [
-  "Analyze top risky suppliers",
+  "Show score distribution chart",
+  "Grade breakdown across portfolio",
+  "Compare Dixon Electronics and BEL",
   "Which suppliers failed compliance checks?",
+  "Show DS belief masses for Bosch India",
   "Run a red-team attack simulation",
-  "Show news intelligence summary",
-  "Find suppliers below score 40",
-  "Explain how DS fusion scoring works",
 ];
 
 type Message = { role: "user" | "assistant"; content: string };
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -36,8 +225,6 @@ export default function Home() {
     const newHistory = [...messages, { role: "user" as const, content: trimmed }];
     setMessages(newHistory);
     setLoading(true);
-
-    // Add an empty assistant message we'll stream into
     setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
     try {
@@ -96,7 +283,6 @@ export default function Home() {
 
   return (
     <div className="relative flex flex-col h-full">
-      {/* Messages area */}
       {hasMessages ? (
         <div className="flex-1 overflow-y-auto px-4 py-8">
           <div className="max-w-2xl mx-auto space-y-8">
@@ -109,18 +295,8 @@ export default function Home() {
                     <div className="mt-1 shrink-0 w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
                       <ShieldCheck size={13} className="text-indigo-400" />
                     </div>
-                    <div className="prose prose-sm prose-invert max-w-none text-white/75
-                      prose-p:leading-relaxed prose-p:my-1.5
-                      prose-strong:text-white/90 prose-strong:font-semibold
-                      prose-headings:text-white/90 prose-headings:font-semibold prose-headings:mt-4 prose-headings:mb-1
-                      prose-ul:my-1.5 prose-ul:space-y-0.5 prose-li:my-0
-                      prose-ol:my-1.5 prose-ol:space-y-0.5
-                      prose-code:text-indigo-300 prose-code:bg-indigo-500/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:before:content-none prose-code:after:content-none
-                      prose-hr:border-white/10 prose-hr:my-3
-                    ">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {m.content}
-                      </ReactMarkdown>
+                    <div className="flex-1 min-w-0">
+                      <AssistantContent content={m.content} />
                     </div>
                   </div>
                 )}
@@ -142,7 +318,6 @@ export default function Home() {
           </div>
         </div>
       ) : (
-        /* Hero — shown before first message */
         <div className="flex-1 flex flex-col items-center justify-center px-4 pb-40">
           <BlurFade delay={0.05}>
             <div className="flex items-center gap-3 mb-6">
@@ -181,7 +356,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Pinned input bar */}
       <div className="sticky bottom-0 px-4 pb-6 pt-4 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/90 to-transparent">
         <div className="max-w-2xl mx-auto">
           {hasMessages && (
@@ -218,7 +392,7 @@ export default function Home() {
             </div>
           </div>
           <p className="text-center text-[11px] text-white/15 mt-3">
-            Powered by DeepSeek via OpenRouter · DS Fusion scoring · 87 suppliers indexed
+            Powered by DeepSeek via OpenRouter · DS Fusion scoring · 85 suppliers indexed
           </p>
         </div>
       </div>

@@ -24,6 +24,12 @@ TOOLS AVAILABLE:
 - onboard_supplier(name, country, category, cin?, website?, news_text?) → assess a new supplier
 - find_cheapest_attack(supplier_id, vector?, target_score?) → adversarial vulnerability test
 
+CHART TOOLS (call these when a visual would help):
+- chart_score_distribution() → bar chart of score bands across portfolio
+- chart_grade_breakdown() → donut of grade distribution
+- chart_supplier_comparison(supplier_names) → grouped bar comparing up to 5 suppliers
+- chart_belief_masses(supplier_name) → donut of DS masses for one supplier
+
 RESPONSE RULES:
 1. Always call tools to get real data — never guess scores or supplier names.
 2. Chain tools if needed (e.g. get portfolio summary first, then drill into a specific supplier).
@@ -31,6 +37,7 @@ RESPONSE RULES:
 4. When explaining DS scores, always mention: belief_safe, belief_risky, and uncertainty masses.
 5. Be concise and data-driven. Lead with the number, then explain.
 6. For portfolio-level questions ("risky suppliers", "worst performers"), call list_risky_suppliers or portfolio_summary — never guess.
+7. ALWAYS use chart tools when the user asks for distributions, comparisons, breakdowns, or "show me" questions. Emit the chart fence AND a brief text explanation. Do not only return text when a chart is possible.
 """
 
 
@@ -140,6 +147,54 @@ class CopilotAgent:
                     },
                 },
             },
+            {
+                "type": "function",
+                "function": {
+                    "name": "chart_score_distribution",
+                    "description": "Return a bar chart showing how many suppliers fall into each score band (0-20, 20-40, etc.). Use for questions like 'show score distribution', 'how are suppliers distributed', 'portfolio overview chart'.",
+                    "parameters": {"type": "object", "properties": {}},
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "chart_grade_breakdown",
+                    "description": "Return a donut chart of grade distribution (A/B/C/D/F) across the portfolio. Use for 'grade breakdown', 'how many grade A suppliers', 'grade distribution chart'.",
+                    "parameters": {"type": "object", "properties": {}},
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "chart_supplier_comparison",
+                    "description": "Return a grouped bar chart comparing up to 5 suppliers across score, DS beliefs, compliance, and articles. Use when user asks to compare specific suppliers.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "supplier_names": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                                "description": "List of supplier names to compare (2-5).",
+                            },
+                        },
+                        "required": ["supplier_names"],
+                    },
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "chart_belief_masses",
+                    "description": "Return a donut chart of Dempster-Shafer belief masses (m_safe, m_risky, uncertainty) for a single supplier. Use when user asks about DS beliefs visually for one supplier.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "supplier_name": {"type": "string"},
+                        },
+                        "required": ["supplier_name"],
+                    },
+                },
+            },
         ]
 
     # ------------------------------------------------------------------
@@ -160,6 +215,14 @@ class CopilotAgent:
                 return agent_tools.onboard_supplier(**args)
             elif name == "find_cheapest_attack":
                 return agent_tools.find_cheapest_attack(**args)
+            elif name == "chart_score_distribution":
+                return agent_tools.chart_score_distribution()
+            elif name == "chart_grade_breakdown":
+                return agent_tools.chart_grade_breakdown()
+            elif name == "chart_supplier_comparison":
+                return agent_tools.chart_supplier_comparison(**args)
+            elif name == "chart_belief_masses":
+                return agent_tools.chart_belief_masses(**args)
             return f"Unknown tool: {name}"
         except Exception as e:
             return f"Tool '{name}' error: {e}"

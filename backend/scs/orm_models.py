@@ -22,6 +22,9 @@ class SupplierRow(Base):
     aliases     = Column(ARRAY(String), nullable=False, server_default="{}")
     is_illustrative = Column(Boolean, nullable=False, default=False)
     note        = Column(Text)
+    address     = Column(String)
+    lat         = Column(Float)
+    lng         = Column(Float)
 
     __table_args__ = (UniqueConstraint("id", name="uq_supplier_id"),)
 

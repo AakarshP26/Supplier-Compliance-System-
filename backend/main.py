@@ -87,6 +87,37 @@ def _get_cached_portfolio_stats():
 def get_portfolio_stats():
     return _get_cached_portfolio_stats()
 
+@app.get("/api/suppliers/scored")
+def get_suppliers_scored():
+    return agent_tools._all_supplier_scores()
+
+@app.get("/api/suppliers/map")
+def get_suppliers_map():
+    """Lightweight map payload — only fields needed to render pins."""
+    suppliers = list(load_suppliers())
+    scored = {r["id"]: r for r in agent_tools._all_supplier_scores() if "error" not in r}
+    out = []
+    for s in suppliers:
+        if s.lat is None or s.lng is None:
+            continue
+        sc = scored.get(s.id, {})
+        out.append({
+            "id": s.id,
+            "name": s.name,
+            "lat": s.lat,
+            "lng": s.lng,
+            "address": s.address,
+            "category": s.category.value,
+            "country": s.country,
+            "is_illustrative": s.is_illustrative,
+            "score": sc.get("score"),
+            "grade": sc.get("grade"),
+            "belief_safe": sc.get("belief_safe"),
+            "belief_risky": sc.get("belief_risky"),
+            "compliance_fails": sc.get("compliance_fails", 0),
+        })
+    return out
+
 @app.post("/api/agent/chat")
 def chat_with_agent(req: ChatRequest):
     agent = CopilotAgent(req.context)

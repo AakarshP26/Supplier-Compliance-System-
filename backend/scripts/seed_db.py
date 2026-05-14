@@ -54,6 +54,9 @@ def seed_suppliers(session):
             aliases=list(s.get("aliases", [])),
             is_illustrative=s.get("is_illustrative", False),
             note=s.get("note"),
+            address=s.get("address"),
+            lat=s.get("lat"),
+            lng=s.get("lng"),
         )
         session.add(row)
         inserted += 1

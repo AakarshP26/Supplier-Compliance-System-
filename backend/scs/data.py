@@ -40,6 +40,9 @@ def _load_from_db() -> tuple[Supplier, ...]:
                 aliases=tuple(r.aliases or []),
                 is_illustrative=r.is_illustrative,
                 note=r.note,
+                address=r.address,
+                lat=r.lat,
+                lng=r.lng,
             ))
         return tuple(suppliers)
     finally:

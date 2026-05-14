@@ -277,6 +277,112 @@ Note: This is a transient assessment. Persist to directory after human review.""
 
 
 # ---------------------------------------------------------------------------
+# Chart tools — return a ```chart``` code fence with a JSON spec
+# ---------------------------------------------------------------------------
+
+def _chart_fence(spec: dict) -> str:
+    return f"```chart\n{json.dumps(spec, indent=2)}\n```"
+
+
+def chart_score_distribution() -> str:
+    """Return a bar chart of how many suppliers fall into each score band."""
+    scores = _all_supplier_scores()
+    ok = [r for r in scores if "error" not in r]
+    bands = [("0–20", 0, 20), ("20–40", 20, 40), ("40–60", 40, 60), ("60–80", 60, 80), ("80–100", 80, 101)]
+    data = [{"range": label, "count": sum(1 for r in ok if lo <= r["score"] < hi)}
+            for label, lo, hi in bands]
+    spec = {
+        "type": "bar",
+        "title": "Score Distribution across Portfolio",
+        "xKey": "range",
+        "bars": [{"key": "count", "color": "#6366f1", "label": "Suppliers"}],
+        "data": data,
+        "yLabel": "No. of suppliers",
+    }
+    return _chart_fence(spec)
+
+
+def chart_grade_breakdown() -> str:
+    """Return a donut chart showing the count of suppliers per grade band."""
+    scores = _all_supplier_scores()
+    ok = [r for r in scores if "error" not in r]
+    grade_colors = {"A": "#22c55e", "B": "#86efac", "C": "#fbbf24", "D": "#f97316", "F": "#ef4444"}
+    counts: dict[str, int] = {}
+    for r in ok:
+        counts[r["grade"]] = counts.get(r["grade"], 0) + 1
+    data = [{"name": f"Grade {g}", "value": counts.get(g, 0), "color": grade_colors[g]}
+            for g in ["A", "B", "C", "D", "F"] if counts.get(g, 0) > 0]
+    spec = {"type": "donut", "title": "Grade Distribution", "data": data}
+    return _chart_fence(spec)
+
+
+def chart_supplier_comparison(supplier_names: list[str]) -> str:
+    """Return a grouped bar chart comparing up to 5 suppliers across key metrics."""
+    scores = _all_supplier_scores()
+    score_map = {r["name"].lower(): r for r in scores if "error" not in r}
+
+    matched = []
+    for name in supplier_names[:5]:
+        # fuzzy match
+        key = min(score_map.keys(), key=lambda k: abs(len(k) - len(name)) - (name.lower() in k) * 100, default=None)
+        if key:
+            matched.append(score_map[key])
+
+    if not matched:
+        return "Could not find any of those suppliers in the portfolio."
+
+    metrics = [
+        {"metric": "Score (/100)", "field": "score"},
+        {"metric": "Belief Safe", "field": "belief_safe", "scale": 100},
+        {"metric": "Belief Risky", "field": "belief_risky", "scale": 100},
+        {"metric": "Uncertainty", "field": "uncertainty", "scale": 100},
+        {"metric": "Compliance Fails", "field": "compliance_fails"},
+        {"metric": "Articles", "field": "article_count"},
+    ]
+    colors = ["#6366f1", "#f59e0b", "#22c55e", "#ef4444", "#a78bfa"]
+
+    data = []
+    for m in metrics:
+        row: dict = {"metric": m["metric"]}
+        for s in matched:
+            val = s[m["field"]]
+            if "scale" in m:
+                val = round(val * m["scale"], 1)
+            row[s["name"]] = val
+        data.append(row)
+
+    bars = [{"key": s["name"], "color": colors[i % len(colors)]} for i, s in enumerate(matched)]
+    spec = {
+        "type": "bar",
+        "title": "Supplier Comparison",
+        "xKey": "metric",
+        "bars": bars,
+        "data": data,
+        "layout": "vertical",
+    }
+    return _chart_fence(spec)
+
+
+def chart_belief_masses(supplier_name: str) -> str:
+    """Return a donut chart of DS belief masses for a single supplier."""
+    scores = _all_supplier_scores()
+    match = next((r for r in scores if supplier_name.lower() in r["name"].lower() and "error" not in r), None)
+    if not match:
+        return f"Supplier '{supplier_name}' not found."
+    data = [
+        {"name": "Belief Safe (m_safe)", "value": round(match["belief_safe"] * 100, 1), "color": "#22c55e"},
+        {"name": "Belief Risky (m_risky)", "value": round(match["belief_risky"] * 100, 1), "color": "#ef4444"},
+        {"name": "Uncertainty (Θ)", "value": round(match["uncertainty"] * 100, 1), "color": "#6366f1"},
+    ]
+    spec = {
+        "type": "donut",
+        "title": f"DS Belief Masses — {match['name']} (Score {match['score']}, Grade {match['grade']})",
+        "data": data,
+    }
+    return _chart_fence(spec)
+
+
+# ---------------------------------------------------------------------------
 # Adversarial tool
 # ---------------------------------------------------------------------------
 
