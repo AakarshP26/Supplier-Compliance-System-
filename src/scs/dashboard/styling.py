@@ -154,13 +154,29 @@ code { font-size: 0.85em; }
 
 /* Copilot styling */
 .stChatFloatingInputContainer {
-    bottom: 20px;
+    bottom: 40px;
 }
 [data-testid="stChatMessage"] {
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
-    border: 1px solid rgba(120,120,120,0.1);
-    margin-bottom: 0.5rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 0.75rem;
+    padding: 1rem;
+}
+[data-testid="stChatMessage"] p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Vertical divider for the [1, 1] split */
+[data-testid="column"]:nth-of-type(2) {
+    border-left: 1px solid rgba(120,120,120,0.15);
+    padding-left: 2rem !important;
+}
+
+/* Adjust main column padding */
+[data-testid="column"]:nth-of-type(1) {
+    padding-right: 2rem !important;
 }
 </style>
 """

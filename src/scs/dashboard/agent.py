@@ -58,13 +58,134 @@ Guidelines:
 """
 
     def _call_llm(self, messages: List[Dict[str, str]]) -> str:
-        if CONFIG.use_mock_llm or not CONFIG.anthropic_api_key:
+        if CONFIG.use_mock_llm or (not CONFIG.anthropic_api_key and not CONFIG.openrouter_api_key):
             return self._mock_response(messages[-1]["content"])
             
+        if CONFIG.openrouter_api_key:
+            return self._call_openrouter(messages)
+        else:
+            return self._call_anthropic(messages)
+
+    def _call_anthropic(self, messages: List[Dict[str, str]]) -> str:
         from anthropic import Anthropic
         client = Anthropic(api_key=CONFIG.anthropic_api_key)
         
-        tools = [
+        tools = self._get_tools_schema()
+        
+        try:
+            response = client.messages.create(
+                model=self.model,
+                max_tokens=1000,
+                system=self._get_system_prompt(),
+                messages=messages,
+                tools=tools
+            )
+            
+            if response.stop_reason == "tool_use":
+                tool_use = next(block for block in response.content if block.type == "tool_use")
+                result = self._execute_tool(tool_use.name, tool_use.input)
+                
+                final_response = client.messages.create(
+                    model=self.model,
+                    max_tokens=1000,
+                    system=self._get_system_prompt(),
+                    messages=messages + [
+                        {"role": "assistant", "content": response.content},
+                        {
+                            "role": "user",
+                            "content": [
+                                {
+                                    "type": "tool_result",
+                                    "tool_use_id": tool_use.id,
+                                    "content": result
+                                }
+                            ]
+                        }
+                    ],
+                    tools=tools
+                )
+                return "".join(block.text for block in final_response.content if block.type == "text")
+            
+            return "".join(block.text for block in response.content if block.type == "text")
+        except Exception as e:
+            return f"Error in Anthropic execution: {e}"
+
+    def _call_openrouter(self, messages: List[Dict[str, str]]) -> str:
+        # OpenRouter uses the OpenAI-compatible API
+        import httpx
+        
+        url = "https://openrouter.ai/api/v1/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {CONFIG.openrouter_api_key}",
+            "HTTP-Referer": "https://github.com/AakarshP26/Supplier-Compliance-System",
+            "X-Title": "Supplier Compliance System",
+            "Content-Type": "application/json"
+        }
+        
+        # Convert tools to OpenAI format for OpenRouter
+        oa_tools = []
+        for t in self._get_tools_schema():
+            oa_tools.append({
+                "type": "function",
+                "function": {
+                    "name": t["name"],
+                    "description": t["description"],
+                    "parameters": t["input_schema"]
+                }
+            })
+
+        # Format messages for OpenAI API
+        oa_messages = [{"role": "system", "content": self._get_system_prompt()}] + messages
+
+        payload = {
+            "model": "deepseek/deepseek-chat", 
+            "messages": oa_messages,
+            "tools": oa_tools,
+            "tool_choice": "auto"
+        }
+
+        try:
+            with httpx.Client() as client:
+                resp = client.post(url, headers=headers, json=payload, timeout=60.0)
+                resp.raise_for_status()
+                data = resp.json()
+                
+                if "choices" not in data or not data["choices"]:
+                    return "Error: OpenRouter returned an empty response."
+                
+                choice = data["choices"][0]["message"]
+                
+                if choice.get("tool_calls"):
+                    tool_call = choice["tool_calls"][0]
+                    t_func = tool_call["function"]
+                    t_name = t_func["name"]
+                    t_args = json.loads(t_func["arguments"])
+                    
+                    result = self._execute_tool(t_name, t_args)
+                    
+                    # Follow up with the result
+                    oa_messages.append(choice)
+                    oa_messages.append({
+                        "role": "tool",
+                        "tool_call_id": tool_call["id"],
+                        "name": t_name,
+                        "content": result
+                    })
+                    
+                    resp = client.post(url, headers=headers, json=payload, timeout=60.0)
+                    resp.raise_for_status()
+                    data = resp.json()
+                    
+                    final_content = data["choices"][0]["message"].get("content")
+                    return final_content if final_content else "Tool executed, but the model provided no summary."
+                
+                content = choice.get("content")
+                return content if content else "The model returned an empty response."
+        except Exception as e:
+            return f"Error in OpenRouter execution: {str(e)}"
+
+    def _get_tools_schema(self) -> List[Dict[str, Any]]:
+        return [
             {
                 "name": "get_supplier_by_name",
                 "description": "Finds a supplier in the directory by name (fuzzy).",
@@ -101,64 +222,25 @@ Guidelines:
                 }
             }
         ]
-        
+
+    def _execute_tool(self, name: str, input_data: Dict[str, Any]) -> str:
         try:
-            # 1. Get initial response
-            response = client.messages.create(
-                model=self.model,
-                max_tokens=1000,
-                system=self._get_system_prompt(),
-                messages=messages,
-                tools=tools
-            )
-            
-            # 2. Handle tool calls
-            if response.stop_reason == "tool_use":
-                tool_use = next(block for block in response.content if block.type == "tool_use")
-                tool_name = tool_use.name
-                tool_input = tool_use.input
-                
-                result = "Tool execution failed."
-                if tool_name == "get_supplier_by_name":
-                    sup = agent_tools.get_supplier_by_name(tool_input["name"])
-                    result = str(sup.model_dump()) if sup else "Supplier not found."
-                elif tool_name == "analyze_supplier":
-                    sup = agent_tools.get_supplier_by_name(tool_input["supplier_name"])
-                    if sup:
-                        news = [{"body": tool_input["news_body"]}] if tool_input.get("news_body") else None
-                        res = agent_tools.analyze_supplier(sup, news_articles=news)
-                        result = f"Analysis complete for {sup.name}. Score: {res['score'].score:.1f}, Grade: {res['score'].grade}."
-                    else:
-                        result = "Supplier not found for analysis."
-                elif tool_name == "find_cheapest_attack":
-                    res = agent_tools.find_cheapest_attack(tool_input["supplier_id"], target_score=tool_input["target_score"])
-                    result = str(res)
-                
-                # 3. Get final response with tool result
-                final_response = client.messages.create(
-                    model=self.model,
-                    max_tokens=1000,
-                    system=self._get_system_prompt(),
-                    messages=messages + [
-                        {"role": "assistant", "content": response.content},
-                        {
-                            "role": "user",
-                            "content": [
-                                {
-                                    "type": "tool_result",
-                                    "tool_use_id": tool_use.id,
-                                    "content": result
-                                }
-                            ]
-                        }
-                    ],
-                    tools=tools
-                )
-                return "".join(block.text for block in final_response.content if block.type == "text")
-            
-            return "".join(block.text for block in response.content if block.type == "text")
+            if name == "get_supplier_by_name":
+                sup = agent_tools.get_supplier_by_name(input_data["name"])
+                return str(sup.model_dump()) if sup else "Supplier not found."
+            elif name == "analyze_supplier":
+                sup = agent_tools.get_supplier_by_name(input_data["supplier_name"])
+                if sup:
+                    news = [{"body": input_data["news_body"]}] if input_data.get("news_body") else None
+                    res = agent_tools.analyze_supplier(sup, news_articles=news)
+                    return f"Analysis complete for {sup.name}. Score: {res['score'].score:.1f}, Grade: {res['score'].grade}."
+                return "Supplier not found for analysis."
+            elif name == "find_cheapest_attack":
+                res = agent_tools.find_cheapest_attack(input_data["supplier_id"], target_score=input_data["target_score"])
+                return str(res)
+            return "Unknown tool called."
         except Exception as e:
-            return f"Error in agent execution: {e}"
+            return f"Tool execution error: {e}"
 
     def _mock_response(self, prompt: str) -> str:
         prompt_low = prompt.lower()

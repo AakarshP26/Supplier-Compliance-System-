@@ -27,6 +27,7 @@ def _bool_env(name: str, default: bool) -> bool:
 @dataclass(frozen=True)
 class Config:
     anthropic_api_key: str | None
+    openrouter_api_key: str | None
     use_mock_llm: bool
     data_dir: Path
 
@@ -51,6 +52,7 @@ def _resolve_data_dir() -> Path:
 
 CONFIG = Config(
     anthropic_api_key=os.getenv("ANTHROPIC_API_KEY") or None,
+    openrouter_api_key=os.getenv("OPENROUTER_API_KEY") or None,
     use_mock_llm=_bool_env("USE_MOCK_LLM", default=True),
     data_dir=_resolve_data_dir(),
 )

@@ -1,0 +1,21 @@
+ 2. Test "Supplier Search & Analysis" (Tool: get_supplier_by_name + analyze_supplier)
+  In the Copilot chat sidebar, type:
+It seems "Karnataka Precision Components" wasn't found in our directory. Could you confirm the exact supplier name or provide any additional details about them? This will help me locate the correct supplier for analysis.
+  What to look for:
+   - You should see a "Thinking..." status spinner.
+   - The agent should find the supplier in the local data and then explain the score using the real model's reasoning.
+
+  3. Test "Adversarial Simulation" (Tool: find_cheapest_attack)
+  Navigate to the Adversarial lab page, then type in the chat:
+  > "I want to flip the score for Shenzhen Shadow Corp. Find the cheapest budget needed using a press release vector to get them
+  above 60 points."
+
+  What to look for:
+   - The agent should call the find_cheapest_attack tool.
+   - It will iterate through budgets (1-20) in the background.
+   - It will return the exact budget number (e.g., "You need a budget of 12 to flip the score to 61.4").
+
+  4. Test "Conversational Onboarding"
+  Go to the Onboard new supplier page and type:
+  > "I need to onboard a new company. They are called 'Bangalore Tech Fab', based in India. I found this news: 'Bangalore Tech Fab
+  secures $50M in Series B funding for plant expansion'."

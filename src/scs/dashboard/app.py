@@ -133,7 +133,7 @@ PAGES = {
 }
 
 # Main layout with persistent Copilot
-main_col, copilot_col = st.columns([3, 1], gap="medium")
+main_col, copilot_col = st.columns([1, 1], gap="large")
 
 with main_col:
     PAGES[page](use_defense=use_defense, threshold=float(threshold))

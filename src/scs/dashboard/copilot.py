@@ -9,22 +9,8 @@ from scs.dashboard.agent import CopilotAgent
 def render_copilot(context: dict[str, Any]) -> None:
     """Renders the persistent copilot chat interface."""
     
-    # Custom styling for the copilot container
-    st.markdown(
-        """
-        <style>
-        .copilot-container {
-            border-left: 1px solid rgba(120,120,120,0.2);
-            padding-left: 1rem;
-            height: calc(100vh - 100px);
-            overflow-y: auto;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-    
-    st.markdown("### 🤖 Compliance Copilot")
+    st.markdown("#### 🤖 Compliance Copilot")
+    st.markdown("---")
     
     if "messages" not in st.session_state:
         st.session_state.messages = [
@@ -34,8 +20,8 @@ def render_copilot(context: dict[str, Any]) -> None:
             }
         ]
 
-    # Container for messages to allow scrolling
-    chat_container = st.container(height=600)
+    # Larger container for a more professional "scrollable" feel
+    chat_container = st.container(height=800)
     
     with chat_container:
         for message in st.session_state.messages:
@@ -43,7 +29,7 @@ def render_copilot(context: dict[str, Any]) -> None:
                 st.markdown(message["content"])
 
     # React to user input
-    if prompt := st.chat_input("Ask me anything..."):
+    if prompt := st.chat_input("Ask me anything...", key="copilot_input"):
         # Display user message
         with chat_container:
             with st.chat_message("user"):
