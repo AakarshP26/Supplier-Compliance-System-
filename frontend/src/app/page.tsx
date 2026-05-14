@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { ShieldCheck, ArrowUp, RotateCcw } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const SUGGESTIONS = [
   "Analyze top risky suppliers",
@@ -101,13 +103,25 @@ export default function Home() {
             {messages.map((m, i) => (
               <div key={i}>
                 {m.role === "user" ? (
-                  <p className="text-2xl font-semibold text-white/90 leading-snug">{m.content}</p>
+                  <p className="text-2xl font-semibold text-white/90 leading-snug tracking-tight">{m.content}</p>
                 ) : (
-                  <div className="flex gap-3 mt-2">
+                  <div className="flex gap-3 mt-1">
                     <div className="mt-1 shrink-0 w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
                       <ShieldCheck size={13} className="text-indigo-400" />
                     </div>
-                    <p className="text-[15px] leading-relaxed text-white/75 whitespace-pre-wrap">{m.content}</p>
+                    <div className="prose prose-sm prose-invert max-w-none text-white/75
+                      prose-p:leading-relaxed prose-p:my-1.5
+                      prose-strong:text-white/90 prose-strong:font-semibold
+                      prose-headings:text-white/90 prose-headings:font-semibold prose-headings:mt-4 prose-headings:mb-1
+                      prose-ul:my-1.5 prose-ul:space-y-0.5 prose-li:my-0
+                      prose-ol:my-1.5 prose-ol:space-y-0.5
+                      prose-code:text-indigo-300 prose-code:bg-indigo-500/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-code:before:content-none prose-code:after:content-none
+                      prose-hr:border-white/10 prose-hr:my-3
+                    ">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {m.content}
+                      </ReactMarkdown>
+                    </div>
                   </div>
                 )}
               </div>

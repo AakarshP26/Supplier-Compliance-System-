@@ -62,6 +62,7 @@ make eval
 ```bash
 git clone https://github.com/AakarshP26/Supplier-Compliance-System-.git
 cd Supplier-Compliance-System-
+git checkout agentic-workflow
 
 make install      # installs pinned requirements
 make test         # 25 tests pass
@@ -76,6 +77,92 @@ above runs offline. To use the real Anthropic API:
 ```bash
 cp .env.example .env
 # set ANTHROPIC_API_KEY and USE_MOCK_LLM=0
+```
+
+## Agentic UI (Next.js + FastAPI)
+
+The `agentic-workflow` branch ships a full-stack interface — a Perplexity-style
+chat frontend backed by a FastAPI server and a multi-turn tool-calling agent.
+
+### Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Next.js 16, Tailwind CSS v4, Magic UI, Recharts |
+| Backend API | FastAPI + Uvicorn |
+| Agent | DeepSeek via OpenRouter (or Anthropic Claude) |
+| Database | PostgreSQL 16 (85 suppliers, CN suppliers excluded) |
+
+### Setup
+
+**1. PostgreSQL**
+
+```bash
+brew install postgresql@16
+/opt/homebrew/opt/postgresql@16/bin/pg_ctl start -D /opt/homebrew/var/postgresql@16
+/opt/homebrew/opt/postgresql@16/bin/createdb scs_db
+```
+
+**2. Backend**
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r backend/requirements.txt
+pip install fastapi uvicorn sqlalchemy psycopg2-binary
+
+# Set API keys
+cp backend/.env.example backend/.env
+# Edit backend/.env — set OPENROUTER_API_KEY, USE_MOCK_LLM=0
+
+# Seed the database (removes CN suppliers, loads 85 suppliers)
+cd backend && python scripts/seed_db.py
+
+# Start the API server
+cd backend && uvicorn main:app --reload --port 8000
+```
+
+**3. Frontend**
+
+```bash
+cd frontend && npm install && npm run dev
+# Open http://localhost:3000
+```
+
+### Agent capabilities
+
+The copilot agent runs a multi-turn tool-calling loop (up to 6 rounds) with
+these tools:
+
+| Tool | What it does |
+|------|-------------|
+| `portfolio_summary()` | Aggregate risk stats with DS belief breakdown |
+| `list_risky_suppliers(threshold, limit)` | Suppliers below a score threshold, worst-first |
+| `rank_suppliers(by, ascending, limit)` | Sort by score, compliance fails, or article count |
+| `analyze_supplier_summary(name, news?)` | Full DS-fusion analysis with belief masses + citations |
+| `onboard_supplier(name, country, category, ...)` | Assess a new supplier not yet in the directory |
+| `find_cheapest_attack(supplier_id, ...)` | Red-team adversarial vulnerability test |
+
+Responses stream token-by-token via SSE. Every data point carries an inline
+`[Source: DS-Fusion pipeline]` citation. DS belief masses (`m_safe`,
+`m_risky`, `uncertainty`) are surfaced in every analysis.
+
+### Database
+
+PostgreSQL `scs_db` schema:
+
+| Table | Rows | Contents |
+|-------|------|----------|
+| `suppliers` | 85 | Supplier records (CN-based suppliers excluded) |
+| `news_articles` | 30 | Seed news corpus |
+| `reference_lists` | 39 | OFAC SDN, BIS CRS, World Bank debarred entries |
+
+`scs/data.py` reads from PostgreSQL with automatic fallback to the JSON flat
+files if the database is unreachable.
+
+To re-seed after data changes:
+
+```bash
+cd backend && python scripts/seed_db.py
 ```
 
 ## Dashboard pages
@@ -126,8 +213,8 @@ small suppliers with limited public footprint.
 
 ## Supplier directory composition
 
-The seeded directory holds **87 suppliers** focused on
-**India / Bangalore**:
+The seeded directory holds **85 suppliers** focused on
+**India / Bangalore** (2 CN-based suppliers removed from the live database):
 
 - **41 real listed Indian firms** — PLI awardees (Dixon, Lava, Optiemus,
   Foxconn India, Wistron India, Pegatron India, Bhagwati, Amber, Syrma
@@ -146,9 +233,10 @@ The seeded directory holds **87 suppliers** focused on
   demonstrate score variation at SME scale without misrepresenting any
   real firm. They appear with a ⓘ marker throughout the dashboard and
   can be filtered out on the **Find suppliers** page.
-- **4 deliberately-risky foreign entities** (Apex Global Sourcing BVI,
-  Dnipro Microelectronics, Shenzhen Shadow, Guangdong Relabel) — kept
-  exclusively to demo the OFAC / World Bank compliance-list catches.
+- **2 deliberately-risky foreign entities** (Apex Global Sourcing BVI,
+  Dnipro Microelectronics) — kept to demo OFAC / World Bank compliance-list
+  catches. Shenzhen Shadow and Guangdong Relabel (CN) have been removed from
+  the live database.
 
 ## Repository layout
 
