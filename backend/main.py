@@ -1,5 +1,8 @@
+import json
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 from functools import lru_cache
@@ -89,6 +92,17 @@ def chat_with_agent(req: ChatRequest):
     agent = CopilotAgent(req.context)
     response = agent.run(req.message, req.history)
     return {"reply": response}
+
+@app.post("/api/agent/stream")
+def stream_agent(req: ChatRequest):
+    agent = CopilotAgent(req.context)
+
+    def event_generator():
+        for token in agent.stream(req.message, req.history):
+            yield f"data: {json.dumps({'token': token})}\n\n"
+        yield "data: [DONE]\n\n"
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
 
 @app.get("/health")
 def health_check():
