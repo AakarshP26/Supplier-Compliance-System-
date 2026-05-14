@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { CopilotSidebar } from "@/components/CopilotSidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,10 +41,6 @@ export default function RootLayout({
             </div>
           </main>
 
-          {/* Global Copilot Sidebar */}
-          <div className="h-full z-20">
-            <CopilotSidebar />
-          </div>
         </div>
       </body>
     </html>

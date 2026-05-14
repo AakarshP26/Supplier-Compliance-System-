@@ -1,129 +1,177 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { MagicCard } from "@/components/ui/magic-card";
-import { BentoGrid, BentoCard } from "@/components/ui/bento-grid";
-import { Meteors } from "@/components/ui/meteors";
+import { useState, useRef, useEffect } from "react";
 import { BlurFade } from "@/components/ui/blur-fade";
+import { ShieldCheck, ArrowUp, RotateCcw } from "lucide-react";
 import axios from "axios";
-import { ShieldAlert, CheckCircle, Activity, Globe } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+
+const SUGGESTIONS = [
+  "Analyze top risky suppliers",
+  "Which suppliers failed compliance checks?",
+  "Run a red-team attack simulation",
+  "Show news intelligence summary",
+  "Find suppliers below score 40",
+  "Explain how DS fusion scoring works",
+];
+
+type Message = { role: "user" | "assistant"; content: string };
 
 export default function Home() {
-  const [stats, setStats] = useState<any>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const hasMessages = messages.length > 0;
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/portfolio-stats")
-      .then(res => setStats(res.data))
-      .catch(err => console.error("Error fetching stats:", err));
-  }, []);
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
 
-  const features = [
-    {
-      Icon: ShieldAlert,
-      name: "High Risk Suppliers",
-      kpi: stats ? `${stats.n_risky}` : "-",
-      description: "Suppliers flagged below safe threshold.",
-      href: "#",
-      cta: "View List",
-      className: "col-span-3 lg:col-span-2 shadow-xl",
-      background: <div className="absolute inset-0 bg-red-500/5 blur-3xl transition-all duration-500 group-hover:bg-red-500/10" />,
-    },
-    {
-      Icon: CheckCircle,
-      name: "Compliance Status",
-      kpi: stats ? `${Math.round((stats.n_passed_checks / stats.n_total) * 100)}%` : "-",
-      description: "Pass rate across automated checks.",
-      href: "#",
-      cta: "View Checks",
-      className: "col-span-3 lg:col-span-1 shadow-xl",
-      background: <div className="absolute inset-0 bg-green-500/5 blur-3xl transition-all duration-500 group-hover:bg-green-500/10" />,
-    },
-    {
-      Icon: Activity,
-      name: "Adversarial Labs",
-      kpi: "Sim",
-      description: "Simulate red-team attacks on scores.",
-      href: "/lab",
-      cta: "Run Simulation",
-      className: "col-span-3 lg:col-span-1 shadow-xl overflow-hidden relative",
-      background: (
-        <>
-          <Meteors number={10} />
-          <div className="absolute inset-0 bg-blue-500/5 blur-3xl transition-all duration-500 group-hover:bg-blue-500/10" />
-        </>
-      ),
-    },
-    {
-      Icon: Globe,
-      name: "News Intelligence",
-      kpi: stats ? `${stats.n_articles}+` : "-",
-      description: "Articles analyzed across 35 countries.",
-      href: "#",
-      cta: "View Sources",
-      className: "col-span-3 lg:col-span-2 shadow-xl",
-      background: <div className="absolute inset-0 bg-purple-500/5 blur-3xl transition-all duration-500 group-hover:bg-purple-500/10" />,
-    },
-  ];
+  const send = async (text: string) => {
+    const trimmed = text.trim();
+    if (!trimmed || loading) return;
+    setInput("");
+    setMessages((prev) => [...prev, { role: "user", content: trimmed }]);
+    setLoading(true);
+    try {
+      const res = await axios.post("http://localhost:8000/api/agent/chat", {
+        message: trimmed,
+        history: messages,
+        context: { page: "Overview" },
+      });
+      setMessages((prev) => [...prev, { role: "assistant", content: res.data.reply }]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: "Error connecting to backend." },
+      ]);
+    }
+    setLoading(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send(input);
+    }
+  };
 
   return (
-    <div className="p-8 pb-20">
-      <div className="max-w-5xl mx-auto space-y-12 mt-4">
-        <BlurFade delay={0.1}>
-          <div>
-            <h2 className="text-4xl font-semibold tracking-tighter bg-gradient-to-br from-white to-white/50 bg-clip-text text-transparent">Portfolio Overview</h2>
-            <p className="text-white/50 mt-3 text-lg font-light">Aggregate risk intelligence across all global seed suppliers.</p>
-          </div>
-        </BlurFade>
-
-        <BlurFade delay={0.25}>
-          <BentoGrid>
-            {features.map((feature, idx) => (
-              <BentoCard key={idx} {...feature} />
+    <div className="relative flex flex-col h-full">
+      {/* Messages area */}
+      {hasMessages ? (
+        <div className="flex-1 overflow-y-auto px-4 py-8">
+          <div className="max-w-2xl mx-auto space-y-8">
+            {messages.map((m, i) => (
+              <div key={i}>
+                {m.role === "user" ? (
+                  <p className="text-2xl font-semibold text-white/90 leading-snug">{m.content}</p>
+                ) : (
+                  <div className="flex gap-3 mt-2">
+                    <div className="mt-1 shrink-0 w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+                      <ShieldCheck size={13} className="text-indigo-400" />
+                    </div>
+                    <p className="text-[15px] leading-relaxed text-white/75 whitespace-pre-wrap">{m.content}</p>
+                  </div>
+                )}
+              </div>
             ))}
-          </BentoGrid>
-        </BlurFade>
-        
-        <BlurFade delay={0.4}>
-          <MagicCard className="h-96 w-full flex flex-col p-8 border-white/5 bg-black/40 backdrop-blur-sm shadow-2xl" gradientColor="rgba(99,102,241,0.1)">
-             <div className="mb-6 flex items-center justify-between">
-                 <h3 className="text-xl font-semibold tracking-tight text-white/90">Score Distribution</h3>
-                 <span className="text-xs font-medium tracking-widest text-indigo-400 uppercase bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">Live</span>
-             </div>
-             
-             <div className="flex-1 w-full min-h-[250px]">
-               {stats?.distribution ? (
-                 <ResponsiveContainer width="100%" height="100%">
-                   <BarChart data={stats.distribution}>
-                     <XAxis 
-                        dataKey="range" 
-                        stroke="rgba(255,255,255,0.3)" 
-                        fontSize={12} 
-                        tickLine={false} 
-                        axisLine={false} 
-                        dy={10}
-                      />
-                     <YAxis 
-                        stroke="rgba(255,255,255,0.3)" 
-                        fontSize={12} 
-                        tickLine={false} 
-                        axisLine={false} 
-                        dx={-10}
-                      />
-                     <Tooltip 
-                        cursor={{fill: 'rgba(255,255,255,0.05)'}} 
-                        contentStyle={{backgroundColor: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px'}} 
-                        itemStyle={{color: '#818cf8'}}
-                     />
-                     <Bar dataKey="count" fill="#6366f1" radius={[4, 4, 0, 0]} barSize={40} />
-                   </BarChart>
-                 </ResponsiveContainer>
-               ) : (
-                 <div className="w-full h-full bg-gradient-to-r from-indigo-500/5 via-purple-500/5 to-indigo-500/5 rounded-2xl animate-pulse" />
-               )}
-             </div>
-          </MagicCard>
-        </BlurFade>
+            {loading && (
+              <div className="flex gap-3">
+                <div className="mt-1 shrink-0 w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+                  <ShieldCheck size={13} className="text-indigo-400" />
+                </div>
+                <div className="flex items-center gap-1.5 pt-1">
+                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" />
+                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce [animation-delay:-.15s]" />
+                  <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce [animation-delay:-.3s]" />
+                </div>
+              </div>
+            )}
+            <div ref={bottomRef} />
+          </div>
+        </div>
+      ) : (
+        /* Hero — shown before first message */
+        <div className="flex-1 flex flex-col items-center justify-center px-4 pb-40">
+          <BlurFade delay={0.05}>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+                <ShieldCheck size={20} className="text-indigo-400" />
+              </div>
+              <span className="text-white/30 text-sm font-medium tracking-widest uppercase">Compliance AI</span>
+            </div>
+          </BlurFade>
+
+          <BlurFade delay={0.1}>
+            <h1 className="text-4xl sm:text-5xl font-semibold text-center bg-gradient-to-br from-white to-white/40 bg-clip-text text-transparent leading-tight mb-4">
+              What do you want to verify?
+            </h1>
+          </BlurFade>
+
+          <BlurFade delay={0.15}>
+            <p className="text-white/35 text-center text-base mb-10">
+              Ask anything about your supplier network — compliance, risk scores, news intelligence.
+            </p>
+          </BlurFade>
+
+          <BlurFade delay={0.2}>
+            <div className="flex flex-wrap justify-center gap-2 max-w-xl">
+              {SUGGESTIONS.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => send(s)}
+                  className="text-xs px-4 py-2 rounded-full border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] text-white/50 hover:text-white/80 transition-all duration-200"
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          </BlurFade>
+        </div>
+      )}
+
+      {/* Pinned input bar */}
+      <div className="sticky bottom-0 px-4 pb-6 pt-4 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/90 to-transparent">
+        <div className="max-w-2xl mx-auto">
+          {hasMessages && (
+            <button
+              onClick={() => setMessages([])}
+              className="flex items-center gap-1.5 text-xs text-white/25 hover:text-white/50 transition mb-3 mx-auto"
+            >
+              <RotateCcw size={11} /> New conversation
+            </button>
+          )}
+          <div className="relative group">
+            <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-indigo-500/30 to-purple-500/30 opacity-0 group-focus-within:opacity-100 transition duration-300 blur-sm" />
+            <div className="relative flex items-end gap-3 bg-white/[0.04] border border-white/10 rounded-2xl px-5 py-4 group-focus-within:border-white/20 transition-colors">
+              <textarea
+                ref={inputRef}
+                rows={1}
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  e.target.style.height = "auto";
+                  e.target.style.height = Math.min(e.target.scrollHeight, 160) + "px";
+                }}
+                onKeyDown={handleKeyDown}
+                placeholder="Ask about a supplier, run a check, or simulate an attack…"
+                className="flex-1 bg-transparent resize-none text-sm text-white placeholder:text-white/25 focus:outline-none leading-relaxed max-h-40 overflow-y-auto"
+              />
+              <button
+                onClick={() => send(input)}
+                disabled={loading || !input.trim()}
+                className="shrink-0 w-8 h-8 rounded-xl bg-indigo-500 hover:bg-indigo-400 disabled:bg-white/5 disabled:text-white/20 flex items-center justify-center text-white transition-all duration-200 self-end"
+              >
+                <ArrowUp size={15} />
+              </button>
+            </div>
+          </div>
+          <p className="text-center text-[11px] text-white/15 mt-3">
+            Powered by DeepSeek via OpenRouter · DS Fusion scoring · 87 suppliers indexed
+          </p>
+        </div>
       </div>
     </div>
   );

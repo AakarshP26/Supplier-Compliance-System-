@@ -12,7 +12,8 @@ from pathlib import Path
 try:
     from dotenv import load_dotenv
 
-    load_dotenv()
+    _env_file = Path(__file__).resolve().parents[1] / ".env"
+    load_dotenv(_env_file)
 except ImportError:  # pragma: no cover - dev convenience only
     pass
 

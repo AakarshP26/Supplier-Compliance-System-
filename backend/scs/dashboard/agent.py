@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import json
 from typing import Any, Dict, List
-import streamlit as st
 from scs.config import CONFIG
 from scs.dashboard import agent_tools
 
@@ -17,9 +16,8 @@ class CopilotAgent:
         use_defense = self.context.get("use_defense", True)
         threshold = self.context.get("threshold", 50.0)
         
-        # Extract context from session state
-        active_supplier = st.session_state.get("detail_picker") or st.session_state.get("adv_supplier")
-        last_assessment = st.session_state.get("last_assessment")
+        active_supplier = self.context.get("active_supplier")
+        last_assessment = self.context.get("last_assessment")
         
         context_str = f"""
 Current Context:
@@ -171,7 +169,8 @@ Guidelines:
                         "name": t_name,
                         "content": result
                     })
-                    
+
+                    payload["messages"] = oa_messages
                     resp = client.post(url, headers=headers, json=payload, timeout=60.0)
                     resp.raise_for_status()
                     data = resp.json()
