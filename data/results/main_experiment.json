@@ -1,0 +1,217 @@
+{
+  "config": {
+    "budget": 10,
+    "vector": "press_release",
+    "spread_days": 60
+  },
+  "metrics": {
+    "clean": {
+      "classification": {
+        "n": 25,
+        "accuracy": 0.88,
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1": 0.7272727272727273,
+        "tp": 4,
+        "fp": 3,
+        "tn": 18,
+        "fn": 0
+      },
+      "ece": 0.2749117989359999
+    },
+    "attacked": {
+      "classification": {
+        "n": 25,
+        "accuracy": 0.84,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tp": 0,
+        "fp": 0,
+        "tn": 21,
+        "fn": 4
+      },
+      "vs_clean": {
+        "n": 25,
+        "flip_rate": 0.28,
+        "mean_score_lift": 16.533403965681636,
+        "max_score_lift": 44.371479469802274,
+        "mean_abs_belief_shift": 0.24048677362306545
+      },
+      "ece": 0.17244777165979974
+    },
+    "defended": {
+      "classification": {
+        "n": 25,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 4,
+        "fp": 0,
+        "tn": 21,
+        "fn": 0
+      },
+      "vs_clean": {
+        "n": 25,
+        "flip_rate": 0.12,
+        "mean_score_lift": 7.96422794731787,
+        "max_score_lift": 19.364360036130755,
+        "mean_abs_belief_shift": 0.11312695468587738
+      },
+      "ece": 0.21590749847059615
+    }
+  },
+  "per_supplier_scores": {
+    "dixon-tech": {
+      "clean": 96.77780544,
+      "attacked": 99.0204313571339,
+      "defended": 97.92118917373809,
+      "ground_truth_risky": false
+    },
+    "foxconn-india": {
+      "clean": 82.943536,
+      "attacked": 95.28718736820117,
+      "defended": 90.55016216571042,
+      "ground_truth_risky": false
+    },
+    "pegatron-india": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "wistron-india": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "lava-international": {
+      "clean": 46.23515,
+      "attacked": 77.44087389625363,
+      "defended": 60.75971502955029,
+      "ground_truth_risky": false
+    },
+    "optiemus-electronics": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "bhagwati-products": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "amber-enterprises": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "syrma-sgs": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "kaynes-tech": {
+      "clean": 90.94353600000001,
+      "attacked": 98.11621414833438,
+      "defended": 95.96810171735149,
+      "ground_truth_risky": false
+    },
+    "tata-electronics": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "vedanta-foxconn": {
+      "clean": 32.129836,
+      "attacked": 70.4087785295618,
+      "defended": 49.64887621801977,
+      "ground_truth_risky": true
+    },
+    "elcina-pcb-1": {
+      "clean": 40.405,
+      "attacked": 75.66846940085102,
+      "defended": 56.9983720339458,
+      "ground_truth_risky": false
+    },
+    "cyient-dlm": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "avalon-tech": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "epack-durables": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "vvdn-tech": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "sahasra-electronics": {
+      "clean": 40.405,
+      "attacked": 75.66846940085102,
+      "defended": 56.9983720339458,
+      "ground_truth_risky": false
+    },
+    "smile-electronics": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "centum-electronics": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "bharat-fih": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "moschip-tech": {
+      "clean": 88.0836,
+      "attacked": 96.37733490064306,
+      "defended": 92.31209013956392,
+      "ground_truth_risky": false
+    },
+    "shenzhen-shadow-corp": {
+      "clean": 15.249864800000005,
+      "attacked": 59.62134426980228,
+      "defended": 34.61422483613076,
+      "ground_truth_risky": true
+    },
+    "dnipro-microelectronics": {
+      "clean": 28.624999999999996,
+      "attacked": 68.27853509221568,
+      "defended": 46.60748883066171,
+      "ground_truth_risky": true
+    },
+    "shell-electronics-bvi": {
+      "clean": 20.852812500000002,
+      "attacked": 63.98631290918992,
+      "defended": 40.17938529043388,
+      "ground_truth_risky": true
+    }
+  }
+}
